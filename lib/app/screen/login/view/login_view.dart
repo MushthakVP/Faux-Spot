@@ -1,8 +1,8 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/core/images.dart';
+import 'package:faux_spot/app/screen/login/view/widgets/loginmobile.dart';
 import 'package:flutter/material.dart';
-import 'widgets/loginemail.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -30,7 +30,6 @@ class LoginView extends StatelessWidget {
   Container loginBody() {
     return Container(
       padding: const EdgeInsets.all(16),
-      height: 400,
       width: double.infinity,
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -56,7 +55,8 @@ class LoginView extends StatelessWidget {
             ),
           ),
           space20,
-          LoginEmail(),
+          //LoginEmail(),
+          LoginMobile()
         ],
       ),
     );
