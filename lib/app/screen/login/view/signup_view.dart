@@ -11,6 +11,7 @@ class SignupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignupProvider provider = context.read<SignupProvider>();
     return Container(
       padding: const EdgeInsets.all(16),
       width: double.infinity,
@@ -26,136 +27,160 @@ class SignupView extends StatelessWidget {
         color: whiteColour,
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                "SignUP",
-                style: TextStyle(
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<SignupProvider>().changePage();
-                },
-                child: RichText(
-                  text: const TextSpan(
-                    style: TextStyle(
-                      color: blackColour,
-                      fontSize: 12,
-                    ),
-                    text: "Already account? ",
-                    children: [
-                      TextSpan(
-                        text: "Login",
-                        style: TextStyle(
-                          color: blackColour,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          space20,
-          TextFormField(
-            cursorColor: blackColour,
-            keyboardType: TextInputType.emailAddress,
-            decoration: inputdecoration(
-              labelText: "Email",
-              icon: Icons.alternate_email,
-            ),
-          ),
-          space10,
-          TextFormField(
-            cursorColor: blackColour,
-            keyboardType: TextInputType.emailAddress,
-            decoration: inputdecoration(
-              labelText: "Password",
-              icon: Icons.lock_outline,
-            ),
-          ),
-          space10,
-          Consumer<SignupProvider>(
-            builder: (context, value, child) => Column(
+      child: Form(
+        key: provider.formKeySignup,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Visibility(
-                  visible: value.showOtpWidget,
-                  child: TextFormField(
-                    cursorColor: blackColour,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: inputdecoration(
-                      labelText: "OTP",
-                      icon: UniconsLine.message,
-                    ),
+                const Text(
+                  "SignUP",
+                  style: TextStyle(
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
                   ),
                 ),
-                space10,
-                Visibility(
-                  visible: !value.showOtpWidget,
-                  child: SizedBox(
-                    height: 54,
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: blackColour,
+                GestureDetector(
+                  onTap: () {
+                    context.read<SignupProvider>().changePage();
+                  },
+                  child: RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        color: blackColour,
+                        fontSize: 12,
                       ),
-                      onPressed: () {
-                        value.sendEmailOtp();
-                      },
-                      child: value.isLoading
-                          ? const Center(
-                              child: CupertinoActivityIndicator(),
-                            )
-                          : const Text(
-                              "SEND OTP",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: blackColour,
-                              ),
-                            ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: value.showOtpWidget,
-                  child: SizedBox(
-                    height: 54,
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: blackColour,
-                      ),
-                      onPressed: () {
-                        value.verifyOtp();
-                      },
-                      child: value.isLoading
-                          ? const Center(
-                              child: CupertinoActivityIndicator(),
-                            )
-                          : const Text(
-                              "VERIFY OTP",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: blackColour,
-                              ),
-                            ),
+                      text: "Already account? ",
+                      children: [
+                        TextSpan(
+                          text: "Login",
+                          style: TextStyle(
+                            color: blackColour,
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            space20,
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Enter valid email';
+                }
+                return null;
+              },
+              controller: provider.emailController,
+              cursorColor: blackColour,
+              keyboardType: TextInputType.emailAddress,
+              decoration: inputdecoration(
+                labelText: "Email",
+                icon: Icons.alternate_email,
+              ),
+            ),
+            space10,
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Enter valid password';
+                }
+                return null;
+              },
+              controller: provider.passwordController,
+              cursorColor: blackColour,
+              keyboardType: TextInputType.emailAddress,
+              decoration: inputdecoration(
+                labelText: "Password",
+                icon: Icons.lock_outline,
+              ),
+            ),
+            space10,
+            Consumer<SignupProvider>(
+              builder: (context, value, child) => Column(
+                children: [
+                  Visibility(
+                    visible: value.showOtpWidget,
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter valid otp';
+                        }
+                        return null;
+                      },
+                      controller: provider.otpController,
+                      cursorColor: blackColour,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: inputdecoration(
+                        labelText: "OTP",
+                        icon: UniconsLine.message,
+                      ),
+                    ),
+                  ),
+                  space10,
+                  Visibility(
+                    visible: !value.showOtpWidget,
+                    child: SizedBox(
+                      height: 54,
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: blackColour,
+                        ),
+                        onPressed: () {
+                          value.verifyEmail();
+                        },
+                        child: value.isLoading
+                            ? const Center(
+                                child: CupertinoActivityIndicator(),
+                              )
+                            : const Text(
+                                "SEND OTP",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: blackColour,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: value.showOtpWidget,
+                    child: SizedBox(
+                      height: 54,
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: blackColour,
+                        ),
+                        onPressed: () {
+                          value.verifyOtp();
+                        },
+                        child: value.isLoading
+                            ? const Center(
+                                child: CupertinoActivityIndicator(),
+                              )
+                            : const Text(
+                                "VERIFY OTP",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: blackColour,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

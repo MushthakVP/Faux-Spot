@@ -61,7 +61,7 @@ class LoginEmail extends StatelessWidget {
                   foregroundColor: blackColour,
                 ),
                 onPressed: () {
-                  provider.confirmMail();
+                  provider.loginMail();
                 },
                 child: isLoading
                     ? const CupertinoActivityIndicator()

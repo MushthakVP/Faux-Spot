@@ -1,4 +1,3 @@
-import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/provider/providers.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
@@ -6,7 +5,9 @@ import 'package:faux_spot/app/screen/splash/view/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+import 'app/core/colors.dart';
+
+ main() {
   runApp(Providers.providers());
 }
 
