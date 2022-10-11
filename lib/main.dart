@@ -1,5 +1,6 @@
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/provider/providers.dart';
+import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/splash/view/splash_view.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: whiteColour,
         ),
       ),
+      scaffoldMessengerKey: Messenger.rootScaffoldMessengerKey,
       navigatorKey: Routes.navigatorKey,
       title: 'FauxSpot',
       debugShowCheckedModeBanner: false,

@@ -39,13 +39,14 @@ class OrWidgetLogin extends StatelessWidget {
             children: [
               space10,
               Icon(icon),
-              space30,
+              const Spacer(),
               Text(
                 text,
                 style: const TextStyle(
                   fontSize: 18,
                 ),
               ),
+              const Spacer(),
             ],
           ),
         ),

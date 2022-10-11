@@ -1,8 +1,13 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/core/images.dart';
+import 'package:faux_spot/app/screen/login/view/signup_view.dart';
+import 'package:faux_spot/app/screen/login/view/widgets/loginmail.dart';
 import 'package:faux_spot/app/screen/login/view/widgets/loginmobile.dart';
+import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
+import 'package:faux_spot/app/screen/login/view_model/signup_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -21,13 +26,18 @@ class LoginView extends StatelessWidget {
         children: [
           imageMethod(),
           space30,
-          loginBody(),
+          Selector<SignupProvider, bool>(
+            selector: (context, value) => value.loginOrSignup,
+            builder: (context, loginOrSignup, _) {
+              return loginOrSignup ? const SignupView() : loginBody(context);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Container loginBody() {
+  Container loginBody(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       width: double.infinity,
@@ -45,18 +55,50 @@ class LoginView extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            "SignIn",
-            style: TextStyle(
-              letterSpacing: 1,
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-            ),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "SignIn",
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<SignupProvider>().changePage();
+                },
+                child: RichText(
+                  text: const TextSpan(
+                    style: TextStyle(
+                      color: blackColour,
+                      fontSize: 10,
+                    ),
+                    text: "Don't have an account? ",
+                    children: [
+                      TextSpan(
+                        text: "Register",
+                        style: TextStyle(
+                          color: blackColour,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           space20,
-          //LoginEmail(),
-          LoginMobile()
+          Selector<LoginProvider, bool>(
+            selector: (context, value) => value.continueWith,
+            builder: (context, continueWith, child) =>
+                continueWith ? const LoginMobile() : const LoginEmail(),
+          ),
         ],
       ),
     );

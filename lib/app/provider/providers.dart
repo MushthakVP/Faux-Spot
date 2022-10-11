@@ -1,4 +1,5 @@
 import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
+import 'package:faux_spot/app/screen/login/view_model/signup_provider.dart';
 import 'package:faux_spot/app/screen/splash/view_model/splash_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ class Providers {
       providers: [
         ChangeNotifierProvider(create: (context) => SplashProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => SignupProvider()),
       ],
       child: const MyApp(),
     );
