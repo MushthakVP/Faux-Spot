@@ -1,4 +1,7 @@
 class EndPoints {
-  static const String baseurl = "https://api.github.com";
-  static const String fetchAll = "/search/repositories";
+
+  static const String baseurl = "https://fauxspot.herokuapp.com";
+  static const String phoneLogin = "/account/login-number";
+  static const String verifyOtp = "/account/verify-number-otp";
+  
 }
