@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../model/login_signup_model.dart';
+import '../model/emai_model.dart';
+import '../model/number_model.dart';
 import '../service/login_signup_service.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -51,7 +51,7 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  //================================ VERIFY OTP ======================================
+  //================================ VERIFY NUMBER OTP ======================================
 
   void verifyOtp() async {
     isLoading = true;
@@ -82,11 +82,48 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //================================ LOGIN EMAIL ======================================
+
+  final formKeyEmail = GlobalKey<FormState>();
+  TextEditingController eamilController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   void confirmMail() async {
     isLoading = true;
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 4));
-    isLoading = false;
-    notifyListeners();
+
+    if (!formKeyEmail.currentState!.validate()) {
+      isLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    String eamil = eamilController.text.trim();
+    String password = passwordController.text.trim();
+    if (eamil.isEmpty || password.isEmpty) {
+      isLoading = false;
+      notifyListeners();
+      Messenger.pop(msg: "Enter valid informarion");
+      return;
+    }
+
+    EmailSignupRespones? respones =
+        await LoginSignupService().emailLogin(eamil, password);
+
+    if (respones != null) {
+      if (respones.error == true) {
+        Messenger.pop(msg: respones.message);
+        isLoading = false;
+        notifyListeners();
+      } else {
+        isLoading = false;
+        notifyListeners();
+        Messenger.pop(msg: respones.message);
+      }
+    } else {
+      isLoading = false;
+      notifyListeners();
+      Messenger.pop(msg: respones?.message);
+    }
   }
 }

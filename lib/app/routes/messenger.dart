@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 class Messenger {
   static final rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
- static pop({ String? msg , Color? color}) {
+  static pop({String? msg, Color? color}) {
     Size size =
         MediaQuery.of(rootScaffoldMessengerKey.currentState!.context).size;
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
         duration: const Duration(milliseconds: 1500),
         behavior: SnackBarBehavior.floating,
         backgroundColor: color,
@@ -19,7 +22,10 @@ class Messenger {
           child: Text(
             msg ?? "Something wrong",
             style: const TextStyle(
-                letterSpacing: 2, fontWeight: FontWeight.w500, fontSize: 16),
+              letterSpacing: 2,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
           ),
         ),
       ),

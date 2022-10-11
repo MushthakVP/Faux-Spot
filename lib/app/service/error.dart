@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 
 String handleError(e) {
@@ -6,7 +5,6 @@ String handleError(e) {
   String networkError = 'No connection';
 
   if (e is DioError) {
-    log(e.message);
     if (e.response == null) {
       return networkError;
     } else if (e.type == DioErrorType.connectTimeout ||
@@ -19,7 +17,7 @@ String handleError(e) {
       } else {
         return defaultApiError;
       }
-    } 
+    }
   }
   return defaultApiError;
 }

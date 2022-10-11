@@ -15,60 +15,77 @@ class LoginEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoginProvider provider = context.read<LoginProvider>();
-    return Column(
-      children: [
-        TextFormField(
-          cursorColor: blackColour,
-          keyboardType: TextInputType.emailAddress,
-          decoration: inputdecoration(
-            labelText: "Email",
-            icon: Icons.alternate_email,
-          ),
-        ),
-        space10,
-        TextFormField(
-          cursorColor: blackColour,
-          keyboardType: TextInputType.emailAddress,
-          decoration: inputdecoration(
-            labelText: "Password",
-            icon: Icons.lock_outline,
-          ),
-        ),
-        space10,
-        SizedBox(
-          height: 54,
-          width: double.infinity,
-          child: Selector<LoginProvider, bool>(
-            selector: (context, value) => value.isLoading,
-            builder: (context, isLoading, _) => OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: blackColour,
-              ),
-              onPressed: () {
-                provider.confirmMail();
-              },
-              child: isLoading
-                  ? const CupertinoActivityIndicator()
-                  : const Text(
-                      "LOGIN",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: blackColour,
-                      ),
-                    ),
+    return Form(
+      key: provider.formKeyEmail,
+      child: Column(
+        children: [
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter valid email';
+              }
+              return null;
+            },
+            controller: provider.eamilController,
+            cursorColor: blackColour,
+            keyboardType: TextInputType.emailAddress,
+            decoration: inputdecoration(
+              labelText: "Email",
+              icon: Icons.alternate_email,
             ),
           ),
-        ),
-        GestureDetector(
-          onTap: () {
-            provider.emailOrMobile();
-          },
-          child: const OrWidgetLogin(
-            text: "Continue with number",
-            icon: UniconsLine.mobile_android,
+          space10,
+          TextFormField(
+             validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter valid password';
+              }
+              return null;
+            },
+            controller: provider.passwordController,
+            cursorColor: blackColour,
+            keyboardType: TextInputType.emailAddress,
+            decoration: inputdecoration(
+              labelText: "Password",
+              icon: Icons.lock_outline,
+            ),
           ),
-        ),
-      ],
+          space10,
+          SizedBox(
+            height: 54,
+            width: double.infinity,
+            child: Selector<LoginProvider, bool>(
+              selector: (context, value) => value.isLoading,
+              builder: (context, isLoading, _) => OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: blackColour,
+                ),
+                onPressed: () {
+                  provider.confirmMail();
+                },
+                child: isLoading
+                    ? const CupertinoActivityIndicator()
+                    : const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: blackColour,
+                        ),
+                      ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              provider.emailOrMobile();
+            },
+            child: const OrWidgetLogin(
+              text: "Continue with number",
+              icon: UniconsLine.mobile_android,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
