@@ -38,16 +38,16 @@ class LoginProvider extends ChangeNotifier {
 
     NumberRespones? respones =
         await LoginSignupService().createAccount(number!);
-    if (respones?.error == false) {
+    if (respones?.error == true) {
       await storage.write(key: "id", value: respones?.id.toString());
       isLoading = false;
       otpSucsess = true;
       notifyListeners();
-      Messenger.pop(msg: "Otp Sent");
+      Messenger.pop(msg: respones?.message.toString());
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones!.message.toString(), color: redColour);
+      Messenger.pop(msg: respones?.message.toString(), color: redColour);
     }
   }
 
@@ -68,13 +68,15 @@ class LoginProvider extends ChangeNotifier {
       userNumber: number,
       userOtp: otpController.text,
     );
-    NumberLoginRespones? respones = await LoginSignupService().verifyOtp(data);
-    if (respones?.error == false) {
+    NumberOtpRespones? respones = await LoginSignupService().verifyOtp(data);
+    if (respones?.error == true) {
       Messenger.pop(msg: "", color: grrenColour);
+      isLoading = false;
+      notifyListeners();
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones!.message.toString());
+      Messenger.pop(msg: respones?.message.toString());
     }
     isLoading = false;
     notifyListeners();

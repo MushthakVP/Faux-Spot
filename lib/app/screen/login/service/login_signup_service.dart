@@ -14,19 +14,19 @@ class LoginSignupService {
           .post(EndPoints.phoneLogin, data: {"user_number": number});
       return NumberRespones.fromJson(response.data);
     } catch (e) {
-      return NumberRespones(error: true, message: handleError(e));
+      return NumberRespones(error: false, message: handleError(e));
     }
   }
 
 // ================================== Verify OTP ======================================
 
-  Future<NumberLoginRespones?> verifyOtp(NumberVerify data) async {
+  Future<NumberOtpRespones?> verifyOtp(NumberVerify data) async {
     try {
       Response response = await _dio.post(EndPoints.verifyOtp,
           data: data);
-      return NumberLoginRespones.fromJson(response.data);
+      return NumberOtpRespones.fromJson(response.data);
     } catch (e) {
-      return NumberLoginRespones(error: true, message: handleError(e));
+      return NumberOtpRespones(error: false, message: handleError(e));
     }
   }
 }

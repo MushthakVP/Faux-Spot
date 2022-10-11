@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 String handleError(e) {
@@ -17,13 +15,11 @@ String handleError(e) {
       return networkError;
     } else if (e.type == DioErrorType.response) {
       if (e.response!.statusCode == 401) {
-        return e.response?.data["_id"];
+        return e.response?.data["message"];
       } else {
         return defaultApiError;
       }
-    } else if (e is SocketException) {
-      return networkError;
-    }
+    } 
   }
   return defaultApiError;
 }
