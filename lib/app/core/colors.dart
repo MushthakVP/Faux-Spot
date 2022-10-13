@@ -10,3 +10,4 @@ const redColour = Color(0xFFD32F2F);
 const locationBackground = Color(0xFFe6e7e4);
 const transparentColor = Colors.transparent;
 const primaryColor = Color(0xff013134);
+const yellowColor = Colors.yellow;
