@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/login/model/emai_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../routes/messenger.dart';
-import '../../home/view/home_view.dart';
+import '../../home/view/location_widget.dart';
 import '../service/login_signup_service.dart';
 
 class SignupProvider extends ChangeNotifier {
@@ -34,6 +36,14 @@ class SignupProvider extends ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    if (!hasPasswordOneNumber && !isPasswordEightCharacters) {
+      Messenger.pop(msg: "Set a strong password");
+      isLoading = false;
+      notifyListeners();
+      return;
+    }
+
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
@@ -58,6 +68,8 @@ class SignupProvider extends ChangeNotifier {
     }
   }
 
+  //================================ VERIFY EMAIL OTP ======================================
+
   void verifyOtp() async {
     isLoading = true;
     notifyListeners();
@@ -75,13 +87,35 @@ class SignupProvider extends ChangeNotifier {
     if (respones!.error == true) {
       storage.write(key: "refreshToken", value: respones.refreshToken);
       storage.write(key: "token", value: respones.token);
-      Routes.pushreplace(screen: const HomeView());
+      storage.write(key: "login", value: "true");
+      Routes.pushRemoveUntil(screen: const LocationPick());
       isLoading = false;
       notifyListeners();
     } else {
       Messenger.pop(msg: respones.message.toString());
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  //================================ CHECK PASSWORD ======================================
+
+  bool isPasswordEightCharacters = false;
+  bool hasPasswordOneNumber = false;
+
+  onPasswordChanged(String password) {
+    final numericRegex = RegExp(r'[0-9]');
+    log(password);
+    notifyListeners();
+
+    isPasswordEightCharacters = false;
+    if (password.length >= 8) {
+      isPasswordEightCharacters = true;
+    }
+
+    hasPasswordOneNumber = false;
+    if (numericRegex.hasMatch(password)) {
+      hasPasswordOneNumber = true;
     }
   }
 }

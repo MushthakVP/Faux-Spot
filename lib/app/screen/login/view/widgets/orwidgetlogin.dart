@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 
 class OrWidgetLogin extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String text;
   const OrWidgetLogin({
     Key? key,
@@ -38,7 +39,7 @@ class OrWidgetLogin extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               space10,
-              Icon(icon),
+            Iconify(icon),
               const Spacer(),
               Text(
                 text,

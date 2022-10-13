@@ -18,4 +18,13 @@ class Routes {
       ),
     );
   }
+
+  static pushRemoveUntil({required var screen}) {
+    navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => screen,
+      ),
+      (route) => false,
+    );
+  }
 }

@@ -1,8 +1,9 @@
 import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/icons/ci.dart';
+import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
-import 'package:unicons/unicons.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 import 'orwidgetlogin.dart';
@@ -56,7 +57,7 @@ class LoginMobile extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   decoration: inputdecoration(
                     labelText: "OTP",
-                    icon: UniconsLine.message,
+                    iconn: Teenyicons.otp_outline,
                   ),
                 ),
               ),
@@ -126,7 +127,7 @@ class LoginMobile extends StatelessWidget {
             },
             child: const OrWidgetLogin(
               text: "Continue with mail",
-              icon: Icons.alternate_email,
+              icon: Ci.mail_open,
             ),
           ),
         ],
