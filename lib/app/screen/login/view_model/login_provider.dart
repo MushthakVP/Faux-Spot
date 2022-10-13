@@ -1,7 +1,7 @@
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/home/view/home_view.dart';
+import 'package:faux_spot/app/screen/home/view/location_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../model/emai_model.dart';
@@ -75,8 +75,8 @@ class LoginProvider extends ChangeNotifier {
     if (respones?.error == true) {
       storage.write(key: "refreshToken", value: respones!.refreshToken);
       storage.write(key: "token", value: respones.token);
-      Routes.pushreplace(screen: const HomeView());
-
+      Routes.pushRemoveUntil(screen: const LocationPick());
+      storage.write(key: "login", value: "true");
       isLoading = false;
       notifyListeners();
     } else {
@@ -115,11 +115,12 @@ class LoginProvider extends ChangeNotifier {
         await LoginSignupService().emailLogin(eamil, password);
 
     if (respones!.error == true) {
-      isLoading = false;
-      notifyListeners();
       storage.write(key: "refreshToken", value: respones.refreshToken);
       storage.write(key: "token", value: respones.token);
-      Routes.pushreplace(screen: const HomeView());
+      storage.write(key: "login", value: "true");
+      Routes.pushRemoveUntil(screen: const LocationPick());
+      isLoading = false;
+      notifyListeners();
     } else {
       isLoading = false;
       notifyListeners();

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
-import 'package:unicons/unicons.dart';
 import '../../../core/app_helper.dart';
 import '../../../core/colors.dart';
 import '../view_model/signup_provider.dart';
@@ -21,7 +21,7 @@ class SignupView extends StatelessWidget {
           BoxShadow(
             color: greyColour,
             blurRadius: 15,
-            offset: Offset(0, 10),
+            offset: Offset(0, 5),
           ),
         ],
         color: whiteColour,
@@ -87,6 +87,9 @@ class SignupView extends StatelessWidget {
             ),
             space10,
             TextFormField(
+              onChanged: (String values) {
+                provider.onPasswordChanged(values);
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Enter valid password';
@@ -119,10 +122,11 @@ class SignupView extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: inputdecoration(
                         labelText: "OTP",
-                        icon: UniconsLine.message,
+                        iconn: Teenyicons.otp_outline,
                       ),
                     ),
                   ),
+                  EmailRegWidget(provider: provider),
                   space10,
                   Visibility(
                     visible: !value.showOtpWidget,
@@ -182,6 +186,89 @@ class SignupView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class EmailRegWidget extends StatelessWidget {
+  const EmailRegWidget({
+    Key? key,
+    required this.provider,
+  }) : super(key: key);
+
+  final SignupProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SignupProvider>(
+      builder: (context, value, _) {
+        return Visibility(
+          visible: !value.showOtpWidget,
+          child: Column(
+            children: [
+              space10,
+              Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        color: value.isPasswordEightCharacters
+                            ? Colors.green
+                            : Colors.transparent,
+                        border: value.isPasswordEightCharacters
+                            ? Border.all(color: Colors.transparent)
+                            : Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: const Center(
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text("Contains at least 8 characters")
+                ],
+              ),
+              space10,
+              Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        color: value.hasPasswordOneNumber
+                            ? Colors.green
+                            : Colors.transparent,
+                        border: value.hasPasswordOneNumber
+                            ? Border.all(color: Colors.transparent)
+                            : Border.all(color: Colors.grey.shade400),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: const Center(
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text("Contains at least 1 number")
+                ],
+              ),
+              space10,
+            ],
+          ),
+        );
+      },
     );
   }
 }

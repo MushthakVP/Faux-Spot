@@ -79,7 +79,7 @@ class EmailVerifyRespones {
         status: json["status"],
         message: json["message"],
         token: json["token"],
-        error: json["error"],
+        error: json["error"] ??  true,
         refreshToken: json["refreshToken"],
       );
 
