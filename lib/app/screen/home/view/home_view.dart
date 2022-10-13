@@ -1,13 +1,12 @@
-import 'dart:developer';
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
+import 'package:faux_spot/app/core/images.dart';
+import 'package:faux_spot/app/screen/home/view/widget/category_widget.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/carbon.dart';
-import 'package:iconify_flutter/icons/eva.dart';
 import 'package:provider/provider.dart';
 import '../service/location.dart';
+import 'widget/custom_appbar.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -27,61 +26,102 @@ class HomeView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          LimitedBox(
-            maxHeight: 60,
-            child: ListView.builder(
-              itemCount: provider.categoryList.length,
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final listData = provider.categoryList[index];
-                log(listData.image.toString());
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  height: 40,
-                  width: listData.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    image: DecorationImage(
-                      image: AssetImage(listData.image),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      space10,
-                      Iconify(
-                        listData.icon,
-                        color: whiteColour,
-                      ),
-                      const Spacer(),
-                      Text(
-                        listData.name,
-                        style: const TextStyle(
-                          color: whiteColour,
-                          fontSize: 20,
-                        ),
-                      ),
-                      space20
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          const CategoryWidget(),
           Expanded(
             child: GridView.builder(
-              padding: EdgeInsets.zero,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
+                crossAxisCount: 2,
+                childAspectRatio: .9,
+              ),
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.all(10),
-                  color: primaryColor,
+                  padding: const EdgeInsets.all(6),
+                  margin: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: whiteColour,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: lightGreyColour,
+                        blurRadius: 15,
+                        offset: Offset(0, 10),
+                      ),
+                    ],
+                  ),
                   height: 200,
                   width: 200,
+                  child: ClipRect(
+                    child: Banner(
+                      location: BannerLocation.topEnd,
+                      message: 'New',
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              image: DecorationImage(
+                                image: AssetImage(turfImage),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Positioned(
+                                  bottom: -15,
+                                  right: 0,
+                                  left: 0,
+                                  child: SizedBox(
+                                    child: Center(
+                                      child: Container(
+                                        height: 30,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(6),
+                                          color: primaryColor,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: const [
+                                            Icon(
+                                              Icons.star,
+                                              color: yellowColor,
+                                              size: 18,
+                                            ),
+                                            Text(
+                                              "4.3",
+                                              style: TextStyle(
+                                                color: whiteColour,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          space15,
+                          const Expanded(
+                            child: Text(
+                              "Faux Turf",
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: primaryColor,
+                                fontSize: 18,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -89,83 +129,5 @@ class HomeView extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class CustomAppBAr extends StatelessWidget {
-  const CustomAppBAr({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<GetUserLoction>(builder: (context, value, _) {
-      return Container(
-        color: primaryColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 50),
-            Row(
-              children: [
-                space20,
-                const Iconify(
-                  Carbon.location,
-                  color: whiteColour,
-                  size: 16,
-                ),
-                space10,
-                value.userLocation == null
-                    ? const Text("")
-                    : Text(
-                        value.userLocation.toString(),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: whiteColour,
-                        ),
-                      ),
-                const Iconify(
-                  Eva.arrow_down_outline,
-                  color: lightGreyColour,
-                  size: 20,
-                ),
-                const Spacer(),
-              ],
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: lightGreyColour,
-                ),
-              ),
-              child: const Center(
-                child: TextField(
-                  style: TextStyle(
-                    fontSize: 18,
-                    height: 1.1,
-                    color: Colors.white,
-                    letterSpacing: .8,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Search',
-                    hintStyle: TextStyle(
-                      height: .9,
-                      color: lightGreyColour,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
   }
 }

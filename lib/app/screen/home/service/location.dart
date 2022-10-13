@@ -53,7 +53,7 @@ class GetUserLoction extends ChangeNotifier {
         String placeLocation =
             userData.features!.first.placeName!.split(",").first;
         String muncipality = userData.features!.first.placeName!.split(",")[1];
-        userLocation = "$placeLocation $muncipality";
+        userLocation = "$placeLocation, $muncipality";
         isLoaidng = false;
         notifyListeners();
         if (checkScreen != null) {
