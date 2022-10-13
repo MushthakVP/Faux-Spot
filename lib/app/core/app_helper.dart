@@ -13,17 +13,21 @@ SystemUiOverlayStyle uiOverlay(
   );
 }
 
+const space5 = SizedBox(height: 5, width: 5);
 const space10 = SizedBox(height: 10, width: 10);
+const space15 = SizedBox(height: 15, width: 15);
 const space20 = SizedBox(height: 20, width: 20);
 const space30 = SizedBox(height: 30, width: 30);
 
 InputDecoration inputdecoration(
     {String? labelText, IconData? icon, String? iconn}) {
   return InputDecoration(
-    prefixIcon: icon == null ? Iconify(iconn!) : Icon(
-      icon,
-      color: blackColour,
-    ),
+    prefixIcon: icon == null
+        ? Iconify(iconn!)
+        : Icon(
+            icon,
+            color: blackColour,
+          ),
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     labelStyle: const TextStyle(color: blackColour, letterSpacing: 1),
     hintText: labelText,
