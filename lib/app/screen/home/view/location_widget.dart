@@ -2,9 +2,11 @@ import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/core/images.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/fa6_solid.dart';
+import 'package:provider/provider.dart';
 
 class LocationPick extends StatelessWidget {
   const LocationPick({super.key});
@@ -63,27 +65,33 @@ class LocationPick extends StatelessWidget {
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Iconify(
-                        Fa6Solid.location_arrow,
-                        color: whiteColour,
-                        size: 25,
-                      ),
-                      space30,
-                      Text(
-                        "Around me",
-                        style: TextStyle(
-                          color: whiteColour,
-                          fontSize: 18,
-                        ),
-                      ),
-                      space30,
-                    ],
-                  ),
-                ),
+                child: Consumer<GetUserLoction>(builder: (context, value, _) {
+                  return Center(
+                    child: value.isLoaidng
+                        ? const Center(
+                            child: CupertinoActivityIndicator(),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Iconify(
+                                Fa6Solid.location_arrow,
+                                color: whiteColour,
+                                size: 25,
+                              ),
+                              space30,
+                              Text(
+                                "Around me",
+                                style: TextStyle(
+                                  color: whiteColour,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              space30,
+                            ],
+                          ),
+                  );
+                }),
               ),
             ),
             space30,

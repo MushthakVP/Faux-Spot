@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
-import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/home/view/home_view.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
 import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
+import '../../../interceptor/interceotor.dart';
+import '../../../routes/routes.dart';
+import '../model/home_model.dart';
 import '../model/location_model.dart';
+import '../view/home_view.dart';
 
 class GetUserLoction extends ChangeNotifier {
   GetUserLoction() {
@@ -21,7 +25,9 @@ class GetUserLoction extends ChangeNotifier {
   Location? _location;
   Location? get location => _location;
   getUserLocation({bool? checkScreen}) async {
+    turfListLoading = true;
     isLoaidng = true;
+    notifyListeners();
     bool serviceEnabled;
     PermissionStatus permissionGrantend;
 
@@ -53,6 +59,7 @@ class GetUserLoction extends ChangeNotifier {
         String placeLocation =
             userData.features!.first.placeName!.split(",").first;
         String muncipality = userData.features!.first.placeName!.split(",")[1];
+        getHomeData(muncipality);
         userLocation = "$placeLocation, $muncipality";
         isLoaidng = false;
         notifyListeners();
@@ -62,6 +69,31 @@ class GetUserLoction extends ChangeNotifier {
       }
     } catch (e) {
       isLoaidng = false;
+      notifyListeners();
+      Messenger.pop(msg: handleError(e));
+    }
+  }
+
+  //=========================== GET NEAREST LOCATION DATA ===============================
+
+  bool turfListLoading = false;
+
+  List<DataList> turfList = [];
+
+  void getHomeData(String muncipality) async {
+    log(EndPoints.nearestTurf.replaceFirst('{spot}', muncipality.trim()));
+    try {
+      Dio dio = await InterceptorHelper().getApiClient();
+      Response response = await dio.get(
+          EndPoints.nearestTurf.replaceFirst('{spot}', muncipality.trim()));
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        HomeRespones data = HomeRespones.fromJson(response.data);
+        turfList.addAll(data.data!);
+        turfListLoading = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      turfListLoading = false;
       notifyListeners();
       Messenger.pop(msg: handleError(e));
     }
