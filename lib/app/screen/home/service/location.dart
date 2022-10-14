@@ -13,6 +13,8 @@ import '../model/location_model.dart';
 import '../view/home_view.dart';
 
 class GetUserLoction extends ChangeNotifier {
+  //=========================== GET NEAREST LOCATION ===============================
+
   GetUserLoction() {
     _location = Location();
   }
@@ -50,7 +52,7 @@ class GetUserLoction extends ChangeNotifier {
       double latitude = locationData.latitude!;
       double longitude = locationData.longitude!;
       Response response = await Dio().get(
-          "https://api.mapbox.com/geocoding/v5/mapbox.places/$longitude,$latitude.json?types=locality%2Cdistrict&limit=1&access_token=${EndPoints.apiKey}");
+          "https://api.mapbox.com/geocoding/v5/mapbox.places/$longitude,$latitude.json?types=locality%2Cdistrict&limit=1&access_token=$apiKey");
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
         final userData = LocationRespones.fromJson(response.data);
         userMuncipality =
@@ -59,7 +61,7 @@ class GetUserLoction extends ChangeNotifier {
         String placeLocation =
             userData.features!.first.placeName!.split(",").first;
         String muncipality = userData.features!.first.placeName!.split(",")[1];
-        getHomeData(muncipality);
+        getHomeData(userDistrict!);
         userLocation = "$placeLocation, $muncipality";
         isLoaidng = false;
         notifyListeners();
@@ -74,13 +76,14 @@ class GetUserLoction extends ChangeNotifier {
     }
   }
 
-  //=========================== GET NEAREST LOCATION DATA ===============================
+  //=========================== GET NEAREST LOCATION TURF ===============================
 
   bool turfListLoading = false;
 
   List<DataList> turfList = [];
 
   void getHomeData(String muncipality) async {
+    turfList.clear();
     log(EndPoints.nearestTurf.replaceFirst('{spot}', muncipality.trim()));
     try {
       Dio dio = await InterceptorHelper().getApiClient();
