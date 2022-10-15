@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
@@ -76,6 +78,7 @@ class LoginProvider extends ChangeNotifier {
       storage.write(key: "refreshToken", value: respones!.refreshToken);
       storage.write(key: "token", value: respones.token);
       Routes.pushRemoveUntil(screen: const LocationPick());
+      log("Login REfresh ${respones.refreshToken} ====== Token ====== ${respones.token}");
       storage.write(key: "login", value: "true");
       isLoading = false;
       notifyListeners();

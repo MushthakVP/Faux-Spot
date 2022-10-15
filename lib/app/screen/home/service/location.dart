@@ -27,9 +27,6 @@ class GetUserLoction extends ChangeNotifier {
   Location? _location;
   Location? get location => _location;
   getUserLocation({bool? checkScreen}) async {
-    turfListLoading = true;
-    isLoaidng = true;
-    notifyListeners();
     bool serviceEnabled;
     PermissionStatus permissionGrantend;
 
@@ -43,6 +40,14 @@ class GetUserLoction extends ChangeNotifier {
     if (permissionGrantend == PermissionStatus.denied) {
       permissionGrantend = await location!.requestPermission();
       if (permissionGrantend != PermissionStatus.granted) {}
+    }
+
+    turfListLoading = true;
+    isLoaidng = true;
+    notifyListeners();
+    if (checkScreen != null) {
+      log("======================");
+      Routes.pushRemoveUntil(screen: const HomeView());
     }
 
     try {
@@ -65,9 +70,6 @@ class GetUserLoction extends ChangeNotifier {
         userLocation = "$placeLocation, $muncipality";
         isLoaidng = false;
         notifyListeners();
-        if (checkScreen != null) {
-          Routes.pushRemoveUntil(screen: const HomeView());
-        }
       }
     } catch (e) {
       isLoaidng = false;
@@ -84,9 +86,9 @@ class GetUserLoction extends ChangeNotifier {
 
   void getHomeData(String muncipality) async {
     turfList.clear();
-    log(EndPoints.nearestTurf.replaceFirst('{spot}', muncipality.trim()));
     try {
       Dio dio = await InterceptorHelper().getApiClient();
+      log("===============================================");
       Response response = await dio.get(
           EndPoints.nearestTurf.replaceFirst('{spot}', muncipality.trim()));
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {

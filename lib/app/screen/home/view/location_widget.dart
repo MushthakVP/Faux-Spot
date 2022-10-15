@@ -65,33 +65,38 @@ class LocationPick extends StatelessWidget {
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Consumer<GetUserLoction>(builder: (context, value, _) {
-                  return Center(
-                    child: value.isLoaidng
+                child: Selector<GetUserLoction, bool>(
+                  selector: (context, obj) => obj.isLoaidng,
+                  builder: (context, loading, _) {
+                    return loading
                         ? const Center(
-                            child: CupertinoActivityIndicator(),
+                            child: CupertinoActivityIndicator(
+                              color: whiteColour,
+                            ),
                           )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Iconify(
-                                Fa6Solid.location_arrow,
-                                color: whiteColour,
-                                size: 25,
-                              ),
-                              space30,
-                              Text(
-                                "Around me",
-                                style: TextStyle(
+                        : Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Iconify(
+                                  Fa6Solid.location_arrow,
                                   color: whiteColour,
-                                  fontSize: 18,
+                                  size: 25,
                                 ),
-                              ),
-                              space30,
-                            ],
-                          ),
-                  );
-                }),
+                                space30,
+                                Text(
+                                  "Around me",
+                                  style: TextStyle(
+                                    color: whiteColour,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                space30,
+                              ],
+                            ),
+                          );
+                  },
+                ),
               ),
             ),
             space30,

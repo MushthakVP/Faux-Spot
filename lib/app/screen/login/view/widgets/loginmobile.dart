@@ -2,7 +2,6 @@ import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/ci.dart';
-import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
@@ -45,19 +44,19 @@ class LoginMobile extends StatelessWidget {
                 visible: numberOtp,
                 child: TextFormField(
                   controller: provider.otpController,
-                   validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Enter OTP';
-              } else if (value.length <= 5) {
-                return 'Enter Correct OTP';
-              }
-              return null;
-            },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter OTP';
+                    } else if (value.length <= 5) {
+                      return 'Enter Correct OTP';
+                    }
+                    return null;
+                  },
                   cursorColor: blackColour,
                   keyboardType: TextInputType.number,
                   decoration: inputdecoration(
                     labelText: "OTP",
-                    iconn: Teenyicons.otp_outline,
+                    icon: Icons.mark_email_unread_outlined,
                   ),
                 ),
               ),

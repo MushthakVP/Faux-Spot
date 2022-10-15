@@ -99,12 +99,16 @@ class CustomAppBAr extends StatelessWidget {
                   ),
                   child: Center(
                     child: TextField(
+                      controller: provider.searchController,
                       onChanged: (value) {
-                        if(value.isNotEmpty){
-                          provider.sufixButton(suffixIcon: true);
-                        }else{
-                          provider.sufixButton(suffixIcon: false);
+                        if (value.isNotEmpty) {
+                          provider.sufixButton(
+                              suffixIcon: true, context: context);
+                        } else {
+                          provider.sufixButton(
+                              suffixIcon: false, context: context);
                         }
+                        provider.searchFilter(context: context, query: value);
                       },
                       style: const TextStyle(
                         fontSize: 18,
@@ -120,7 +124,8 @@ class CustomAppBAr extends StatelessWidget {
                               visible: icon,
                               child: IconButton(
                                 onPressed: () {
-                                  provider.sufixButton(suffixIcon: !icon);
+                                  provider.sufixButton(
+                                      suffixIcon: !icon, context: context);
                                 },
                                 icon: const Icon(
                                   Icons.close_sharp,

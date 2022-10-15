@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_helper.dart';
 import '../../../core/colors.dart';
@@ -122,7 +121,7 @@ class SignupView extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       decoration: inputdecoration(
                         labelText: "OTP",
-                        iconn: Teenyicons.otp_outline,
+                        icon: Icons.mark_email_unread_outlined,
                       ),
                     ),
                   ),
