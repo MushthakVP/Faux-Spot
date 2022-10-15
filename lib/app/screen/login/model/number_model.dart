@@ -1,5 +1,5 @@
-class NumberRespones {
-  NumberRespones({
+class NumberResponse {
+  NumberResponse({
     this.status,
     this.id,
     this.message,
@@ -10,7 +10,7 @@ class NumberRespones {
   String? id;
   String? message;
 
-  factory NumberRespones.fromJson(Map<String, dynamic> json) => NumberRespones(
+  factory NumberResponse.fromJson(Map<String, dynamic> json) => NumberResponse(
         status: json["status"],
         id: json["_id"],
         message: json["message"],
@@ -24,10 +24,10 @@ class NumberRespones {
       };
 }
 
-//================================= Number Login Respones ===================================
+//================================= Number Login Response ===================================
 
-class NumberOtpRespones {
-  NumberOtpRespones({
+class NumberOtpResponse {
+  NumberOtpResponse({
     this.status,
     this.token,
     this.message,
@@ -40,8 +40,8 @@ class NumberOtpRespones {
   String? message;
   String? refreshToken;
 
-  factory NumberOtpRespones.fromJson(Map<String, dynamic> json) =>
-      NumberOtpRespones(
+  factory NumberOtpResponse.fromJson(Map<String, dynamic> json) =>
+      NumberOtpResponse(
         status: json["status"],
         token: json["token"],
         message: json["message"],

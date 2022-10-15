@@ -14,11 +14,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GetUserLoction location = context.read<GetUserLoction>();
+    GetUserLocation location = context.read<GetUserLocation>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       location.getUserLocation();
     });
-    GetUserLoction locationProvider = context.read<GetUserLoction>();
+    GetUserLocation locationProvider = context.read<GetUserLocation>();
     HomeProvider provider = context.read<HomeProvider>();
 
     return Scaffold(
@@ -65,9 +65,9 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Expanded items(GetUserLoction locationProvider) {
+  Expanded items(GetUserLocation locationProvider) {
     return Expanded(
-      child: Selector<GetUserLoction, bool>(
+      child: Selector<GetUserLocation, bool>(
         selector: (context, obj) => obj.turfListLoading,
         builder: (context, turfListLoading, _) {
           return turfListLoading

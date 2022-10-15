@@ -15,7 +15,7 @@ class Providers {
         ChangeNotifierProvider(create: (context) => SplashProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => SignupProvider()),
-        ChangeNotifierProvider(create: (context) => GetUserLoction()),
+        ChangeNotifierProvider(create: (context) => GetUserLocation()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => OverViewProvider()),
       ],

@@ -55,7 +55,7 @@ class LocationPick extends StatelessWidget {
             const SizedBox(height: 60),
             GestureDetector(
               onTap: () {
-                GetUserLoction().getUserLocation(checkScreen: true);
+                GetUserLocation().getUserLocation(checkScreen: true);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -65,13 +65,13 @@ class LocationPick extends StatelessWidget {
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Selector<GetUserLoction, bool>(
-                  selector: (context, obj) => obj.isLoaidng,
+                child: Selector<GetUserLocation, bool>(
+                  selector: (context, obj) => obj.isLoading,
                   builder: (context, loading, _) {
                     return loading
                         ? const Center(
                             child: CupertinoActivityIndicator(
-                              color: whiteColour,
+                              color: whiteColor,
                             ),
                           )
                         : Center(
@@ -80,14 +80,14 @@ class LocationPick extends StatelessWidget {
                               children: const [
                                 Iconify(
                                   Fa6Solid.location_arrow,
-                                  color: whiteColour,
+                                  color: whiteColor,
                                   size: 25,
                                 ),
                                 space30,
                                 Text(
                                   "Around me",
                                   style: TextStyle(
-                                    color: whiteColour,
+                                    color: whiteColor,
                                     fontSize: 18,
                                   ),
                                 ),

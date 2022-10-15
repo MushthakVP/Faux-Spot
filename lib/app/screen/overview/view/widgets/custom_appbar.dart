@@ -40,8 +40,8 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: lightGreyColour,
-            highlightColor: greyColour,
+            baseColor: lightGreyColor,
+            highlightColor: greyColor,
             child: const SizedBox(
               height: 270,
               width: double.infinity,
@@ -61,7 +61,7 @@ class CustomAppBar extends StatelessWidget {
       width: 270,
       child: Material(
         borderRadius: BorderRadius.circular(10),
-        color: lightGreyColour.withOpacity(.7),
+        color: lightGreyColor.withOpacity(.7),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

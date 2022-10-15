@@ -17,7 +17,7 @@ class HomeProvider extends ChangeNotifier {
   TextEditingController searchController = TextEditingController();
 
   bool suffixIcon = false;
-  void sufixButton({required bool suffixIcon, required BuildContext context}) {
+  void suffixButton({required bool suffixIcon, required BuildContext context}) {
     if (!suffixIcon) {
       searchList.clear();
       searchController.clear();
@@ -34,7 +34,7 @@ class HomeProvider extends ChangeNotifier {
       {required BuildContext context, required String query}) async {
     initSearching = true;
     notifyListeners();
-    List<DataList> list = context.read<GetUserLoction>().turfList;
+    List<DataList> list = context.read<GetUserLocation>().turfList;
 
     if (query.isEmpty) {
       searchList = list;

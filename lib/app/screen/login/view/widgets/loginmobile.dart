@@ -29,7 +29,7 @@ class LoginMobile extends StatelessWidget {
               return null;
             },
             controller: provider.numberController,
-            cursorColor: blackColour,
+            cursorColor: blackColor,
             keyboardType: TextInputType.number,
             decoration: inputdecoration(
               labelText: "Number",
@@ -38,7 +38,7 @@ class LoginMobile extends StatelessWidget {
           ),
           space10,
           Selector<LoginProvider, bool>(
-            selector: (BuildContext context, obj) => obj.otpSucsess,
+            selector: (BuildContext context, obj) => obj.otpSuccess,
             builder: (context, numberOtp, _) => Visibility(
               child: Visibility(
                 visible: numberOtp,
@@ -52,7 +52,7 @@ class LoginMobile extends StatelessWidget {
                     }
                     return null;
                   },
-                  cursorColor: blackColour,
+                  cursorColor: blackColor,
                   keyboardType: TextInputType.number,
                   decoration: inputdecoration(
                     labelText: "OTP",
@@ -67,13 +67,13 @@ class LoginMobile extends StatelessWidget {
             builder: (context, value, _) => Column(
               children: [
                 Visibility(
-                  visible: value.otpSucsess == false,
+                  visible: value.otpSuccess == false,
                   child: SizedBox(
                     height: 54,
                     width: double.infinity,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: blackColour,
+                        foregroundColor: blackColor,
                       ),
                       onPressed: () {
                         provider.sendMobileOtp();
@@ -84,14 +84,14 @@ class LoginMobile extends StatelessWidget {
                               "SEND OTP",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: blackColour,
+                                color: blackColor,
                               ),
                             ),
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: value.otpSucsess == true,
+                  visible: value.otpSuccess == true,
                   child: SizedBox(
                     height: 54,
                     width: double.infinity,
@@ -99,7 +99,7 @@ class LoginMobile extends StatelessWidget {
                       selector: (context, value) => value.isLoading,
                       builder: (context, isLoading, _) => OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: blackColour,
+                          foregroundColor: blackColor,
                         ),
                         onPressed: () {
                           provider.verifyOtp();
@@ -110,7 +110,7 @@ class LoginMobile extends StatelessWidget {
                                 "VERIFY OTP",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: blackColour,
+                                  color: blackColor,
                                 ),
                               ),
                       ),

@@ -31,24 +31,24 @@ class CustomAppBAr extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 50),
-          Consumer<GetUserLoction>(
+          Consumer<GetUserLocation>(
             builder: (context, value, _) {
               return Row(
                 children: [
-                  !value.isLoaidng ? space20 : space10,
+                  !value.isLoading ? space20 : space10,
                   Visibility(
-                    visible: !value.isLoaidng,
+                    visible: !value.isLoading,
                     child: const Iconify(
                       Carbon.location,
-                      color: whiteColour,
+                      color: whiteColor,
                       size: 16,
                     ),
                   ),
                   space10,
-                  value.isLoaidng
+                  value.isLoading
                       ? Shimmer.fromColors(
                           baseColor: primaryColor,
-                          highlightColor: lightGreyColour,
+                          highlightColor: lightGreyColor,
                           child: SizedBox(
                             width: 130,
                             height: 22,
@@ -61,14 +61,14 @@ class CustomAppBAr extends StatelessWidget {
                           value.userLocation.toString(),
                           style: const TextStyle(
                             fontSize: 14,
-                            color: whiteColour,
+                            color: whiteColor,
                           ),
                         ),
                   Visibility(
-                    visible: !value.isLoaidng,
+                    visible: !value.isLoading,
                     child: const Iconify(
                       Eva.arrow_down_outline,
-                      color: lightGreyColour,
+                      color: lightGreyColor,
                       size: 20,
                     ),
                   ),
@@ -94,7 +94,7 @@ class CustomAppBAr extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: lightGreyColour,
+                      color: lightGreyColor,
                     ),
                   ),
                   child: Center(
@@ -102,10 +102,10 @@ class CustomAppBAr extends StatelessWidget {
                       controller: provider.searchController,
                       onChanged: (value) {
                         if (value.isNotEmpty) {
-                          provider.sufixButton(
+                          provider.suffixButton(
                               suffixIcon: true, context: context);
                         } else {
-                          provider.sufixButton(
+                          provider.suffixButton(
                               suffixIcon: false, context: context);
                         }
                         provider.searchFilter(context: context, query: value);
@@ -124,12 +124,12 @@ class CustomAppBAr extends StatelessWidget {
                               visible: icon,
                               child: IconButton(
                                 onPressed: () {
-                                  provider.sufixButton(
+                                  provider.suffixButton(
                                       suffixIcon: !icon, context: context);
                                 },
                                 icon: const Icon(
                                   Icons.close_sharp,
-                                  color: whiteColour,
+                                  color: whiteColor,
                                 ),
                               ),
                             );
@@ -139,7 +139,7 @@ class CustomAppBAr extends StatelessWidget {
                         hintText: 'Search',
                         hintStyle: const TextStyle(
                           height: .9,
-                          color: lightGreyColour,
+                          color: lightGreyColor,
                           fontSize: 18,
                         ),
                       ),
@@ -156,7 +156,7 @@ class CustomAppBAr extends StatelessWidget {
                     children: const <Widget>[
                       Icon(
                         Icons.favorite_outline,
-                        color: whiteColour,
+                        color: whiteColor,
                       ),
                     ],
                   ),
@@ -175,7 +175,7 @@ class CustomAppBAr extends StatelessWidget {
                       alignment: Alignment.center,
                       child: const Text(
                         '1',
-                        style: TextStyle(fontSize: 10, color: whiteColour),
+                        style: TextStyle(fontSize: 10, color: whiteColor),
                       ),
                     ),
                   ),

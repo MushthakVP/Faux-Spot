@@ -21,13 +21,13 @@ class CategoryWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final listData = provider.categoryList[index];
-          return Selector<GetUserLoction, bool>(
+          return Selector<GetUserLocation, bool>(
             selector: (context, obj) => obj.turfListLoading,
             builder: (context, loading, child) {
               return loading
                   ? Shimmer.fromColors(
                      baseColor: Colors.grey.shade300,
-                highlightColor: blackColour.withOpacity(.4),
+                highlightColor: blackColor.withOpacity(.4),
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -60,13 +60,13 @@ class CategoryWidget extends StatelessWidget {
                           space10,
                           Iconify(
                             listData.icon,
-                            color: whiteColour,
+                            color: whiteColor,
                           ),
                           const Spacer(),
                           Text(
                             listData.name,
                             style: const TextStyle(
-                              color: whiteColour,
+                              color: whiteColor,
                               fontSize: 20,
                             ),
                           ),
