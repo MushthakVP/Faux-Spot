@@ -22,4 +22,5 @@ String handleError(e) {
   return defaultApiError;
 }
 
-  const String apiKey = "pk.eyJ1IjoibXVzaHRoYWsiLCJhIjoiY2w5NXBzN3NwMDBpdTN1bXZqc2hkODF4MSJ9.TotadAOyJLd_fvnvLEI5tw";
+const String apiKey =
+    "pk.eyJ1IjoibXVzaHRoYWsiLCJhIjoiY2w5OXU0amMzMGduYzN2bzZ5emoyYzQwYiJ9.7aGijhiDoQ4srpQiV3fW5g";
