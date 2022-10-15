@@ -1,11 +1,11 @@
-class HomeRespones {
-  HomeRespones({
+class HomeResponse {
+  HomeResponse({
     this.data,
   });
 
   List<DataList>? data;
 
-  factory HomeRespones.fromJson(Map<String, dynamic> json) => HomeRespones(
+  factory HomeResponse.fromJson(Map<String, dynamic> json) => HomeResponse(
         data: json["data"] == null
             ? null
             : List<DataList>.from(json["data"].map((x) => DataList.fromJson(x))),
@@ -20,7 +20,7 @@ class HomeRespones {
 
 class DataList {
   DataList({
-    this.turfCatogery,
+    this.turfCategory,
     this.turfType,
     this.turfInfo,
     this.turfAmenities,
@@ -30,11 +30,11 @@ class DataList {
     this.turfCreatorId,
     this.turfName,
     this.turfPlace,
-    this.turfMuncipality,
+    this.turfMunicipality,
     this.turfDistrict,
   });
 
-  TurfCatogery? turfCatogery;
+  TurfCategory? turfCategory;
   TurfType? turfType;
   TurfInfo? turfInfo;
   TurfAmenities? turfAmenities;
@@ -44,13 +44,13 @@ class DataList {
   String? turfCreatorId;
   String? turfName;
   String? turfPlace;
-  String? turfMuncipality;
+  String? turfMunicipality;
   String? turfDistrict;
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
-        turfCatogery: json["turf_catogery"] == null
+        turfCategory: json["turf_catogery"] == null
             ? null
-            : TurfCatogery.fromJson(json["turf_catogery"]),
+            : TurfCategory.fromJson(json["turf_catogery"]),
         turfType: json["turf_type"] == null
             ? null
             : TurfType.fromJson(json["turf_type"]),
@@ -70,12 +70,12 @@ class DataList {
         turfCreatorId: json["turf_creator_id"],
         turfName: json["turf_name"],
         turfPlace: json["turf_place"],
-        turfMuncipality: json["turf_muncipality"],
+        turfMunicipality: json["turf_muncipality"],
         turfDistrict: json["turf_district"],
       );
 
   Map<String, dynamic> toJson() => {
-        "turf_catogery": turfCatogery == null ? null : turfCatogery!.toJson(),
+        "turf_catogery": turfCategory == null ? null : turfCategory!.toJson(),
         "turf_type": turfType == null ? null : turfType!.toJson(),
         "turf_info": turfInfo == null ? null : turfInfo!.toJson(),
         "turf_amenities":
@@ -86,7 +86,7 @@ class DataList {
         "turf_creator_id": turfCreatorId,
         "turf_name": turfName,
         "turf_place": turfPlace,
-        "turf_muncipality": turfMuncipality,
+        "turf_muncipality": turfMunicipality,
         "turf_district": turfDistrict,
       };
 }
@@ -127,8 +127,8 @@ class TurfAmenities {
       };
 }
 
-class TurfCatogery {
-  TurfCatogery({
+class TurfCategory {
+  TurfCategory({
     this.turfCricket,
     this.turfFootball,
     this.turfBadminton,
@@ -140,7 +140,7 @@ class TurfCatogery {
   bool? turfBadminton;
   bool? turfYoga;
 
-  factory TurfCatogery.fromJson(Map<String, dynamic> json) => TurfCatogery(
+  factory TurfCategory.fromJson(Map<String, dynamic> json) => TurfCategory(
         turfCricket: json["turf_cricket"],
         turfFootball: json["turf_football"],
         turfBadminton: json["turf_badminton"],
@@ -181,24 +181,24 @@ class TurfImages {
 
 class TurfInfo {
   TurfInfo({
-    this.turfIsAvailale,
+    this.turfIsAvailable,
     this.turfRating,
     this.turfMap,
   });
 
-  bool? turfIsAvailale;
+  bool? turfIsAvailable;
   double? turfRating;
   String? turfMap;
 
   factory TurfInfo.fromJson(Map<String, dynamic> json) => TurfInfo(
-        turfIsAvailale: json["turf_isAvailale"],
+        turfIsAvailable: json["turf_isAvailale"],
         turfRating:
             json["turf_rating"].toDouble(),
         turfMap: json["turf_map"],
       );
 
   Map<String, dynamic> toJson() => {
-        "turf_isAvailale": turfIsAvailale,
+        "turf_isAvailale": turfIsAvailable,
         "turf_rating": turfRating,
         "turf_map": turfMap,
       };

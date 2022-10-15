@@ -16,9 +16,9 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: whiteColour,
+        backgroundColor: whiteColor,
         systemOverlayStyle:
-            uiOverlay(navigate: whiteColour, status: whiteColour),
+            uiOverlay(navigate: whiteColor, status: whiteColor),
         elevation: 0,
       ),
       body: ListView(
@@ -45,12 +45,12 @@ class LoginView extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: const [
           BoxShadow(
-            color: greyColour,
+            color: greyColor,
             blurRadius: 15,
             offset: Offset(0, 10),
           ),
         ],
-        color: whiteColour,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
@@ -74,7 +74,7 @@ class LoginView extends StatelessWidget {
                 child: RichText(
                   text: const TextSpan(
                     style: TextStyle(
-                      color: blackColour,
+                      color: blackColor,
                       fontSize: 10,
                     ),
                     text: "Don't have an account? ",
@@ -82,7 +82,7 @@ class LoginView extends StatelessWidget {
                       TextSpan(
                         text: "Register",
                         style: TextStyle(
-                          color: blackColour,
+                          color: blackColor,
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),

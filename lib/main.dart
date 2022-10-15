@@ -18,11 +18,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: whiteColour,
+        scaffoldBackgroundColor: whiteColor,
         fontFamily: GoogleFonts.hind().fontFamily,
         appBarTheme: const AppBarTheme(
           backgroundColor: primaryColor,
-          foregroundColor: whiteColour,
+          foregroundColor: whiteColor,
         ),
       ),
       scaffoldMessengerKey: Messenger.rootScaffoldMessengerKey,

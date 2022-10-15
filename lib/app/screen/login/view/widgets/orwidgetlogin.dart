@@ -20,11 +20,11 @@ class OrWidgetLogin extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const [
-            Expanded(child: Divider(color: greyColour)),
+            Expanded(child: Divider(color: greyColor)),
             space20,
             Text("OR"),
             space20,
-            Expanded(child: Divider(color: greyColour)),
+            Expanded(child: Divider(color: greyColor)),
           ],
         ),
         space20,
@@ -33,7 +33,7 @@ class OrWidgetLogin extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: lightGreyColour),
+            border: Border.all(color: lightGreyColor),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

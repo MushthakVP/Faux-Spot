@@ -18,10 +18,10 @@ class HomeScreenItems extends StatelessWidget {
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: whiteColour,
+        color: whiteColor,
         boxShadow: const [
           BoxShadow(
-            color: lightGreyColour,
+            color: lightGreyColor,
             blurRadius: 15,
             offset: Offset(0, 10),
           ),
@@ -49,7 +49,7 @@ class HomeScreenItems extends StatelessWidget {
                   top: 4,
                   child: Icon(
                     Icons.favorite,
-                    color: redColour,
+                    color: redColor,
                     size: 20,
                   ),
                 ),
@@ -77,7 +77,7 @@ class HomeScreenItems extends StatelessWidget {
                             Text(
                               data.turfInfo!.turfRating.toString(),
                               style: const TextStyle(
-                                color: whiteColour,
+                                color: whiteColor,
                               ),
                             ),
                           ],

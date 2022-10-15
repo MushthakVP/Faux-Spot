@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
@@ -10,12 +12,12 @@ import '../service/login_signup_service.dart';
 
 class LoginProvider extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
-  bool otpSucsess = false;
+  bool otpSuccess = false;
   bool isLoading = false;
   bool continueWith = false;
 
   void emailOrMobile() {
-    otpSucsess = false;
+    otpSuccess = false;
     isLoading = false;
     continueWith = !continueWith;
     notifyListeners();
@@ -38,18 +40,18 @@ class LoginProvider extends ChangeNotifier {
       return;
     }
 
-    NumberRespones? respones =
+    NumberResponse? response =
         await LoginSignupService().createAccount(number!);
-    if (respones?.error == true) {
-      await storage.write(key: "id", value: respones?.id.toString());
+    if (response?.error == true) {
+      await storage.write(key: "id", value: response?.id.toString());
       isLoading = false;
-      otpSucsess = true;
+      otpSuccess = true;
       notifyListeners();
-      Messenger.pop(msg: respones!.message.toString());
+      Messenger.pop(msg: response!.message.toString());
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones!.message.toString(), color: redColour);
+      Messenger.pop(msg: response!.message.toString(), color: redColor);
     }
   }
 
@@ -70,26 +72,27 @@ class LoginProvider extends ChangeNotifier {
       userNumber: number,
       userOtp: otpController.text,
     );
-    NumberOtpRespones? respones = await LoginSignupService().verifyOtp(data);
+    NumberOtpResponse? response = await LoginSignupService().verifyOtp(data);
 
-    if (respones?.error == true) {
-      storage.write(key: "refreshToken", value: respones!.refreshToken);
-      storage.write(key: "token", value: respones.token);
+    if (response?.error == true) {
+      storage.write(key: "refreshToken", value: response!.refreshToken);
+      storage.write(key: "token", value: response.token);
       Routes.pushRemoveUntil(screen: const LocationPick());
+      log("Login REfresh ${response.refreshToken} ====== Token ====== ${response.token}");
       storage.write(key: "login", value: "true");
       isLoading = false;
       notifyListeners();
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones!.message.toString());
+      Messenger.pop(msg: response!.message.toString());
     }
   }
 
   //================================ LOGIN EMAIL ======================================
 
   final formKeyEmail = GlobalKey<FormState>();
-  TextEditingController eamilController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   void loginMail() async {
@@ -102,21 +105,21 @@ class LoginProvider extends ChangeNotifier {
       return;
     }
 
-    String eamil = eamilController.text.trim();
+    String email = emailController.text.trim();
     String password = passwordController.text.trim();
-    if (eamil.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty) {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: "Enter valid informarion");
+      Messenger.pop(msg: "Enter valid information");
       return;
     }
 
-    EmailLoginRespones? respones =
-        await LoginSignupService().emailLogin(eamil, password);
+    EmailLoginResponse? response =
+        await LoginSignupService().emailLogin(email, password);
 
-    if (respones!.error == true) {
-      storage.write(key: "refreshToken", value: respones.refreshToken);
-      storage.write(key: "token", value: respones.token);
+    if (response!.error == true) {
+      storage.write(key: "refreshToken", value: response.refreshToken);
+      storage.write(key: "token", value: response.token);
       storage.write(key: "login", value: "true");
       Routes.pushRemoveUntil(screen: const LocationPick());
       isLoading = false;
@@ -124,7 +127,7 @@ class LoginProvider extends ChangeNotifier {
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones.message.toString());
+      Messenger.pop(msg: response.message.toString());
     }
   }
 }

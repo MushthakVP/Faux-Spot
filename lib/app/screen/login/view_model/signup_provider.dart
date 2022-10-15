@@ -13,7 +13,7 @@ class SignupProvider extends ChangeNotifier {
   bool loginOrSignup = false;
   bool isLoading = false;
   bool showOtpWidget = false;
-  bool otpSucsess = false;
+  bool otpSuccess = false;
 
   void changePage() async {
     showOtpWidget = false;
@@ -47,20 +47,20 @@ class SignupProvider extends ChangeNotifier {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    EmailSignupRespones? respones =
+    EmailSignupResponse? response =
         await LoginSignupService().signupEmail(email, password);
 
-    if (respones != null) {
-      if (respones.error == true) {
-        await storage.write(key: "id", value: respones.id);
-        Messenger.pop(msg: respones.message.toString());
+    if (response != null) {
+      if (response.error == true) {
+        await storage.write(key: "id", value: response.id);
+        Messenger.pop(msg: response.message.toString());
         showOtpWidget = true;
         isLoading = false;
         notifyListeners();
       } else {
         isLoading = false;
         notifyListeners();
-        Messenger.pop(msg: respones.message.toString());
+        Messenger.pop(msg: response.message.toString());
       }
     } else {
       isLoading = false;
@@ -82,17 +82,17 @@ class SignupProvider extends ChangeNotifier {
     String? id = await storage.read(key: "id");
     String otp = otpController.text.trim();
 
-    EmailVerifyRespones? respones =
+    EmailVerifyResponse? response =
         await LoginSignupService().verifyEmailOtp(otp, id!);
-    if (respones!.error == true) {
-      storage.write(key: "refreshToken", value: respones.refreshToken);
-      storage.write(key: "token", value: respones.token);
+    if (response!.error == true) {
+      storage.write(key: "refreshToken", value: response.refreshToken);
+      storage.write(key: "token", value: response.token);
       storage.write(key: "login", value: "true");
       Routes.pushRemoveUntil(screen: const LocationPick());
       isLoading = false;
       notifyListeners();
     } else {
-      Messenger.pop(msg: respones.message.toString());
+      Messenger.pop(msg: response.message.toString());
       isLoading = false;
       notifyListeners();
     }

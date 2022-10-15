@@ -6,8 +6,8 @@ import 'package:shimmer/shimmer.dart';
 class Shimer {
   static Widget itemShimmer({required double he, required double wi}) {
     return Shimmer.fromColors(
-      baseColor: lightGreyColour,
-      highlightColor: blackColour.withOpacity(.4),
+      baseColor: lightGreyColor,
+      highlightColor: blackColor.withOpacity(.4),
       child: Container(
         margin: const EdgeInsets.all(4),
         height: he,
@@ -18,7 +18,7 @@ class Shimer {
               height: 120,
               width: 180,
               decoration: BoxDecoration(
-                color: whiteColour,
+                color: whiteColor,
                 borderRadius: BorderRadius.circular(6),
               ),
             ),
@@ -27,7 +27,7 @@ class Shimer {
               height: 45,
               width: 180,
               decoration: BoxDecoration(
-                color: whiteColour,
+                color: whiteColor,
                 borderRadius: BorderRadius.circular(6),
               ),
             ),

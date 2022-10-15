@@ -1,12 +1,12 @@
-class LocationRespones {
-  LocationRespones({
+class LocationResponse {
+  LocationResponse({
     this.features,
   });
 
   List<Feature>? features;
 
-  factory LocationRespones.fromJson(Map<String, dynamic> json) =>
-      LocationRespones(
+  factory LocationResponse.fromJson(Map<String, dynamic> json) =>
+      LocationResponse(
         features: List<Feature>.from(
             json["features"].map((x) => Feature.fromJson(x))),
       );
