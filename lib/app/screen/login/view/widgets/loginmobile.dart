@@ -2,7 +2,6 @@ import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/ci.dart';
-import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
@@ -30,7 +29,7 @@ class LoginMobile extends StatelessWidget {
               return null;
             },
             controller: provider.numberController,
-            cursorColor: blackColour,
+            cursorColor: blackColor,
             keyboardType: TextInputType.number,
             decoration: inputdecoration(
               labelText: "Number",
@@ -39,25 +38,25 @@ class LoginMobile extends StatelessWidget {
           ),
           space10,
           Selector<LoginProvider, bool>(
-            selector: (BuildContext context, obj) => obj.otpSucsess,
+            selector: (BuildContext context, obj) => obj.otpSuccess,
             builder: (context, numberOtp, _) => Visibility(
               child: Visibility(
                 visible: numberOtp,
                 child: TextFormField(
                   controller: provider.otpController,
-                   validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Enter OTP';
-              } else if (value.length <= 5) {
-                return 'Enter Correct OTP';
-              }
-              return null;
-            },
-                  cursorColor: blackColour,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter OTP';
+                    } else if (value.length <= 5) {
+                      return 'Enter Correct OTP';
+                    }
+                    return null;
+                  },
+                  cursorColor: blackColor,
                   keyboardType: TextInputType.number,
                   decoration: inputdecoration(
                     labelText: "OTP",
-                    iconn: Teenyicons.otp_outline,
+                    icon: Icons.mark_email_unread_outlined,
                   ),
                 ),
               ),
@@ -68,13 +67,13 @@ class LoginMobile extends StatelessWidget {
             builder: (context, value, _) => Column(
               children: [
                 Visibility(
-                  visible: value.otpSucsess == false,
+                  visible: value.otpSuccess == false,
                   child: SizedBox(
                     height: 54,
                     width: double.infinity,
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: blackColour,
+                        foregroundColor: blackColor,
                       ),
                       onPressed: () {
                         provider.sendMobileOtp();
@@ -85,14 +84,14 @@ class LoginMobile extends StatelessWidget {
                               "SEND OTP",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: blackColour,
+                                color: blackColor,
                               ),
                             ),
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: value.otpSucsess == true,
+                  visible: value.otpSuccess == true,
                   child: SizedBox(
                     height: 54,
                     width: double.infinity,
@@ -100,7 +99,7 @@ class LoginMobile extends StatelessWidget {
                       selector: (context, value) => value.isLoading,
                       builder: (context, isLoading, _) => OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: blackColour,
+                          foregroundColor: blackColor,
                         ),
                         onPressed: () {
                           provider.verifyOtp();
@@ -111,7 +110,7 @@ class LoginMobile extends StatelessWidget {
                                 "VERIFY OTP",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: blackColour,
+                                  color: blackColor,
                                 ),
                               ),
                       ),

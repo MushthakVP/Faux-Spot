@@ -23,32 +23,32 @@ InputDecoration inputdecoration(
     {String? labelText, IconData? icon, String? iconn}) {
   return InputDecoration(
     prefixIcon: icon == null
-        ? Iconify(iconn!)
+        ? Iconify(iconn!, size: 16,)
         : Icon(
             icon,
-            color: blackColour,
+            color: blackColor,
           ),
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-    labelStyle: const TextStyle(color: blackColour, letterSpacing: 1),
+    labelStyle: const TextStyle(color: blackColor, letterSpacing: 1),
     hintText: labelText,
     enabledBorder: const OutlineInputBorder(
       borderSide: BorderSide(
-        color: lightGreyColour,
+        color: lightGreyColor,
       ),
     ),
     disabledBorder: const OutlineInputBorder(
       borderSide: BorderSide(
-        color: lightGreyColour,
+        color: lightGreyColor,
       ),
     ),
     border: const OutlineInputBorder(
       borderSide: BorderSide(
-        color: lightGreyColour,
+        color: lightGreyColor,
       ),
     ),
     focusedBorder: const OutlineInputBorder(
       borderSide: BorderSide(
-        color: greyColour,
+        color: greyColor,
       ),
     ),
   );

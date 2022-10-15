@@ -55,7 +55,7 @@ class LocationPick extends StatelessWidget {
             const SizedBox(height: 60),
             GestureDetector(
               onTap: () {
-                GetUserLoction().getUserLocation(checkScreen: true);
+                GetUserLocation().getUserLocation(checkScreen: true);
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -65,33 +65,38 @@ class LocationPick extends StatelessWidget {
                   color: primaryColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Consumer<GetUserLoction>(builder: (context, value, _) {
-                  return Center(
-                    child: value.isLoaidng
+                child: Selector<GetUserLocation, bool>(
+                  selector: (context, obj) => obj.isLoading,
+                  builder: (context, loading, _) {
+                    return loading
                         ? const Center(
-                            child: CupertinoActivityIndicator(),
+                            child: CupertinoActivityIndicator(
+                              color: whiteColor,
+                            ),
                           )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Iconify(
-                                Fa6Solid.location_arrow,
-                                color: whiteColour,
-                                size: 25,
-                              ),
-                              space30,
-                              Text(
-                                "Around me",
-                                style: TextStyle(
-                                  color: whiteColour,
-                                  fontSize: 18,
+                        : Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Iconify(
+                                  Fa6Solid.location_arrow,
+                                  color: whiteColor,
+                                  size: 25,
                                 ),
-                              ),
-                              space30,
-                            ],
-                          ),
-                  );
-                }),
+                                space30,
+                                Text(
+                                  "Around me",
+                                  style: TextStyle(
+                                    color: whiteColor,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                space30,
+                              ],
+                            ),
+                          );
+                  },
+                ),
               ),
             ),
             space30,

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/icons/teenyicons.dart';
 import 'package:provider/provider.dart';
 import '../../../core/app_helper.dart';
 import '../../../core/colors.dart';
@@ -19,12 +18,12 @@ class SignupView extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: const [
           BoxShadow(
-            color: greyColour,
+            color: greyColor,
             blurRadius: 15,
             offset: Offset(0, 5),
           ),
         ],
-        color: whiteColour,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Form(
@@ -50,7 +49,7 @@ class SignupView extends StatelessWidget {
                   child: RichText(
                     text: const TextSpan(
                       style: TextStyle(
-                        color: blackColour,
+                        color: blackColor,
                         fontSize: 12,
                       ),
                       text: "Already account? ",
@@ -58,7 +57,7 @@ class SignupView extends StatelessWidget {
                         TextSpan(
                           text: "Login",
                           style: TextStyle(
-                            color: blackColour,
+                            color: blackColor,
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
                           ),
@@ -78,7 +77,7 @@ class SignupView extends StatelessWidget {
                 return null;
               },
               controller: provider.emailController,
-              cursorColor: blackColour,
+              cursorColor: blackColor,
               keyboardType: TextInputType.emailAddress,
               decoration: inputdecoration(
                 labelText: "Email",
@@ -97,7 +96,7 @@ class SignupView extends StatelessWidget {
                 return null;
               },
               controller: provider.passwordController,
-              cursorColor: blackColour,
+              cursorColor: blackColor,
               keyboardType: TextInputType.emailAddress,
               decoration: inputdecoration(
                 labelText: "Password",
@@ -118,11 +117,11 @@ class SignupView extends StatelessWidget {
                         return null;
                       },
                       controller: provider.otpController,
-                      cursorColor: blackColour,
+                      cursorColor: blackColor,
                       keyboardType: TextInputType.emailAddress,
                       decoration: inputdecoration(
                         labelText: "OTP",
-                        iconn: Teenyicons.otp_outline,
+                        icon: Icons.mark_email_unread_outlined,
                       ),
                     ),
                   ),
@@ -135,7 +134,7 @@ class SignupView extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: blackColour,
+                          foregroundColor: blackColor,
                         ),
                         onPressed: () {
                           value.verifyEmail();
@@ -148,7 +147,7 @@ class SignupView extends StatelessWidget {
                                 "SEND OTP",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: blackColour,
+                                  color: blackColor,
                                 ),
                               ),
                       ),
@@ -161,7 +160,7 @@ class SignupView extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: blackColour,
+                          foregroundColor: blackColor,
                         ),
                         onPressed: () {
                           value.verifyOtp();
@@ -174,7 +173,7 @@ class SignupView extends StatelessWidget {
                                 "VERIFY OTP",
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: blackColour,
+                                  color: blackColor,
                                 ),
                               ),
                       ),

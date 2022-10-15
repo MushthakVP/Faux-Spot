@@ -1,7 +1,7 @@
 //================================= EMAIL VERIFY ===================================
 
-class EmailSignupRespones {
-  EmailSignupRespones({
+class EmailSignupResponse {
+  EmailSignupResponse({
     this.status,
     this.id,
     this.message,
@@ -13,8 +13,8 @@ class EmailSignupRespones {
   String? id;
   String? message;
 
-  factory EmailSignupRespones.fromJson(Map<String, dynamic> json) =>
-      EmailSignupRespones(
+  factory EmailSignupResponse.fromJson(Map<String, dynamic> json) =>
+      EmailSignupResponse(
         status: json["status"],
         id: json["id"],
         message: json["message"],
@@ -30,8 +30,8 @@ class EmailSignupRespones {
 
 //================================= EMAIL SIGNUP ===================================
 
-class EmailLoginRespones {
-  EmailLoginRespones({
+class EmailLoginResponse {
+  EmailLoginResponse({
     this.status,
     this.message,
     this.token,
@@ -44,8 +44,8 @@ class EmailLoginRespones {
   String? token;
   String? refreshToken;
 
-  factory EmailLoginRespones.fromJson(Map<String, dynamic> json) =>
-      EmailLoginRespones(
+  factory EmailLoginResponse.fromJson(Map<String, dynamic> json) =>
+      EmailLoginResponse(
         status: json["status"],
         message: json["message"],
         token: json["token"],
@@ -60,8 +60,8 @@ class EmailLoginRespones {
       };
 }
 
-class EmailVerifyRespones {
-  EmailVerifyRespones({
+class EmailVerifyResponse {
+  EmailVerifyResponse({
     this.status,
     this.message,
     this.token,
@@ -74,8 +74,8 @@ class EmailVerifyRespones {
   String? token;
   String? refreshToken;
 
-  factory EmailVerifyRespones.fromJson(Map<String, dynamic> json) =>
-      EmailVerifyRespones(
+  factory EmailVerifyResponse.fromJson(Map<String, dynamic> json) =>
+      EmailVerifyResponse(
         status: json["status"],
         message: json["message"],
         token: json["token"],

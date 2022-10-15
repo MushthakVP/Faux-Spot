@@ -26,8 +26,8 @@ class LoginEmail extends StatelessWidget {
               }
               return null;
             },
-            controller: provider.eamilController,
-            cursorColor: blackColour,
+            controller: provider.emailController,
+            cursorColor: blackColor,
             keyboardType: TextInputType.emailAddress,
             decoration: inputdecoration(
               labelText: "Email",
@@ -43,7 +43,7 @@ class LoginEmail extends StatelessWidget {
               return null;
             },
             controller: provider.passwordController,
-            cursorColor: blackColour,
+            cursorColor: blackColor,
             keyboardType: TextInputType.emailAddress,
             decoration: inputdecoration(
               labelText: "Password",
@@ -58,7 +58,7 @@ class LoginEmail extends StatelessWidget {
               selector: (context, value) => value.isLoading,
               builder: (context, isLoading, _) => OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: blackColour,
+                  foregroundColor: blackColor,
                 ),
                 onPressed: () {
                   provider.loginMail();
@@ -69,7 +69,7 @@ class LoginEmail extends StatelessWidget {
                         "LOGIN",
                         style: TextStyle(
                           fontSize: 18,
-                          color: blackColour,
+                          color: blackColor,
                         ),
                       ),
               ),

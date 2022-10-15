@@ -1,9 +1,11 @@
-import 'package:faux_spot/app/core/app_helper.dart';
-import 'package:faux_spot/app/core/colors.dart';
-import 'package:faux_spot/app/core/images.dart';
+import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/home/view/widget/category_widget.dart';
+import 'package:faux_spot/app/screen/home/view/widget/list_items.dart';
+import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
+import 'package:faux_spot/app/screen/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../overview/view/overview.dart';
 import '../service/location.dart';
 import 'widget/custom_appbar.dart';
 
@@ -12,11 +14,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    GetUserLoction location = context.read<GetUserLoction>();
+    GetUserLocation location = context.read<GetUserLocation>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       location.getUserLocation();
     });
-   // HomeProvider provider = context.read<HomeProvider>();
+    GetUserLocation locationProvider = context.read<GetUserLocation>();
+    HomeProvider provider = context.read<HomeProvider>();
 
     return Scaffold(
       appBar: const PreferredSize(
@@ -26,118 +29,88 @@ class HomeView extends StatelessWidget {
       body: Column(
         children: [
           const CategoryWidget(),
-          Expanded(
-            child: Selector<GetUserLoction , bool>(
-              selector: (context, obj) => obj.turfListLoading,
-              builder: (context , turfListLoading , _) {
-                return GridView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: .9,
-                  ),
-                  itemBuilder: (context, index) {
-                    return const HomeScreenItems();
-                  },
-                );
-              }
-            ),
+          Selector<HomeProvider, bool>(
+            selector: (context, obj) => obj.initSearching,
+            builder: (context, loading, _) {
+              return provider.searchList.isNotEmpty
+                  ? Expanded(
+                      child: GridView.builder(
+                        itemCount: provider.searchList.length,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 0,
+                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          final data = provider.searchList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Routes.push(screen: OverView(data: data));
+                            },
+                            child: HomeScreenItems(data: data),
+                          );
+                        },
+                      ),
+                    )
+                  : items(locationProvider);
+            },
           ),
         ],
       ),
     );
   }
-}
 
-class HomeScreenItems extends StatelessWidget {
-  const HomeScreenItems({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      margin: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: whiteColour,
-        boxShadow: const [
-          BoxShadow(
-            color: lightGreyColour,
-            blurRadius: 15,
-            offset: Offset(0, 10),
-          ),
-        ],
-      ),
-      height: 200,
-      width: 200,
-      child: Column(
-        children: [
-          Container(
-            height: 140,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              image: DecorationImage(
-                image: AssetImage(turfImage),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  bottom: -15,
-                  right: 0,
-                  left: 0,
-                  child: SizedBox(
-                    child: Center(
-                      child: Container(
-                        height: 30,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(6),
-                          color: primaryColor,
-                        ),
-                        child: Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Icon(
-                              Icons.star,
-                              color: yellowColor,
-                              size: 18,
-                            ),
-                            Text(
-                              "4.3",
-                              style: TextStyle(
-                                color: whiteColour,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+  Expanded items(GetUserLocation locationProvider) {
+    return Expanded(
+      child: Selector<GetUserLocation, bool>(
+        selector: (context, obj) => obj.turfListLoading,
+        builder: (context, turfListLoading, _) {
+          return turfListLoading
+              ? GridView.builder(
+                  itemCount: 8,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 0,
                   ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Shimer.itemShimmer(he: 200, wi: 200);
+                  },
                 )
-              ],
-            ),
-          ),
-          space15,
-          const Expanded(
-            child: Text(
-              "Faux Turf",
-              maxLines: 1,
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
-        ],
+              : locationProvider.turfList.isEmpty
+                  ? const Text("No Nearest Turf")
+                  : GridView.builder(
+                      itemCount: locationProvider.turfList.length,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 0,
+                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        final data = locationProvider.turfList[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Routes.push(screen: OverView(data: data));
+                          },
+                          child: HomeScreenItems(data: data),
+                        );
+                      },
+                    );
+        },
       ),
     );
   }
