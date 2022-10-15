@@ -21,3 +21,5 @@ String handleError(e) {
   }
   return defaultApiError;
 }
+
+  const String apiKey = "pk.eyJ1IjoibXVzaHRoYWsiLCJhIjoiY2w5NXBzN3NwMDBpdTN1bXZqc2hkODF4MSJ9.TotadAOyJLd_fvnvLEI5tw";

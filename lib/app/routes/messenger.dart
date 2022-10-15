@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 
 class Messenger {
   static final rootScaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-  static pop({String? msg, Color? color}) {
+  static pop({required String msg, Color? color}) {
     Size size =
         MediaQuery.of(rootScaffoldMessengerKey.currentState!.context).size;
     rootScaffoldMessengerKey.currentState?.showSnackBar(
@@ -20,7 +21,7 @@ class Messenger {
         content: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Text(
-            msg ?? "Something wrong",
+            msg,
             style: const TextStyle(
               letterSpacing: 2,
               fontWeight: FontWeight.w500,

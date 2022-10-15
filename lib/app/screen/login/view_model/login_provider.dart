@@ -1,5 +1,7 @@
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
+import 'package:faux_spot/app/routes/routes.dart';
+import 'package:faux_spot/app/screen/home/view/location_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../model/emai_model.dart';
@@ -43,11 +45,11 @@ class LoginProvider extends ChangeNotifier {
       isLoading = false;
       otpSucsess = true;
       notifyListeners();
-      Messenger.pop(msg: respones?.message.toString());
+      Messenger.pop(msg: respones!.message.toString());
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones?.message.toString(), color: redColour);
+      Messenger.pop(msg: respones!.message.toString(), color: redColour);
     }
   }
 
@@ -69,17 +71,19 @@ class LoginProvider extends ChangeNotifier {
       userOtp: otpController.text,
     );
     NumberOtpRespones? respones = await LoginSignupService().verifyOtp(data);
+
     if (respones?.error == true) {
-      Messenger.pop(msg: "", color: grrenColour);
+      storage.write(key: "refreshToken", value: respones!.refreshToken);
+      storage.write(key: "token", value: respones.token);
+      Routes.pushRemoveUntil(screen: const LocationPick());
+      storage.write(key: "login", value: "true");
       isLoading = false;
       notifyListeners();
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones?.message.toString());
+      Messenger.pop(msg: respones!.message.toString());
     }
-    isLoading = false;
-    notifyListeners();
   }
 
   //================================ LOGIN EMAIL ======================================
@@ -88,7 +92,7 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController eamilController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void confirmMail() async {
+  void loginMail() async {
     isLoading = true;
     notifyListeners();
 
@@ -107,23 +111,20 @@ class LoginProvider extends ChangeNotifier {
       return;
     }
 
-    EmailSignupRespones? respones =
+    EmailLoginRespones? respones =
         await LoginSignupService().emailLogin(eamil, password);
 
-    if (respones != null) {
-      if (respones.error == true) {
-        Messenger.pop(msg: respones.message);
-        isLoading = false;
-        notifyListeners();
-      } else {
-        isLoading = false;
-        notifyListeners();
-        Messenger.pop(msg: respones.message);
-      }
+    if (respones!.error == true) {
+      storage.write(key: "refreshToken", value: respones.refreshToken);
+      storage.write(key: "token", value: respones.token);
+      storage.write(key: "login", value: "true");
+      Routes.pushRemoveUntil(screen: const LocationPick());
+      isLoading = false;
+      notifyListeners();
     } else {
       isLoading = false;
       notifyListeners();
-      Messenger.pop(msg: respones?.message);
+      Messenger.pop(msg: respones.message.toString());
     }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/icons/ci.dart';
 import 'package:provider/provider.dart';
-import 'package:unicons/unicons.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 import 'orwidgetlogin.dart';
@@ -61,7 +61,7 @@ class LoginEmail extends StatelessWidget {
                   foregroundColor: blackColour,
                 ),
                 onPressed: () {
-                  provider.confirmMail();
+                  provider.loginMail();
                 },
                 child: isLoading
                     ? const CupertinoActivityIndicator()
@@ -79,9 +79,9 @@ class LoginEmail extends StatelessWidget {
             onTap: () {
               provider.emailOrMobile();
             },
-            child: const OrWidgetLogin(
+            child:  const OrWidgetLogin(
               text: "Continue with number",
-              icon: UniconsLine.mobile_android,
+              icon: Ci.mobile,
             ),
           ),
         ],

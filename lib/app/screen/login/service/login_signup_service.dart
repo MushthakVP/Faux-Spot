@@ -38,16 +38,47 @@ class LoginSignupService {
 
   // ================================== Email Login ===================================
 
-  Future<EmailSignupRespones?> emailLogin(String eamil, String password) async {
+  Future<EmailLoginRespones?> emailLogin(String eamil, String password) async {
     Map<String, String> data = {"user_mail": eamil, "user_password": password};
 
     try {
       Response respones = await _dio.post(EndPoints.loginEmail, data: data);
       if (respones.statusCode! >= 200 && respones.statusCode! <= 299) {
-        return EmailSignupRespones.fromJson(respones.data);
+        return EmailLoginRespones.fromJson(respones.data);
       }
     } catch (e) {
-      EmailSignupRespones(error: false, message: handleError(e));
+      return EmailLoginRespones(error: false, message: handleError(e));
+    }
+    return null;
+  }
+
+  // ================================== SIGNUP EMAIL ===================================
+
+  Future<EmailSignupRespones?> signupEmail(
+      String eamil, String password) async {
+    Map<String, String> data = {"user_mail": eamil, "user_password": password};
+    try {
+      Response response = await _dio.post(EndPoints.signupEmail, data: data);
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        return EmailSignupRespones.fromJson(response.data);
+      }
+    } catch (e) {
+      return EmailSignupRespones(error: false, message: handleError(e));
+    }
+    return null;
+  }
+
+  // ================================== VERIFY EMAIL OTP ===================================
+
+  Future<EmailVerifyRespones?> verifyEmailOtp(String otp, String id) async {
+    Map<String, String> data = {"user_otp": otp, "_id": id};
+    try {
+      Response response = await _dio.post(EndPoints.emailOtpVerify, data: data);
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        return EmailVerifyRespones.fromJson(response.data);
+      }
+    } catch (e) {
+      return EmailVerifyRespones(error: false, message: handleError(e));
     }
     return null;
   }

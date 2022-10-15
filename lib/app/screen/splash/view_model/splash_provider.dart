@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/home/view/home_view.dart';
 import 'package:faux_spot/app/screen/login/view/login_view.dart';
