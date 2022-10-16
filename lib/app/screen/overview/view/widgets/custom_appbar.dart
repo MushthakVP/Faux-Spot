@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/overview/view/widgets/small_imageappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,10 +33,39 @@ class CustomAppBar extends StatelessWidget {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                appSmallImage(provider),
-                space10,
+                Column(
+                  children: [
+                    space20,
+                    space30,
+                    Row(
+                      children: [
+                        space10,
+                        GestureDetector(
+                          onTap: (){
+                            Routes.back();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: lightGreyColor.withOpacity(.4),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.arrow_back),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    appSmallImage(provider),
+                      space10,
+                  ],
+                ),
+              
               ],
             ),
           ),
@@ -58,7 +88,7 @@ class CustomAppBar extends StatelessWidget {
 
   SizedBox appSmallImage(OverViewProvider provider) {
     return SizedBox(
-      width: 270,
+      width: 240,
       child: Material(
         borderRadius: BorderRadius.circular(10),
         color: lightGreyColor.withOpacity(.7),

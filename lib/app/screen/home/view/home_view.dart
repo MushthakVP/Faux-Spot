@@ -1,5 +1,4 @@
 import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/home/view/widget/category_widget.dart';
 import 'package:faux_spot/app/screen/home/view/widget/list_items.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:faux_spot/app/screen/widgets/shimmer.dart';
@@ -28,7 +27,7 @@ class HomeView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const CategoryWidget(),
+          // const CategoryWidget(),
           Selector<HomeProvider, bool>(
             selector: (context, obj) => obj.initSearching,
             builder: (context, loading, _) {
@@ -44,7 +43,7 @@ class HomeView extends StatelessWidget {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1,
+                          childAspectRatio: .95,
                         ),
                         itemBuilder: (context, index) {
                           final data = provider.searchList[index];
@@ -80,7 +79,7 @@ class HomeView extends StatelessWidget {
                   ),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1,
+                    childAspectRatio: .95,
                   ),
                   itemBuilder: (context, index) {
                     return Shimer.itemShimmer(he: 200, wi: 200);
@@ -98,7 +97,7 @@ class HomeView extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 1,
+                        childAspectRatio: .95,
                       ),
                       itemBuilder: (context, index) {
                         final data = locationProvider.turfList[index];
