@@ -49,47 +49,65 @@ class OverView extends StatelessWidget {
           ],
         ),
       ),
+      bottomSheet: SizedBox(
+        height: 60,
+        child: ColoredBox(
+          color: primaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                "Pick your time slot",
+                style: TextStyle(
+                  color: whiteColor,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   LimitedBox amenities(OverViewProvider provider) {
     return LimitedBox(
-            maxHeight: 200,
-            child: Wrap(
-              direction: Axis.horizontal,
-              children: [
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[0].icon,
-                  name: provider.amenitiesList[0].name,
-                  visible: data.turfAmenities!.turfParking!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[1].icon,
-                  name: provider.amenitiesList[1].name,
-                   visible: data.turfAmenities!.turfGallery!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[2].icon,
-                  name: provider.amenitiesList[2].name,
-                   visible: data.turfAmenities!.turfWater!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[3].icon,
-                  name: provider.amenitiesList[3].name,
-                   visible: data.turfAmenities!.turfDressing!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[4].icon,
-                  name: provider.amenitiesList[4].name,
-                   visible: data.turfAmenities!.turfWashroom!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[5].icon,
-                  name: provider.amenitiesList[5].name,
-                   visible: data.turfAmenities!.turfCafeteria!,
-                ),
-              ],
-            ),
-          );
+      maxHeight: 200,
+      child: Wrap(
+        direction: Axis.horizontal,
+        children: [
+          AmenitiesWidget(
+            icon: provider.amenitiesList[0].icon,
+            name: provider.amenitiesList[0].name,
+            visible: data.turfAmenities!.turfParking!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[1].icon,
+            name: provider.amenitiesList[1].name,
+            visible: data.turfAmenities!.turfGallery!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[2].icon,
+            name: provider.amenitiesList[2].name,
+            visible: data.turfAmenities!.turfWater!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[3].icon,
+            name: provider.amenitiesList[3].name,
+            visible: data.turfAmenities!.turfDressing!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[4].icon,
+            name: provider.amenitiesList[4].name,
+            visible: data.turfAmenities!.turfWashroom!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[5].icon,
+            name: provider.amenitiesList[5].name,
+            visible: data.turfAmenities!.turfCafeteria!,
+          ),
+        ],
+      ),
+    );
   }
 }
