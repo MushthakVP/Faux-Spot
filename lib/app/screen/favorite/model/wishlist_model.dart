@@ -1,22 +1,26 @@
 
-class WishlistAdd {
-    WishlistAdd({
+class FavoriteModel {
+    FavoriteModel({
+        this.length,
         this.data,
     });
 
-    List<Datum>? data;
+    int? length;
+    List<FavoriteData>? data;
 
-    factory WishlistAdd.fromJson(Map<String, dynamic> json) => WishlistAdd(
-        data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
+        length: json["length"],
+        data: List<FavoriteData>.from(json["data"].map((x) => FavoriteData.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "length": length,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     };
 }
 
-class Datum {
-    Datum({
+class FavoriteData {
+    FavoriteData({
         this.turfCatogery,
         this.turfType,
         this.turfInfo,
@@ -24,6 +28,7 @@ class Datum {
         this.turfImages,
         this.turfTime,
         this.id,
+        this.turfUserId,
         this.turfCreatorId,
         this.turfName,
         this.turfPlace,
@@ -38,20 +43,22 @@ class Datum {
     TurfImages? turfImages;
     TurfTime? turfTime;
     String? id;
+    String? turfUserId;
     String? turfCreatorId;
     String? turfName;
     String? turfPlace;
     String? turfMuncipality;
     String? turfDistrict;
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        turfCatogery: json["turf_catogery"] == null ? null : TurfCatogery.fromJson(json["turf_catogery"]),
-        turfType: json["turf_type"] == null ? null : TurfType.fromJson(json["turf_type"]),
-        turfInfo: json["turf_info"] == null ? null : TurfInfo.fromJson(json["turf_info"]),
-        turfAmenities: json["turf_amenities"] == null ? null : TurfAmenities.fromJson(json["turf_amenities"]),
-        turfImages: json["turf_images"] == null ? null : TurfImages.fromJson(json["turf_images"]),
-        turfTime: json["turf_time"] == null ? null : TurfTime.fromJson(json["turf_time"]),
+    factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(
+        turfCatogery: TurfCatogery.fromJson(json["turf_catogery"]),
+        turfType: TurfType.fromJson(json["turf_type"]),
+        turfInfo: TurfInfo.fromJson(json["turf_info"]),
+        turfAmenities: TurfAmenities.fromJson(json["turf_amenities"]),
+        turfImages: TurfImages.fromJson(json["turf_images"]),
+        turfTime: TurfTime.fromJson(json["turf_time"]),
         id: json["_id"],
+        turfUserId: json["turf_user_id"],
         turfCreatorId: json["turf_creator_id"],
         turfName: json["turf_name"],
         turfPlace: json["turf_place"],
@@ -60,13 +67,14 @@ class Datum {
     );
 
     Map<String, dynamic> toJson() => {
-        "turf_catogery": turfCatogery == null ? null : turfCatogery!.toJson(),
-        "turf_type": turfType == null ? null : turfType!.toJson(),
-        "turf_info": turfInfo == null ? null : turfInfo!.toJson(),
-        "turf_amenities": turfAmenities == null ? null : turfAmenities!.toJson(),
-        "turf_images": turfImages == null ? null : turfImages!.toJson(),
-        "turf_time": turfTime == null ? null : turfTime!.toJson(),
+        "turf_catogery": turfCatogery?.toJson(),
+        "turf_type": turfType?.toJson(),
+        "turf_info": turfInfo?.toJson(),
+        "turf_amenities": turfAmenities?.toJson(),
+        "turf_images": turfImages?.toJson(),
+        "turf_time": turfTime?.toJson(),
         "_id": id,
+        "turf_user_id": turfUserId,
         "turf_creator_id": turfCreatorId,
         "turf_name": turfName,
         "turf_place": turfPlace,

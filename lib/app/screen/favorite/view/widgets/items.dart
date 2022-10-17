@@ -1,28 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/codicon.dart';
+import 'package:iconify_flutter/icons/ant_design.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
-import '../../model/home_model.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import '../../model/wishlist_model.dart';
 
-class HomeScreenItems extends StatelessWidget {
-  final DataList data;
-  final int index;
-  const HomeScreenItems({
+class FavoriteItems extends StatelessWidget {
+  final FavoriteData data;
+  const FavoriteItems({
     Key? key,
     required this.data,
-    required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     HomeProvider provider = context.read<HomeProvider>();
-    GetUserLocation location = context.read<GetUserLocation>();
     return Container(
       padding: const EdgeInsets.all(6),
       margin: const EdgeInsets.all(4),
@@ -48,7 +44,7 @@ class HomeScreenItems extends StatelessWidget {
                 indicatorColor: transparentColor,
                 indicatorBackgroundColor: transparentColor,
                 height: 120,
-                autoPlayInterval: int.tryParse("4${index}00"),
+                autoPlayInterval: 4000,
                 isLoop: true,
                 children: [
                   sliderWidget(image: data.turfImages!.turfImages1.toString()),
@@ -76,15 +72,14 @@ class HomeScreenItems extends StatelessWidget {
             top: 6,
             child: GestureDetector(
               onTap: () {
-                provider.addToFavorite(data);
-                location.getWishlist();
               },
               child: CircleAvatar(
                 backgroundColor: lightGreyColor.withOpacity(.5),
                 radius: 14,
                 child: const Iconify(
-                  Codicon.bookmark,
-                  size: 14,
+                  AntDesign.delete,
+                  color: redColor,
+                  size: 20,
                 ),
               ),
             ),
@@ -100,28 +95,28 @@ class HomeScreenItems extends StatelessWidget {
       spacing: 3,
       children: [
         Visibility(
-          visible: data.turfCategory!.turfFootball!,
+          visible: data.turfCatogery!.turfFootball!,
           child: Iconify(
             provider.categoryList[0].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCategory!.turfYoga!,
+          visible: data.turfCatogery!.turfYoga!,
           child: Iconify(
             provider.categoryList[1].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCategory!.turfCricket!,
+          visible: data.turfCatogery!.turfCricket!,
           child: Iconify(
             provider.categoryList[2].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCategory!.turfBadminton!,
+          visible: data.turfCatogery!.turfBadminton!,
           child: Iconify(
             provider.categoryList[3].icon,
             size: 16,

@@ -8,5 +8,5 @@ class EndPoints {
   static const String getAllturf = "/user/all-turf";
   static const String nearestTurf = "/user/nearest-turf/{spot}";
   static const String getWishlist = "/user/get-whishlist/{id}";
-  static const String addWishlist = "/add-whishlist";
+  static const String addWishlist = "/user/add-whishlist";
 }

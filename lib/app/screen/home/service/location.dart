@@ -14,7 +14,6 @@ import '../model/location_model.dart';
 import '../view/home_view.dart';
 
 class GetUserLocation extends ChangeNotifier {
-
   final storage = const FlutterSecureStorage();
 
   //=========================== GET NEAREST LOCATION ===============================
@@ -53,9 +52,10 @@ class GetUserLocation extends ChangeNotifier {
       log("======================");
       Routes.pushRemoveUntil(screen: const HomeView());
     }
-    getWishlist();
 
     try {
+      whishlistLoading = true;
+      notifyListeners();
       isLoading = true;
       LocationData locationData = await location!.getLocation();
 
@@ -72,6 +72,7 @@ class GetUserLocation extends ChangeNotifier {
             userData.features!.first.placeName!.split(",").first;
         String municipality = userData.features!.first.placeName!.split(",")[1];
         getHomeData(userDistrict!);
+        getWishlist();
         userLocation = "$placeLocation, $municipality";
         isLoading = false;
         notifyListeners();
@@ -93,7 +94,6 @@ class GetUserLocation extends ChangeNotifier {
     turfList.clear();
     try {
       Dio dio = await InterceptorHelper().getApiClient();
-      log("===============================================");
       Response response = await dio.get(
           EndPoints.nearestTurf.replaceFirst('{spot}', municipality.trim()));
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
@@ -118,21 +118,22 @@ class GetUserLocation extends ChangeNotifier {
   void getWishlist() async {
     whishlistLoading = true;
     notifyListeners();
-    String? id =  await storage.read(key: "id");
+    homeWishlist.clear();
+    String? id = await storage.read(key: "id");
     try {
-       Dio dio = await InterceptorHelper().getApiClient();
-    Response response = await dio.get(EndPoints.getWishlist.replaceFirst("{id}", id!));
-    if(response.statusCode! >= 200 && response.statusCode! <= 299){
-      HomeWishlist data = HomeWishlist.fromJson(response.data);
-      homeWishlist.add(data);
+      Dio dio = await InterceptorHelper().getApiClient();
+      Response response =
+          await dio.get(EndPoints.getWishlist.replaceFirst("{id}", id!));
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        HomeWishlist data = HomeWishlist.fromJson(response.data);
+        homeWishlist.add(data);
+        whishlistLoading = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      Messenger.pop(msg: handleError(e));
       whishlistLoading = false;
       notifyListeners();
     }
-    } catch (e) {
-      Messenger.pop(msg: handleError(e));
-         whishlistLoading = false;
-      notifyListeners();
-    }
-   
   }
 }
