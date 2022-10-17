@@ -5,6 +5,7 @@ import 'package:faux_spot/app/screen/home/model/cateory_model.dart';
 import 'package:faux_spot/app/screen/home/service/home_service.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/emojione_monotone.dart';
 import 'package:iconify_flutter/icons/ic.dart';
@@ -13,6 +14,9 @@ import 'package:provider/provider.dart';
 import '../model/home_model.dart';
 
 class HomeProvider extends ChangeNotifier {
+
+    final storage = const FlutterSecureStorage();
+    
   //============================= SEARCH =================================
 
   TextEditingController searchController = TextEditingController();
@@ -54,7 +58,10 @@ class HomeProvider extends ChangeNotifier {
   //============================= ADDED FAVORITE =================================
 
   void addToFavorite(DataList data) async {
+    String? userId = await storage.read(key: "id");
+    log(userId.toString());
     HomeResponse response = HomeResponse(
+      userId: userId,
       data: [
         DataList(
           id: data.id,
@@ -99,9 +106,8 @@ class HomeProvider extends ChangeNotifier {
         ),
       ],
     );
-    log("hbvahjbkjhbsjakbjabnjkbkb");
     HomeService().addWishlist(response);
-    log("hbvahjbkjhbsjakbjabnjkbkb");
+    
   }
 
   //============================= CATEGORY LIST =================================

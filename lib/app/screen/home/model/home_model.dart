@@ -1,17 +1,17 @@
 class HomeResponse {
-  HomeResponse({
-    this.data,
-  });
-
+  HomeResponse({this.data, this.userId});
+  String? userId;
   List<DataList>? data;
 
   factory HomeResponse.fromJson(Map<String, dynamic> json) => HomeResponse(
         data: json["data"] == null
             ? null
-            : List<DataList>.from(json["data"].map((x) => DataList.fromJson(x))),
+            : List<DataList>.from(
+                json["data"].map((x) => DataList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "turf_user_id": userId,
         "data": data == null
             ? null
             : List<dynamic>.from(data!.map((x) => x.toJson())),
@@ -192,8 +192,7 @@ class TurfInfo {
 
   factory TurfInfo.fromJson(Map<String, dynamic> json) => TurfInfo(
         turfIsAvailable: json["turf_isAvailale"],
-        turfRating:
-            json["turf_rating"].toDouble(),
+        turfRating: json["turf_rating"].toDouble(),
         turfMap: json["turf_map"],
       );
 

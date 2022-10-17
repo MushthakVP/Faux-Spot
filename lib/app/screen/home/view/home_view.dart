@@ -51,7 +51,7 @@ class HomeView extends StatelessWidget {
                             onTap: () {
                               Routes.push(screen: OverView(data: data));
                             },
-                            child: HomeScreenItems(data: data),
+                            child: HomeScreenItems(data: data , index: index),
                           );
                         },
                       ),
@@ -105,7 +105,7 @@ class HomeView extends StatelessWidget {
                           onTap: () {
                             Routes.push(screen: OverView(data: data));
                           },
-                          child: HomeScreenItems(data: data),
+                          child: HomeScreenItems(data: data , index: index),
                         );
                       },
                     );

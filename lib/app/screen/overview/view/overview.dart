@@ -1,5 +1,7 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
+import 'package:faux_spot/app/routes/routes.dart';
+import 'package:faux_spot/app/screen/booking/view/booking_view.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,10 @@ class OverView extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         SystemChrome.setSystemUIOverlayStyle(
-          uiOverlay(status: transparentColor),
+          uiOverlay(
+            status: transparentColor,
+            navigate: primaryColor,
+          ),
         );
         provider.changeAppbarImage(
           image: data.turfImages!.turfImages1.toString(),
@@ -49,7 +54,16 @@ class OverView extends StatelessWidget {
           ],
         ),
       ),
-      bottomSheet: SizedBox(
+      bottomSheet: bottomSheet(),
+    );
+  }
+
+  GestureDetector bottomSheet() {
+    return GestureDetector(
+      onTap: () {
+        Routes.push(screen:  BookingView(data : data));
+      },
+      child: SizedBox(
         height: 60,
         child: ColoredBox(
           color: primaryColor,

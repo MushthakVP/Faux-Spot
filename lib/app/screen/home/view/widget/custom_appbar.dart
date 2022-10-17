@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/favorite/view/favorite_view.dart';
+import 'package:faux_spot/app/screen/favorite/view_model/favorite_provider.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -161,7 +162,7 @@ class CustomAppBAr extends StatelessWidget {
                           highlightColor: greyColor,
                           child: SizedBox(
                             height: 40,
-                            width: 50,
+                            width: 40,
                             child: Material(
                               borderRadius: BorderRadius.circular(4),
                             ),
@@ -169,6 +170,7 @@ class CustomAppBAr extends StatelessWidget {
                         )
                       : GestureDetector(
                           onTap: () {
+                            context.read<FavoriteProvider>().fetchData();
                             Routes.push(screen: const FavoriteView());
                           },
                           child: Stack(
@@ -201,7 +203,7 @@ class CustomAppBAr extends StatelessWidget {
                                     context
                                         .read<GetUserLocation>()
                                         .homeWishlist
-                                        .length
+                                        .first.length
                                         .toString(),
                                     style: const TextStyle(
                                       fontSize: 10,
