@@ -37,12 +37,14 @@ class EmailLoginResponse {
     this.token,
     this.error,
     this.refreshToken,
+    this.id,
   });
   bool? error;
   bool? status;
   String? message;
   String? token;
   String? refreshToken;
+  String? id;
 
   factory EmailLoginResponse.fromJson(Map<String, dynamic> json) =>
       EmailLoginResponse(
@@ -51,6 +53,7 @@ class EmailLoginResponse {
         token: json["token"],
         error: json["error"] ?? true,
         refreshToken: json["refreshToken"],
+        id: json["_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,12 +70,15 @@ class EmailVerifyResponse {
     this.token,
     this.error,
     this.refreshToken,
+    this.id,
   });
   bool? error;
   bool? status;
   String? message;
   String? token;
   String? refreshToken;
+  String? id;
+
 
   factory EmailVerifyResponse.fromJson(Map<String, dynamic> json) =>
       EmailVerifyResponse(
@@ -81,6 +87,7 @@ class EmailVerifyResponse {
         token: json["token"],
         error: json["error"] ??  true,
         refreshToken: json["refreshToken"],
+        id: json["_id"],
       );
 
   Map<String, dynamic> toJson() => {

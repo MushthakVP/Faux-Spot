@@ -121,6 +121,7 @@ class LoginProvider extends ChangeNotifier {
       storage.write(key: "refreshToken", value: response.refreshToken);
       storage.write(key: "token", value: response.token);
       storage.write(key: "login", value: "true");
+      await storage.write(key: "id", value: response.id.toString());
       Routes.pushRemoveUntil(screen: const LocationPick());
       isLoading = false;
       notifyListeners();

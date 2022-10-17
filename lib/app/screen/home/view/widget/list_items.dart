@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:flutter/material.dart';
@@ -70,12 +72,18 @@ class HomeScreenItems extends StatelessWidget {
           Positioned(
             right: 6,
             top: 6,
-            child: CircleAvatar(
-              backgroundColor: lightGreyColor.withOpacity(.5),
-              radius: 14,
-              child: const Iconify(
-                Codicon.bookmark,
-                size: 14,
+            child: GestureDetector(
+              onTap: () {
+              log("hbvahjbkjhbsjakbjabnjkbkb");
+                provider.addToFavorite(data);
+              },
+              child: CircleAvatar(
+                backgroundColor: lightGreyColor.withOpacity(.5),
+                radius: 14,
+                child: const Iconify(
+                  Codicon.bookmark,
+                  size: 14,
+                ),
               ),
             ),
           ),
