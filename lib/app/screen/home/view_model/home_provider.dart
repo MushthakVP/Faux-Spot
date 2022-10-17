@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:faux_spot/app/core/images.dart';
 import 'package:faux_spot/app/screen/home/model/cateory_model.dart';
+import 'package:faux_spot/app/screen/home/service/home_service.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:iconify_flutter/icons/bx.dart';
@@ -48,6 +49,59 @@ class HomeProvider extends ChangeNotifier {
           .toList();
     }
     log(searchList.length.toString());
+  }
+
+  //============================= ADDED FAVORITE =================================
+
+  void addToFavorite(DataList data) async {
+    HomeResponse response = HomeResponse(
+      data: [
+        DataList(
+          id: data.id,
+          turfName: data.turfName,
+          turfPlace: data.turfPlace,
+          turfCreatorId: data.turfCreatorId,
+          turfDistrict: data.turfDistrict,
+          turfMunicipality: data.turfMunicipality,
+          turfAmenities: TurfAmenities(
+            turfCafeteria: data.turfAmenities!.turfCafeteria,
+            turfDressing: data.turfAmenities!.turfDressing,
+            turfParking: data.turfAmenities!.turfParking,
+            turfGallery: data.turfAmenities!.turfGallery,
+            turfWashroom: data.turfAmenities!.turfWashroom,
+            turfWater: data.turfAmenities!.turfWater,
+          ),
+          turfCategory: TurfCategory(
+            turfBadminton: data.turfCategory!.turfBadminton,
+            turfCricket: data.turfCategory!.turfCricket,
+            turfFootball: data.turfCategory!.turfFootball,
+            turfYoga: data.turfCategory!.turfYoga,
+          ),
+          turfImages: TurfImages(
+            turfImages1: data.turfImages!.turfImages1,
+            turfImages2: data.turfImages!.turfImages2,
+            turfImages3: data.turfImages!.turfImages3,
+          ),
+          turfInfo: TurfInfo(
+            turfIsAvailable: data.turfInfo!.turfIsAvailable,
+            turfMap: data.turfInfo!.turfMap,
+            turfRating: data.turfInfo!.turfRating,
+          ),
+          turfTime: TurfTime(
+            timeAfternoon: data.turfTime!.timeAfternoon,
+            timeEvening: data.turfTime!.timeEvening,
+            timeMorning: data.turfTime!.timeMorning,
+          ),
+          turfType: TurfType(
+            turfSevens: data.turfType!.turfSevens,
+            turfSixes: data.turfType!.turfSixes,
+          ),
+        ),
+      ],
+    );
+    log("hbvahjbkjhbsjakbjabnjkbkb");
+    HomeService().addWishlist(response);
+    log("hbvahjbkjhbsjakbjabnjkbkb");
   }
 
   //============================= CATEGORY LIST =================================

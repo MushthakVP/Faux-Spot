@@ -1,10 +1,11 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
+import 'package:faux_spot/app/screen/home/model/whishlist.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
 import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location/location.dart';
 import '../../../interceptor/interceotor.dart';
 import '../../../routes/routes.dart';
@@ -13,6 +14,9 @@ import '../model/location_model.dart';
 import '../view/home_view.dart';
 
 class GetUserLocation extends ChangeNotifier {
+
+  final storage = const FlutterSecureStorage();
+
   //=========================== GET NEAREST LOCATION ===============================
 
   GetUserLocation() {
@@ -49,6 +53,7 @@ class GetUserLocation extends ChangeNotifier {
       log("======================");
       Routes.pushRemoveUntil(screen: const HomeView());
     }
+    getWishlist();
 
     try {
       isLoading = true;
@@ -102,5 +107,32 @@ class GetUserLocation extends ChangeNotifier {
       notifyListeners();
       Messenger.pop(msg: handleError(e));
     }
+  }
+
+  //=========================== GET WISHLIST ===============================
+
+  List<HomeWishlist> homeWishlist = [];
+
+  bool whishlistLoading = false;
+
+  void getWishlist() async {
+    whishlistLoading = true;
+    notifyListeners();
+    String? id =  await storage.read(key: "id");
+    try {
+       Dio dio = await InterceptorHelper().getApiClient();
+    Response response = await dio.get(EndPoints.getWishlist.replaceFirst("{id}", id!));
+    if(response.statusCode! >= 200 && response.statusCode! <= 299){
+      HomeWishlist data = HomeWishlist.fromJson(response.data);
+      homeWishlist.add(data);
+      whishlistLoading = false;
+      notifyListeners();
+    }
+    } catch (e) {
+      Messenger.pop(msg: handleError(e));
+         whishlistLoading = false;
+      notifyListeners();
+    }
+   
   }
 }

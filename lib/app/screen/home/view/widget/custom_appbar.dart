@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/favorite/view/favorite_view.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
@@ -149,44 +151,69 @@ class CustomAppBAr extends StatelessWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: (){
-                  Routes.push(screen: const FavoriteView());
+              Selector<GetUserLocation, bool>(
+                selector: (context, obj) => obj.whishlistLoading,
+                builder: (context, loading, _) {
+                  log(loading.toString());
+                  return loading
+                      ? Shimmer.fromColors(
+                          baseColor: primaryColor,
+                          highlightColor: greyColor,
+                          child: SizedBox(
+                            height: 40,
+                            width: 50,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            Routes.push(screen: const FavoriteView());
+                          },
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const <Widget>[
+                                  Icon(
+                                    Icons.favorite_outline,
+                                    color: whiteColor,
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                top: -10,
+                                right: -6,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.red,
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    context
+                                        .read<GetUserLocation>()
+                                        .homeWishlist
+                                        .length
+                                        .toString(),
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: whiteColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                 },
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Icon(
-                          Icons.favorite_outline,
-                          color: whiteColor,
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      top: -10,
-                      right: -6,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                        ),
-                        alignment: Alignment.center,
-                        child: const Text(
-                          '1',
-                          style: TextStyle(fontSize: 10, color: whiteColor),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
               space15,
             ],
