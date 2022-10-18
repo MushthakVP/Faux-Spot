@@ -1,8 +1,3 @@
-import 'dart:developer';
-
-import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/favorite/view/favorite_view.dart';
-import 'package:faux_spot/app/screen/favorite/view_model/favorite_provider.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +6,11 @@ import 'package:iconify_flutter/icons/carbon.dart';
 import 'package:iconify_flutter/icons/eva.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
+import '../../../../routes/routes.dart';
+import '../../../favorite/view/favorite_view.dart';
+import '../../../favorite/view_model/favorite_provider.dart';
 import '../../service/location.dart';
 
 class CustomAppBAr extends StatelessWidget {
@@ -155,14 +152,13 @@ class CustomAppBAr extends StatelessWidget {
               Selector<GetUserLocation, bool>(
                 selector: (context, obj) => obj.whishlistLoading,
                 builder: (context, loading, _) {
-                  log(loading.toString());
                   return loading
                       ? Shimmer.fromColors(
                           baseColor: primaryColor,
                           highlightColor: greyColor,
                           child: SizedBox(
-                            height: 40,
-                            width: 40,
+                            height: 30,
+                            width: 30,
                             child: Material(
                               borderRadius: BorderRadius.circular(4),
                             ),
@@ -203,7 +199,8 @@ class CustomAppBAr extends StatelessWidget {
                                     context
                                         .read<GetUserLocation>()
                                         .homeWishlist
-                                        .first.length
+                                        .first
+                                        .length
                                         .toString(),
                                     style: const TextStyle(
                                       fontSize: 10,

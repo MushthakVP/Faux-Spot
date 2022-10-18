@@ -15,9 +15,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     GetUserLocation location = context.read<GetUserLocation>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      location.getUserLocation();
+      location.userDistrict == null ? location.getUserLocation() : null;
     });
-    GetUserLocation locationProvider = context.read<GetUserLocation>();
     HomeProvider provider = context.read<HomeProvider>();
 
     return Scaffold(
@@ -51,12 +50,12 @@ class HomeView extends StatelessWidget {
                             onTap: () {
                               Routes.push(screen: OverView(data: data));
                             },
-                            child: HomeScreenItems(data: data , index: index),
+                            child: HomeScreenItems(data: data, index: index),
                           );
                         },
                       ),
                     )
-                  : items(locationProvider);
+                  : items(location);
             },
           ),
         ],
@@ -105,7 +104,7 @@ class HomeView extends StatelessWidget {
                           onTap: () {
                             Routes.push(screen: OverView(data: data));
                           },
-                          child: HomeScreenItems(data: data , index: index),
+                          child: HomeScreenItems(data: data, index: index),
                         );
                       },
                     );
