@@ -1,3 +1,4 @@
+import 'package:faux_spot/app/core/colors.dart';
 import 'package:flutter/material.dart';
 
 class BookingProvider extends ChangeNotifier {
@@ -7,13 +8,19 @@ class BookingProvider extends ChangeNotifier {
     date = (await showDatePicker(
       context: context,
       initialDate: date,
-      firstDate: date,
+      firstDate: DateTime.now(),
       lastDate: date.add(const Duration(days: 365)),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: primaryColor,
+            ),
+          ),
+          child: child!,
+        );
+      },
     ))!;
-
     notifyListeners();
   }
-
-  // DateTime startDate = date.subtract(const Duration(days: 14));
-  // DateTime endDate = date.add(const Duration(days: 7));
 }
