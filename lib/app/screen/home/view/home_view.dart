@@ -1,9 +1,13 @@
+import 'package:faux_spot/app/core/app_helper.dart';
+import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/home/view/widget/list_items.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:faux_spot/app/screen/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../../overview/view/overview.dart';
 import '../service/location.dart';
 import 'widget/custom_appbar.dart';
@@ -15,6 +19,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     GetUserLocation location = context.read<GetUserLocation>();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      SystemChrome.setSystemUIOverlayStyle(
+          uiOverlay(status: primaryColor, navigate: whiteColor));
       location.userDistrict == null ? location.getUserLocation() : null;
     });
     HomeProvider provider = context.read<HomeProvider>();
@@ -26,13 +32,13 @@ class HomeView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // const CategoryWidget(),
           Selector<HomeProvider, bool>(
             selector: (context, obj) => obj.initSearching,
             builder: (context, loading, _) {
               return provider.searchList.isNotEmpty
                   ? Expanded(
                       child: GridView.builder(
+                        controller: provider.scrollController,
                         itemCount: provider.searchList.length,
                         physics: const BouncingScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
@@ -60,6 +66,32 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: Selector<HomeProvider, int>(
+          selector: (context, obj) => obj.index,
+          builder: (context, index, _) {
+            return WaterDropNavBar(
+              backgroundColor: Colors.white,
+              onItemSelected: (value) {
+                provider.changeBottomIndex(index: value);
+              },
+              waterDropColor: primaryColor,
+              selectedIndex: index,
+              barItems: [
+                BarItem(
+                  filledIcon: Icons.home,
+                  outlinedIcon: Icons.home_outlined,
+                ),
+                BarItem(
+                  filledIcon: Icons.bookmark_rounded,
+                  outlinedIcon: Icons.bookmark_border_rounded,
+                ),
+                BarItem(
+                  filledIcon: Icons.settings,
+                  outlinedIcon: Icons.settings_outlined,
+                ),
+              ],
+            );
+          }),
     );
   }
 

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:faux_spot/app/core/images.dart';
 import 'package:faux_spot/app/screen/home/model/cateory_model.dart';
 import 'package:faux_spot/app/screen/home/service/home_service.dart';
@@ -14,9 +13,17 @@ import 'package:provider/provider.dart';
 import '../model/home_model.dart';
 
 class HomeProvider extends ChangeNotifier {
+  final storage = const FlutterSecureStorage();
+  PageController scrollController = PageController();
 
-    final storage = const FlutterSecureStorage();
-    
+  //============================= BOTTOM BAR =================================
+
+  int index = 0;
+  changeBottomIndex({required int index}) {
+    this.index = index;
+    notifyListeners();
+  }
+
   //============================= SEARCH =================================
 
   TextEditingController searchController = TextEditingController();
@@ -107,7 +114,6 @@ class HomeProvider extends ChangeNotifier {
       ],
     );
     HomeService().addWishlist(response);
-    
   }
 
   //============================= CATEGORY LIST =================================
