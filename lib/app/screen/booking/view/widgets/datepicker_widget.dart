@@ -24,11 +24,13 @@ class DatePickerWidget extends StatelessWidget {
               height: 100,
               child: DatePicker(
                 provider.date,
-                initialSelectedDate: DateTime.now(),
+                initialSelectedDate: provider.date,
                 selectionColor: primaryColor,
                 selectedTextColor: Colors.white,
                 daysCount: 4,
-                onDateChange: (date) {},
+                onDateChange: (date) {
+                  provider.addValueInList();
+                },
               ),
             ),
           );

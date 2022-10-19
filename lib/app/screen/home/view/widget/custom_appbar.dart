@@ -8,9 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
-import '../../../../routes/routes.dart';
-import '../../../favorite/view/favorite_view.dart';
-import '../../../favorite/view_model/favorite_provider.dart';
 import '../../service/location.dart';
 
 class CustomAppBAr extends StatelessWidget {
@@ -148,71 +145,6 @@ class CustomAppBAr extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Selector<GetUserLocation, bool>(
-                selector: (context, obj) => obj.whishlistLoading,
-                builder: (context, loading, _) {
-                  return loading
-                      ? Shimmer.fromColors(
-                          baseColor: primaryColor,
-                          highlightColor: greyColor,
-                          child: SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            context.read<FavoriteProvider>().fetchData();
-                            Routes.push(screen: const FavoriteView());
-                          },
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            alignment: Alignment.center,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(
-                                    Icons.favorite_outline,
-                                    color: whiteColor,
-                                  ),
-                                ],
-                              ),
-                              Positioned(
-                                top: -10,
-                                right: -6,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                    vertical: 2,
-                                  ),
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.red,
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    context
-                                        .read<GetUserLocation>()
-                                        .homeWishlist
-                                        .first
-                                        .length
-                                        .toString(),
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      color: whiteColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                },
               ),
               space15,
             ],
