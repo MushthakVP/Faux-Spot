@@ -2,6 +2,9 @@ gradle-wrapper.jar
 /.gradle
 /captures/
 /gradlew
+lib/app/service/error.dart
+lib/app/interceptor
+lib/app/service/error.dart
 /gradlew.bat
 /local.properties
 GeneratedPluginRegistrant.java

@@ -22,13 +22,14 @@ class HomeView extends StatelessWidget {
       SystemChrome.setSystemUIOverlayStyle(
           uiOverlay(status: primaryColor, navigate: whiteColor));
       location.userDistrict == null ? location.getUserLocation() : null;
+      location.getHomeData("Malappuram");
     });
     HomeProvider provider = context.read<HomeProvider>();
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(105),
-        child: CustomAppBAr(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(size.width * 0.28),
+        child: const CustomAppBAr(),
       ),
       body: Column(
         children: [

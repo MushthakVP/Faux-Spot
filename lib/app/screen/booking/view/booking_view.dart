@@ -104,7 +104,7 @@ class BookingView extends StatelessWidget {
       ),
       bottomSheet: GestureDetector(
         onTap: () {
-          provider.addBooking();
+          provider.addBooking(list: data);
         },
         child: Container(
           height: 60,
@@ -176,9 +176,11 @@ class TimeWidget extends StatelessWidget {
                 ? primaryColor
                 : whiteColor,
         border: Border.all(
-            color:selectedList[index].booked
+            color: selectedList[index].booked
                 ? lightGreyColor
-                : selectedList[index].selected ? whiteColor : primaryColor),
+                : selectedList[index].selected
+                    ? whiteColor
+                    : primaryColor),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
