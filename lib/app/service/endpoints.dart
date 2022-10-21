@@ -8,5 +8,6 @@ class EndPoints {
   static const String nearestTurf = "/user/nearest-turf/{spot}";
   static const String getWishlist = "/user/get-whishlist/{id}";
   static const String addWishlist = "/user/add-whishlist";
-  static const String bookingList = "/turf/booking";
+  static const String bookingDetail = "/account/get-booking/{id}";
+  static const String bookTurf = "/account/add-booking";
 }

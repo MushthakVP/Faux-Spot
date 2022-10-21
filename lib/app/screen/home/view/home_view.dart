@@ -22,7 +22,6 @@ class HomeView extends StatelessWidget {
       SystemChrome.setSystemUIOverlayStyle(
           uiOverlay(status: primaryColor, navigate: whiteColor));
       location.userDistrict == null ? location.getUserLocation() : null;
-      location.getHomeData("Malappuram");
     });
     HomeProvider provider = context.read<HomeProvider>();
     Size size = MediaQuery.of(context).size;

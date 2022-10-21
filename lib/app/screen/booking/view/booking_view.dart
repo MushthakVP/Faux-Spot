@@ -1,6 +1,5 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
-import 'package:faux_spot/app/screen/booking/model/select_model.dart';
 import 'package:faux_spot/app/screen/booking/view/widgets/datepicker_widget.dart';
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
@@ -13,8 +12,12 @@ class BookingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BookingProvider provider = context.read<BookingProvider>();
-    provider.date = DateTime.now();
+     BookingProvider provider = context.read<BookingProvider>();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      provider.slotCreate(list: data);
+    });
+   
+
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: uiOverlay(navigate: whiteColor),
@@ -25,87 +28,61 @@ class BookingView extends StatelessWidget {
         children: [
           space20,
           DatePickerWidget(provider: provider),
-          timeWidget(price: data.turfTime!.timeMorning!, time: "Morning"),
+          timeWidget(
+              price: data.turfPrice!.morningPrice!.toString(), time: "Morning"),
           Consumer<BookingProvider>(builder: (context, value, _) {
             return Wrap(
               direction: Axis.horizontal,
               children: List.generate(
-                timeListMorning.length,
+                provider.morningSlot.length,
                 (index) {
-                  final list = timeListMorning[index];
-                  return GestureDetector(
-                    onTap: () {
-                      value.multiSelect(
-                        index: list.index,
-                        value: !selectedList[list.index].selected,
-                        booked: selectedList[list.index].booked,
-                      );
-                    },
-                    child: TimeWidget(
-                      time: list.time,
-                      index: index,
-                    ),
-                  );
+                  return TimeWidget(
+                      time: provider.morningSlot[index], index: index);
                 },
               ),
             );
           }),
-          timeWidget(price: data.turfTime!.timeAfternoon!, time: "Afternoon"),
+          Consumer<BookingProvider>(
+            builder: (context , value , _) {
+              return Visibility(
+                visible: value.afternoonSlot.isNotEmpty,
+                child: timeWidget(
+                    price: data.turfPrice!.afternoonPrice!.toString(),
+                    time: "Afternoon"),
+              );
+            }
+          ),
           Consumer<BookingProvider>(builder: (context, value, _) {
             return Wrap(
               direction: Axis.horizontal,
-              children: List.generate(
-                timeListAfternoon.length,
+               children: List.generate(
+                provider.afternoonSlot.length,
                 (index) {
-                  final list = timeListAfternoon[index];
-                  return GestureDetector(
-                    onTap: () {
-                      value.multiSelect(
-                        index: list.index,
-                        value: !selectedList[list.index].selected,
-                        booked: selectedList[list.index].booked,
-                      );
-                    },
-                    child: TimeWidget(
-                      time: list.time,
-                      index: list.index,
-                    ),
-                  );
+                  return TimeWidget(
+                      time: provider.afternoonSlot[index], index: index);
                 },
               ),
             );
           }),
-          timeWidget(price: data.turfTime!.timeEvening!, time: "Evening"),
+          timeWidget(
+              price: data.turfPrice!.eveningPrice!.toString(), time: "Evening"),
           Consumer<BookingProvider>(builder: (context, value, _) {
             return Wrap(
               direction: Axis.horizontal,
-              children: List.generate(
-                timeListEvening.length,
+               children: List.generate(
+                provider.eveningSlot.length,
                 (index) {
-                  final list = timeListEvening[index];
-                  return GestureDetector(
-                    onTap: () {
-                      value.multiSelect(
-                        index: list.index,
-                        value: !selectedList[list.index].selected,
-                        booked: selectedList[list.index].booked,
-                      );
-                    },
-                    child: TimeWidget(
-                      time: list.time,
-                      index: list.index,
-                    ),
-                  );
+                  return TimeWidget(
+                      time: provider.eveningSlot[index], index: index);
                 },
               ),
             );
           }),
+         
         ],
       ),
       bottomSheet: GestureDetector(
-        onTap: () {
-          provider.addBooking(list: data);
-        },
+        onTap: () {},
         child: Container(
           height: 60,
           width: double.infinity,
@@ -170,29 +147,16 @@ class TimeWidget extends StatelessWidget {
       height: 50,
       width: size.width * .27,
       decoration: BoxDecoration(
-        color: selectedList[index].booked
-            ? greyColor
-            : selectedList[index].selected
-                ? primaryColor
-                : whiteColor,
-        border: Border.all(
-            color: selectedList[index].booked
-                ? lightGreyColor
-                : selectedList[index].selected
-                    ? whiteColor
-                    : primaryColor),
+        color: primaryColor,
+        border: Border.all(color: primaryColor),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Center(
         child: Text(
           time,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
-            color: selectedList[index].booked
-                ? whiteColor
-                : selectedList[index].selected
-                    ? whiteColor
-                    : primaryColor,
+            color: whiteColor,
           ),
         ),
       ),

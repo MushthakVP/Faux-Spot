@@ -1,20 +1,23 @@
 class HomeResponse {
-  HomeResponse({this.data, this.userId});
+  HomeResponse({
+    this.status,
+    this.data,
+    this.userId,
+  });
   String? userId;
+  bool? status;
   List<DataList>? data;
 
   factory HomeResponse.fromJson(Map<String, dynamic> json) => HomeResponse(
-        data: json["data"] == null
-            ? null
-            : List<DataList>.from(
-                json["data"].map((x) => DataList.fromJson(x))),
+        status: json["status"],
+        data:
+            List<DataList>.from(json["data"].map((x) => DataList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "turf_user_id": userId,
-        "data": data == null
-            ? null
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "status": status,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
@@ -32,6 +35,9 @@ class DataList {
     this.turfPlace,
     this.turfMunicipality,
     this.turfDistrict,
+    this.turfPrice,
+    this.turfLogo,
+    this.v,
   });
 
   TurfCategory? turfCategory;
@@ -46,48 +52,44 @@ class DataList {
   String? turfPlace;
   String? turfMunicipality;
   String? turfDistrict;
+  TurfPrice? turfPrice;
+  String? turfLogo;
+  int? v;
 
   factory DataList.fromJson(Map<String, dynamic> json) => DataList(
-        turfCategory: json["turf_catogery"] == null
-            ? null
-            : TurfCategory.fromJson(json["turf_catogery"]),
-        turfType: json["turf_type"] == null
-            ? null
-            : TurfType.fromJson(json["turf_type"]),
-        turfInfo: json["turf_info"] == null
-            ? null
-            : TurfInfo.fromJson(json["turf_info"]),
-        turfAmenities: json["turf_amenities"] == null
-            ? null
-            : TurfAmenities.fromJson(json["turf_amenities"]),
-        turfImages: json["turf_images"] == null
-            ? null
-            : TurfImages.fromJson(json["turf_images"]),
-        turfTime: json["turf_time"] == null
-            ? null
-            : TurfTime.fromJson(json["turf_time"]),
+        turfCategory: TurfCategory.fromJson(json["turf_category"]),
+        turfType: TurfType.fromJson(json["turf_type"]),
+        turfInfo: TurfInfo.fromJson(json["turf_info"]),
+        turfAmenities: TurfAmenities.fromJson(json["turf_amenities"]),
+        turfImages: TurfImages.fromJson(json["turf_images"]),
+        turfTime: TurfTime.fromJson(json["turf_time"]),
         id: json["_id"],
         turfCreatorId: json["turf_creator_id"],
         turfName: json["turf_name"],
         turfPlace: json["turf_place"],
-        turfMunicipality: json["turf_muncipality"],
+        turfMunicipality: json["turf_municipality"],
         turfDistrict: json["turf_district"],
+        turfPrice: TurfPrice.fromJson(json["turf_price"]),
+        turfLogo: json["turf_logo"],
+        v: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
-        "turf_catogery": turfCategory == null ? null : turfCategory!.toJson(),
-        "turf_type": turfType == null ? null : turfType!.toJson(),
-        "turf_info": turfInfo == null ? null : turfInfo!.toJson(),
-        "turf_amenities":
-            turfAmenities == null ? null : turfAmenities!.toJson(),
-        "turf_images": turfImages == null ? null : turfImages!.toJson(),
-        "turf_time": turfTime == null ? null : turfTime!.toJson(),
+        "turf_category": turfCategory?.toJson(),
+        "turf_type": turfType?.toJson(),
+        "turf_info": turfInfo?.toJson(),
+        "turf_amenities": turfAmenities?.toJson(),
+        "turf_images": turfImages?.toJson(),
+        "turf_time": turfTime?.toJson(),
         "_id": id,
         "turf_creator_id": turfCreatorId,
         "turf_name": turfName,
         "turf_place": turfPlace,
-        "turf_muncipality": turfMunicipality,
+        "turf_municipality": turfMunicipality,
         "turf_district": turfDistrict,
+        "turf_price": turfPrice?.toJson(),
+        "turf_logo": turfLogo,
+        "__v": v,
       };
 }
 
@@ -191,39 +193,75 @@ class TurfInfo {
   String? turfMap;
 
   factory TurfInfo.fromJson(Map<String, dynamic> json) => TurfInfo(
-        turfIsAvailable: json["turf_isAvailale"],
+        turfIsAvailable: json["turf_isAvailable"],
         turfRating: json["turf_rating"].toDouble(),
         turfMap: json["turf_map"],
       );
 
   Map<String, dynamic> toJson() => {
-        "turf_isAvailale": turfIsAvailable,
+        "turf_isAvailable": turfIsAvailable,
         "turf_rating": turfRating,
         "turf_map": turfMap,
       };
 }
 
-class TurfTime {
-  TurfTime({
-    this.timeMorning,
-    this.timeAfternoon,
-    this.timeEvening,
+class TurfPrice {
+  TurfPrice({
+    this.morningPrice,
+    this.afternoonPrice,
+    this.eveningPrice,
   });
 
-  String? timeMorning;
-  String? timeAfternoon;
-  String? timeEvening;
+  int? morningPrice;
+  int? afternoonPrice;
+  int? eveningPrice;
 
-  factory TurfTime.fromJson(Map<String, dynamic> json) => TurfTime(
-        timeMorning: json["time_morning"],
-        timeAfternoon: json["time_afternoon"],
-        timeEvening: json["time_evening"],
+  factory TurfPrice.fromJson(Map<String, dynamic> json) => TurfPrice(
+        morningPrice: json["morning_price"],
+        afternoonPrice: json["afternoon_price"],
+        eveningPrice: json["evening_price"],
       );
 
   Map<String, dynamic> toJson() => {
-        "time_morning": timeMorning,
-        "time_afternoon": timeAfternoon,
-        "time_evening": timeEvening,
+        "morning_price": morningPrice,
+        "afternoon_price": afternoonPrice,
+        "evening_price": eveningPrice,
+      };
+}
+
+class TurfTime {
+  TurfTime({
+    this.timeMorningStart,
+    this.timeMorningEnd,
+    this.timeAfternoonStart,
+    this.timeAfternoonEnd,
+    this.timeEveningStart,
+    this.timeEveningEnd,
+  });
+
+  int? timeMorningStart;
+  int? timeMorningEnd;
+  int? timeAfternoonStart;
+  int? timeAfternoonEnd;
+  int? timeEveningStart;
+  int? timeEveningEnd;
+
+  factory TurfTime.fromJson(Map<String, dynamic> json) => TurfTime(
+        timeMorningStart: json["time_morning_start"],
+        timeMorningEnd: json["time_morning_end"],
+        timeAfternoonStart: json["time_afternoon_start"],
+        timeAfternoonEnd: json["time_afternoon_end"],
+        timeEveningStart: json["time_evening_start"],
+        timeEveningEnd: json["time_evening_end"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "time_morning_start": timeMorningStart,
+        "time_morning_end": timeMorningEnd,
+        "time_afternoon_start": timeAfternoonStart,
+        "time_afternoon_end": timeAfternoonEnd,
+        "time_evening_start": timeEveningStart,
+        "time_evening_end": timeEveningEnd,
       };
 }
 
@@ -240,7 +278,6 @@ class TurfType {
         turfSevens: json["turf_sevens"],
         turfSixes: json["turf_sixes"],
       );
-
   Map<String, dynamic> toJson() => {
         "turf_sevens": turfSevens,
         "turf_sixes": turfSixes,

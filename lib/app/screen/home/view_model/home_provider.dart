@@ -101,10 +101,10 @@ class HomeProvider extends ChangeNotifier {
             turfMap: data.turfInfo!.turfMap,
             turfRating: data.turfInfo!.turfRating,
           ),
-          turfTime: TurfTime(
-            timeAfternoon: data.turfTime!.timeAfternoon,
-            timeEvening: data.turfTime!.timeEvening,
-            timeMorning: data.turfTime!.timeMorning,
+          turfPrice: TurfPrice(
+            afternoonPrice: data.turfPrice!.afternoonPrice,
+            eveningPrice: data.turfPrice!.eveningPrice,
+            morningPrice: data.turfPrice!.morningPrice,
           ),
           turfType: TurfType(
             turfSevens: data.turfType!.turfSevens,

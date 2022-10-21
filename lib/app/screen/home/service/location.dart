@@ -91,6 +91,7 @@ class GetUserLocation extends ChangeNotifier {
   List<DataList> turfList = [];
 
   void getHomeData(String municipality) async {
+    log(municipality.toString());
     turfList.clear();
     try {
       Dio dio = await InterceptorHelper().getApiClient();
