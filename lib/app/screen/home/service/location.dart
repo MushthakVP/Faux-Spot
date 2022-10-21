@@ -7,7 +7,7 @@ import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location/location.dart';
-import '../../../interceptor/interceotor.dart';
+import '../../../interceptor/interceptor.dart';
 import '../../../routes/routes.dart';
 import '../model/home_model.dart';
 import '../model/location_model.dart';

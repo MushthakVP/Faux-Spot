@@ -1,10 +1,9 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/screen/overview/model/booking_response.dart';
-import 'package:faux_spot/app/service/error.dart';
-import '../../../interceptor/interceotor.dart';
+import '../../../interceptor/interceptor.dart';
 import '../../../service/endpoints.dart';
+import '../../../service/error.dart';
 
 class OverviewService {
   Future<BookingResponse?> getBookingList({required String id}) async {
