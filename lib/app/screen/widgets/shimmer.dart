@@ -13,6 +13,7 @@ class Shimer {
         height: he,
         width: wi,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               height: 120,
@@ -23,8 +24,25 @@ class Shimer {
               ),
             ),
             space5,
+            Row(
+              children: const [
+                CircleAvatar(
+                  radius: 8,
+                ),
+                CircleAvatar(
+                  radius: 8,
+                ),
+                CircleAvatar(
+                  radius: 8,
+                ),
+                CircleAvatar(
+                  radius: 8,
+                ),
+              ],
+            ),
+            space5,
             Container(
-              height: 45,
+              height: 30,
               width: 180,
               decoration: BoxDecoration(
                 color: whiteColor,

@@ -6,7 +6,6 @@ import 'package:iconify_flutter/icons/carbon.dart';
 import 'package:iconify_flutter/icons/eva.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 import '../../service/location.dart';
@@ -146,40 +145,6 @@ class CustomAppBAr extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(
-                        Icons.favorite_outline,
-                        color: whiteColor,
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: -10,
-                    right: -6,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        '1',
-                        style: TextStyle(fontSize: 10, color: whiteColor),
-                      ),
-                    ),
-                  ),
-                ],
               ),
               space15,
             ],

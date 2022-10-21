@@ -1,3 +1,5 @@
+import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
+import 'package:faux_spot/app/screen/favorite/view_model/favorite_provider.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
 import 'package:faux_spot/app/screen/login/view_model/login_provider.dart';
@@ -18,6 +20,8 @@ class Providers {
         ChangeNotifierProvider(create: (context) => GetUserLocation()),
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => OverViewProvider()),
+        ChangeNotifierProvider(create: (context) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (context) => BookingProvider()),
       ],
       child: const MyApp(),
     );

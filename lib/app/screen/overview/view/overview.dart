@@ -1,7 +1,10 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
+import 'package:faux_spot/app/routes/routes.dart';
+import 'package:faux_spot/app/screen/booking/view/booking_view.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,8 +21,12 @@ class OverView extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         SystemChrome.setSystemUIOverlayStyle(
-          uiOverlay(status: transparentColor),
+          uiOverlay(
+            status: transparentColor,
+            navigate: primaryColor,
+          ),
         );
+        provider.getBookingData(list: data);
         provider.changeAppbarImage(
           image: data.turfImages!.turfImages1.toString(),
         );
@@ -49,47 +56,83 @@ class OverView extends StatelessWidget {
           ],
         ),
       ),
+      bottomSheet: bottomSheet(),
+    );
+  }
+
+  GestureDetector bottomSheet() {
+    return GestureDetector(
+      onTap: () {
+        Routes.push(screen: BookingView(data: data));
+      },
+      child: SizedBox(
+        height: 60,
+        child: ColoredBox(
+          color: primaryColor,
+          child: Selector<OverViewProvider, bool>(
+              selector: (context, obj) => obj.isLoading,
+              builder: (context, loading, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    loading
+                        ? const Center(
+                            child:
+                                CupertinoActivityIndicator(color: whiteColor),
+                          )
+                        : const Text(
+                            "Pick your time slot",
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                  ],
+                );
+              }),
+        ),
+      ),
     );
   }
 
   LimitedBox amenities(OverViewProvider provider) {
     return LimitedBox(
-            maxHeight: 200,
-            child: Wrap(
-              direction: Axis.horizontal,
-              children: [
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[0].icon,
-                  name: provider.amenitiesList[0].name,
-                  visible: data.turfAmenities!.turfParking!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[1].icon,
-                  name: provider.amenitiesList[1].name,
-                   visible: data.turfAmenities!.turfGallery!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[2].icon,
-                  name: provider.amenitiesList[2].name,
-                   visible: data.turfAmenities!.turfWater!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[3].icon,
-                  name: provider.amenitiesList[3].name,
-                   visible: data.turfAmenities!.turfDressing!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[4].icon,
-                  name: provider.amenitiesList[4].name,
-                   visible: data.turfAmenities!.turfWashroom!,
-                ),
-                AmenitiesWidget(
-                  icon: provider.amenitiesList[5].icon,
-                  name: provider.amenitiesList[5].name,
-                   visible: data.turfAmenities!.turfCafeteria!,
-                ),
-              ],
-            ),
-          );
+      maxHeight: 200,
+      child: Wrap(
+        direction: Axis.horizontal,
+        children: [
+          AmenitiesWidget(
+            icon: provider.amenitiesList[0].icon,
+            name: provider.amenitiesList[0].name,
+            visible: data.turfAmenities!.turfParking!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[1].icon,
+            name: provider.amenitiesList[1].name,
+            visible: data.turfAmenities!.turfGallery!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[2].icon,
+            name: provider.amenitiesList[2].name,
+            visible: data.turfAmenities!.turfWater!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[3].icon,
+            name: provider.amenitiesList[3].name,
+            visible: data.turfAmenities!.turfDressing!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[4].icon,
+            name: provider.amenitiesList[4].name,
+            visible: data.turfAmenities!.turfWashroom!,
+          ),
+          AmenitiesWidget(
+            icon: provider.amenitiesList[5].icon,
+            name: provider.amenitiesList[5].name,
+            visible: data.turfAmenities!.turfCafeteria!,
+          ),
+        ],
+      ),
+    );
   }
 }

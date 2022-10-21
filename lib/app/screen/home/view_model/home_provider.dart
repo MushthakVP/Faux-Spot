@@ -1,9 +1,10 @@
 import 'dart:developer';
-
 import 'package:faux_spot/app/core/images.dart';
 import 'package:faux_spot/app/screen/home/model/cateory_model.dart';
+import 'package:faux_spot/app/screen/home/service/home_service.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconify_flutter/icons/bx.dart';
 import 'package:iconify_flutter/icons/emojione_monotone.dart';
 import 'package:iconify_flutter/icons/ic.dart';
@@ -12,6 +13,17 @@ import 'package:provider/provider.dart';
 import '../model/home_model.dart';
 
 class HomeProvider extends ChangeNotifier {
+  final storage = const FlutterSecureStorage();
+  PageController scrollController = PageController();
+
+  //============================= BOTTOM BAR =================================
+
+  int index = 0;
+  changeBottomIndex({required int index}) {
+    this.index = index;
+    notifyListeners();
+  }
+
   //============================= SEARCH =================================
 
   TextEditingController searchController = TextEditingController();
@@ -48,6 +60,60 @@ class HomeProvider extends ChangeNotifier {
           .toList();
     }
     log(searchList.length.toString());
+  }
+
+  //============================= ADDED FAVORITE =================================
+
+  void addToFavorite(DataList data) async {
+    String? userId = await storage.read(key: "id");
+    log(userId.toString());
+    HomeResponse response = HomeResponse(
+      userId: userId,
+      data: [
+        DataList(
+          id: data.id,
+          turfName: data.turfName,
+          turfPlace: data.turfPlace,
+          turfCreatorId: data.turfCreatorId,
+          turfDistrict: data.turfDistrict,
+          turfMunicipality: data.turfMunicipality,
+          turfAmenities: TurfAmenities(
+            turfCafeteria: data.turfAmenities!.turfCafeteria,
+            turfDressing: data.turfAmenities!.turfDressing,
+            turfParking: data.turfAmenities!.turfParking,
+            turfGallery: data.turfAmenities!.turfGallery,
+            turfWashroom: data.turfAmenities!.turfWashroom,
+            turfWater: data.turfAmenities!.turfWater,
+          ),
+          turfCategory: TurfCategory(
+            turfBadminton: data.turfCategory!.turfBadminton,
+            turfCricket: data.turfCategory!.turfCricket,
+            turfFootball: data.turfCategory!.turfFootball,
+            turfYoga: data.turfCategory!.turfYoga,
+          ),
+          turfImages: TurfImages(
+            turfImages1: data.turfImages!.turfImages1,
+            turfImages2: data.turfImages!.turfImages2,
+            turfImages3: data.turfImages!.turfImages3,
+          ),
+          turfInfo: TurfInfo(
+            turfIsAvailable: data.turfInfo!.turfIsAvailable,
+            turfMap: data.turfInfo!.turfMap,
+            turfRating: data.turfInfo!.turfRating,
+          ),
+          turfPrice: TurfPrice(
+            afternoonPrice: data.turfPrice!.afternoonPrice,
+            eveningPrice: data.turfPrice!.eveningPrice,
+            morningPrice: data.turfPrice!.morningPrice,
+          ),
+          turfType: TurfType(
+            turfSevens: data.turfType!.turfSevens,
+            turfSixes: data.turfType!.turfSixes,
+          ),
+        ),
+      ],
+    );
+    HomeService().addWishlist(response);
   }
 
   //============================= CATEGORY LIST =================================

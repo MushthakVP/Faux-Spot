@@ -1,10 +1,11 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
+import 'package:faux_spot/app/screen/home/model/whishlist.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
 import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location/location.dart';
 import '../../../interceptor/interceotor.dart';
 import '../../../routes/routes.dart';
@@ -13,6 +14,8 @@ import '../model/location_model.dart';
 import '../view/home_view.dart';
 
 class GetUserLocation extends ChangeNotifier {
+  final storage = const FlutterSecureStorage();
+
   //=========================== GET NEAREST LOCATION ===============================
 
   GetUserLocation() {
@@ -51,6 +54,8 @@ class GetUserLocation extends ChangeNotifier {
     }
 
     try {
+      whishlistLoading = true;
+      notifyListeners();
       isLoading = true;
       LocationData locationData = await location!.getLocation();
 
@@ -67,6 +72,7 @@ class GetUserLocation extends ChangeNotifier {
             userData.features!.first.placeName!.split(",").first;
         String municipality = userData.features!.first.placeName!.split(",")[1];
         getHomeData(userDistrict!);
+        getWishlist();
         userLocation = "$placeLocation, $municipality";
         isLoading = false;
         notifyListeners();
@@ -85,10 +91,10 @@ class GetUserLocation extends ChangeNotifier {
   List<DataList> turfList = [];
 
   void getHomeData(String municipality) async {
+    log(municipality.toString());
     turfList.clear();
     try {
       Dio dio = await InterceptorHelper().getApiClient();
-      log("===============================================");
       Response response = await dio.get(
           EndPoints.nearestTurf.replaceFirst('{spot}', municipality.trim()));
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
@@ -101,6 +107,34 @@ class GetUserLocation extends ChangeNotifier {
       turfListLoading = false;
       notifyListeners();
       Messenger.pop(msg: handleError(e));
+    }
+  }
+
+  //=========================== GET WISHLIST ===============================
+
+  List<HomeWishlist> homeWishlist = [];
+
+  bool whishlistLoading = false;
+
+  void getWishlist() async {
+    whishlistLoading = true;
+    notifyListeners();
+    homeWishlist.clear();
+    String? id = await storage.read(key: "id");
+    try {
+      Dio dio = await InterceptorHelper().getApiClient();
+      Response response =
+          await dio.get(EndPoints.getWishlist.replaceFirst("{id}", id!));
+      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        HomeWishlist data = HomeWishlist.fromJson(response.data);
+        homeWishlist.add(data);
+        whishlistLoading = false;
+        notifyListeners();
+      }
+    } catch (e) {
+      Messenger.pop(msg: handleError(e));
+      whishlistLoading = false;
+      notifyListeners();
     }
   }
 }
