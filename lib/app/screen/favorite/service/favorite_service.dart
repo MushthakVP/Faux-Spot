@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
-import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../../../interceptor/interceotor.dart';
+import '../../../interceptor/interceptor.dart';
+import '../../../service/error.dart';
 import '../model/wishlist_model.dart';
 
 class FavoriteService {

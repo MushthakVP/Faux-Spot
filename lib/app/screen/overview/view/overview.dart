@@ -4,6 +4,7 @@ import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/booking/view/booking_view.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class OverView extends StatelessWidget {
             navigate: primaryColor,
           ),
         );
+        provider.getBookingData(list: data);
         provider.changeAppbarImage(
           image: data.turfImages!.turfImages1.toString(),
         );
@@ -61,24 +63,33 @@ class OverView extends StatelessWidget {
   GestureDetector bottomSheet() {
     return GestureDetector(
       onTap: () {
-        Routes.push(screen:  BookingView(data : data));
+        Routes.push(screen: BookingView(data: data));
       },
       child: SizedBox(
         height: 60,
         child: ColoredBox(
           color: primaryColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                "Pick your time slot",
-                style: TextStyle(
-                  color: whiteColor,
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
+          child: Selector<OverViewProvider, bool>(
+              selector: (context, obj) => obj.isLoading,
+              builder: (context, loading, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    loading
+                        ? const Center(
+                            child:
+                                CupertinoActivityIndicator(color: whiteColor),
+                          )
+                        : const Text(
+                            "Pick your time slot",
+                            style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                  ],
+                );
+              }),
         ),
       ),
     );

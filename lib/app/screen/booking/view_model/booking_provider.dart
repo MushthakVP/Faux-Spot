@@ -1,18 +1,10 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
-import 'package:faux_spot/app/core/colors.dart';
-import 'package:faux_spot/app/routes/messenger.dart';
-import 'package:faux_spot/app/screen/booking/model/select_model.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../../core/colors.dart';
 
 class BookingProvider extends ChangeNotifier {
-  final storage = const FlutterSecureStorage();
-
-  //=============================== DATE TIME ===============================
-
   DateTime date = DateTime.now();
   changeDAte(BuildContext context) async {
     date = (await showDatePicker(
@@ -31,73 +23,85 @@ class BookingProvider extends ChangeNotifier {
         );
       },
     ))!;
-    addValueInList();
     notifyListeners();
   }
 
-  void addValueInList() {
-    selectedList.clear();
-    for (int i = 0; i <= 17; i++) {
-      selectedList.add(SelectedModel(booked: false, selected: false));
+  //================================ CREATE SLOT ======================================
+
+  List<String> morningSlot = [];
+  List<String> afternoonSlot = [];
+  List<String> eveningSlot = [];
+
+  void slotCreate({required DataList list}) async {
+    morningSlot.clear();
+    afternoonSlot.clear();
+    eveningSlot.clear();
+    int morningTimeStart = list.turfTime!.timeMorningStart!;
+    int morningTimeEnd = list.turfTime!.timeMorningEnd!;
+    int afternoonTimeStart = list.turfTime!.timeAfternoonStart!;
+    int afternoonTimeEnd = list.turfTime!.timeAfternoonEnd!;
+    int eveningTimeStart = list.turfTime!.timeEveningStart!;
+    int eveningTimeEnd = list.turfTime!.timeEveningEnd!;
+
+    for (int i = morningTimeStart; i < morningTimeEnd; i++) {
+      morningSlot.add(hourConvert(hour: "$i:00"));
+    }
+    for (int i = afternoonTimeStart; i < afternoonTimeEnd; i++) {
+      afternoonSlot.add(hourConvert(hour: "$i:00"));
+    }
+    log(afternoonSlot.toString());
+    for (int i = eveningTimeStart; i < eveningTimeEnd; i++) {
+      eveningSlot.add(hourConvert(hour: "$i:00"));
     }
     notifyListeners();
   }
 
-  //=============================== SELECTED LIST ===============================
+  //================================ CONVERT TO 12 HOUR ======================================
 
-  void multiSelect(
-      {required int index, required bool value, required bool booked}) {
-    if (!booked) {
-      selectedList.removeAt(index);
-      selectedList.insert(index, SelectedModel(booked: false, selected: value));
-      notifyListeners();
-    } else {
-      Messenger.pop(msg: "Already Booked", color: redColor);
-    }
-  }
-
-  //=============================== BOOKING ===============================
-
-  List<int> multiList = [];
-
-  void findMultiSelectCount() {
-    multiList.clear();
-    for (int i = 0; i <= 17; i++) {
-      if (selectedList[i].selected) {
-        multiList.add(i);
-      }
-    }
-    log(multiList.toString());
-  }
-
-  void addBooking({required DataList list}) async {
-    findMultiSelectCount();
-    String? userId = await storage.read(key: "id");
-    if (multiList.isEmpty) {
-      Messenger.pop(msg: "Select Slot", color: redColor);
-      return;
-    }
-
-    String url = "https://fauxspot.herokuapp.com/account/add-booking";
-    Map<String, dynamic> data = {
-      "booking_status": true,
-      "user_id": userId,
-      "turf_index": multiList,
-      "turf_id": list.id,
-      "booking_price": list.turfTime!.timeAfternoon!,
-      "booking_date": date.toIso8601String(),
-    };
-    try {
-      Response response = await Dio().post(url, data: data);
-      if (response.statusCode == 200) {
-        log("message");
-        Messenger.pop(msg: "success");
-      }
-    } catch (e) {
-      if (e is DioError) {
-        log(e.response!.data["message"].toString());
-      }
-      log(e.toString());
+  String hourConvert({required String hour}) {
+    switch (hour) {
+      case "5:00":
+        return "5:00 - 6:00";
+      case "6:00":
+        return "6:00 - 7:00";
+      case "7:00":
+        return "7:00 - 8:00";
+      case "8:00":
+        return "8:00 - 9:00";
+      case "9:00":
+        return "9:00 - 10:00";
+      case "10:00":
+        return "10:00 - 11:00";
+      case "11:00":
+        return "11:00 - 12:00";
+      case "12:00":
+        return "12:00 - 1:00";
+      case "13:00":
+        return "1:00 - 2:00";
+      case "14:00":
+        return "2:00 - 3:00";
+      case "15:00":
+        return "3:00 - 4:00";
+      case "16:00":
+        return "4:00 - 5:00";
+      case "17:00":
+        return "5:00 - 6:00";
+      case "18:00":
+        return "6:00 - 7:00";
+      case "19:00":
+        return "7:00 - 8:00";
+      case "20:00":
+        return "8:00 - 9:00";
+      case "21:00":
+        return "9:00 - 10:00";
+      case "22:00":
+        return "10:00 - 11:00";
+      case "23:00":
+        return "11:00 - 12:00";
+      case "24:00":
+        return "12:00 - 1:00";
+      default:
+        return "1:00 - 2:00";
     }
   }
 }
