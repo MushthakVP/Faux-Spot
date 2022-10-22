@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/service/overview_service.dart';
@@ -27,6 +26,7 @@ class OverViewProvider extends ChangeNotifier {
   bool isLoading = false;
 
   void getBookingData({required DataList list}) async {
+    bookingList.clear();
     isLoading = true;
     notifyListeners();
     BookingResponse? response = await OverviewService().getBookingList(id: list.id!);
@@ -34,6 +34,7 @@ class OverViewProvider extends ChangeNotifier {
       if(response.status!){
         bookingList.addAll(response.data!);
         log("success brooking ");
+        log(bookingList.length.toString());
       }else{
         Messenger.pop(msg: response.message!);
       }

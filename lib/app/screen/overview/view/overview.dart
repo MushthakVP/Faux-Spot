@@ -1,7 +1,9 @@
+
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/booking/view/booking_view.dart';
+import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,13 +58,14 @@ class OverView extends StatelessWidget {
           ],
         ),
       ),
-      bottomSheet: bottomSheet(),
+      bottomSheet: bottomSheet(context),
     );
   }
 
-  GestureDetector bottomSheet() {
+  GestureDetector bottomSheet(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<BookingProvider>().date = DateTime.now();
         Routes.push(screen: BookingView(data: data));
       },
       child: SizedBox(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
@@ -75,10 +74,10 @@ class LoginProvider extends ChangeNotifier {
     NumberOtpResponse? response = await LoginSignupService().verifyOtp(data);
 
     if (response?.error == true) {
+      storage.write(key: "mobileNumber", value: numberController.text.trim());
       storage.write(key: "refreshToken", value: response!.refreshToken);
       storage.write(key: "token", value: response.token);
       Routes.pushRemoveUntil(screen: const LocationPick());
-      log("Login REfresh ${response.refreshToken} ====== Token ====== ${response.token}");
       storage.write(key: "login", value: "true");
       isLoading = false;
       notifyListeners();
@@ -119,6 +118,7 @@ class LoginProvider extends ChangeNotifier {
 
     if (response!.error == true) {
       storage.write(key: "refreshToken", value: response.refreshToken);
+      storage.write(key: "email", value: email.trim());
       storage.write(key: "token", value: response.token);
       storage.write(key: "login", value: "true");
       await storage.write(key: "id", value: response.id.toString());
