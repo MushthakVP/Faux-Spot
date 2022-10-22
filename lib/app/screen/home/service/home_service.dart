@@ -1,11 +1,10 @@
-
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
 import 'package:faux_spot/app/service/error.dart';
-import '../../../interceptor/interceotor.dart';
+import '../../../interceptor/interceptor.dart';
 
 class HomeService {
   void addWishlist(HomeResponse data) async {

@@ -1,41 +1,71 @@
 import 'dart:developer';
 
+import 'package:faux_spot/app/routes/messenger.dart';
+import 'package:faux_spot/app/screen/booking/model/time_model.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
+import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../../core/colors.dart';
+import '../../overview/model/booking_response.dart';
+import '../model/time_converter.dart';
 
 class BookingProvider extends ChangeNotifier {
+  OverViewProvider overViewProvider = Messenger
+      .rootScaffoldMessengerKey.currentContext!
+      .read<OverViewProvider>();
+
+  void refreshSelect() {
+    notifyListeners();
+  }
+
   DateTime date = DateTime.now();
-  changeDAte(BuildContext context) async {
+  changeDAte({required BuildContext context, required DataList list}) async {
     date = (await showDatePicker(
-      context: context,
-      initialDate: date,
-      firstDate: DateTime.now(),
-      lastDate: date.add(const Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: primaryColor,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    ))!;
+          context: context,
+          initialDate: date,
+          firstDate: DateTime.now(),
+          lastDate: date.add(const Duration(days: 365)),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: primaryColor,
+                ),
+              ),
+              child: child!,
+            );
+          },
+        )) ??
+        DateTime.now();
+    slotCreate(list: list);
     notifyListeners();
   }
 
   //================================ CREATE SLOT ======================================
 
-  List<String> morningSlot = [];
-  List<String> afternoonSlot = [];
-  List<String> eveningSlot = [];
+  List<TimeModel> morningSlot = [];
+  List<TimeModel> afternoonSlot = [];
+  List<TimeModel> eveningSlot = [];
+  List<BookingList> booking = [];
+  List<String> dataList = [];
+  double totalAmount = 0.00;
 
-  void slotCreate({required DataList list}) async {
+  void slotCreate({required DataList list, DateTime? dateOn}) async {
+    dataList.clear();
+    booking.clear();
     morningSlot.clear();
     afternoonSlot.clear();
     eveningSlot.clear();
+    booking.addAll(overViewProvider.bookingList);
+    convertBookingSlot(dateOn: dateOn, list: list);
+  }
+
+  //================================ CREATE SLOT ======================================
+
+  void convertToSlot({required DataList list, DateTime? dateOn}) {
+    totalAmount = 0;
     int morningTimeStart = list.turfTime!.timeMorningStart!;
     int morningTimeEnd = list.turfTime!.timeMorningEnd!;
     int afternoonTimeStart = list.turfTime!.timeAfternoonStart!;
@@ -44,64 +74,93 @@ class BookingProvider extends ChangeNotifier {
     int eveningTimeEnd = list.turfTime!.timeEveningEnd!;
 
     for (int i = morningTimeStart; i < morningTimeEnd; i++) {
-      morningSlot.add(hourConvert(hour: "$i:00"));
+      morningSlot
+          .add(TimeModel(time: hourConvert(hour: "$i:00"), isSelected: false));
     }
     for (int i = afternoonTimeStart; i < afternoonTimeEnd; i++) {
-      afternoonSlot.add(hourConvert(hour: "$i:00"));
+      afternoonSlot
+          .add(TimeModel(time: hourConvert(hour: "$i:00"), isSelected: false));
     }
-    log(afternoonSlot.toString());
     for (int i = eveningTimeStart; i < eveningTimeEnd; i++) {
-      eveningSlot.add(hourConvert(hour: "$i:00"));
+      eveningSlot
+          .add(TimeModel(time: hourConvert(hour: "$i:00"), isSelected: false));
     }
+    selectedAddList.clear();
     notifyListeners();
   }
 
-  //================================ CONVERT TO 12 HOUR ======================================
+  //================================ CONVERT TO BOOKING SLOT ======================================
 
-  String hourConvert({required String hour}) {
-    switch (hour) {
-      case "5:00":
-        return "5:00 - 6:00";
-      case "6:00":
-        return "6:00 - 7:00";
-      case "7:00":
-        return "7:00 - 8:00";
-      case "8:00":
-        return "8:00 - 9:00";
-      case "9:00":
-        return "9:00 - 10:00";
-      case "10:00":
-        return "10:00 - 11:00";
-      case "11:00":
-        return "11:00 - 12:00";
-      case "12:00":
-        return "12:00 - 1:00";
-      case "13:00":
-        return "1:00 - 2:00";
-      case "14:00":
-        return "2:00 - 3:00";
-      case "15:00":
-        return "3:00 - 4:00";
-      case "16:00":
-        return "4:00 - 5:00";
-      case "17:00":
-        return "5:00 - 6:00";
-      case "18:00":
-        return "6:00 - 7:00";
-      case "19:00":
-        return "7:00 - 8:00";
-      case "20:00":
-        return "8:00 - 9:00";
-      case "21:00":
-        return "9:00 - 10:00";
-      case "22:00":
-        return "10:00 - 11:00";
-      case "23:00":
-        return "11:00 - 12:00";
-      case "24:00":
-        return "12:00 - 1:00";
-      default:
-        return "1:00 - 2:00";
+  String currentDateTime = DateFormat.yMd().format(DateTime.now());
+
+  void convertBookingSlot({DateTime? dateOn, required DataList list}) async {
+    int currentTime =
+        int.tryParse(DateFormat.Hm().format(DateTime.now()).split(":").first)!;
+    String pickedDateTime = DateFormat.yMd().format(dateOn ?? date);
+    Future.forEach(booking, (BookingList element) {
+      if (element.bookingDate == DateFormat.yMd().format(dateOn ?? date)) {
+        for (int i = 0; i < element.turfIndex!.length; i++) {
+          dataList.add(hourConvert(hour: "${element.turfIndex![i]}:00"));
+        }
+      }
+    });
+    dataList.sort();
+    int length = 24 - dataList.length;
+    for (int i = 1; i <= length; i++) {
+      dataList.add("0");
     }
+
+    for (int i = 0; i <= currentTime; i++) {
+      if (currentDateTime == pickedDateTime) {
+        dataList.add(hourConvert(hour: "$i:00"));
+      }
+    }
+    convertToSlot(list: list, dateOn: dateOn);
+  }
+
+  //================================  multiTouch ======================================
+
+  List<int> selectedAddList = [];
+
+  void multiTouch(
+      {required int index,
+      required String time,
+      required bool isSelected,
+      required double price}) {
+    log("time $time");
+    log("${backTo24Hour(hour: time)}");
+    if (dataList.contains(time)) {
+      Messenger.pop(msg: "Already Booked", color: redColor);
+    } else {
+      if (!isSelected) {
+        totalAmount += price;
+        if (backTo24Hour(hour: time) >= 1 && backTo24Hour(hour: time) <= 12) {
+          morningSlot[index].isSelected = true;
+        } else if (backTo24Hour(hour: time) > 12 &&
+            backTo24Hour(hour: time) <= 16) {
+          afternoonSlot[index].isSelected = true;
+        } else if (backTo24Hour(hour: time) > 16 &&
+            backTo24Hour(hour: time) <= 24) {
+          eveningSlot[index].isSelected = true;
+        }
+        selectedAddList.add(backTo24Hour(hour: time));
+        log("add selected list $selectedAddList");
+      } else {
+        totalAmount -= price;
+        if (backTo24Hour(hour: time) >= 1 && backTo24Hour(hour: time) <= 12) {
+          morningSlot[index].isSelected = false;
+        } else if (backTo24Hour(hour: time) > 12 &&
+            backTo24Hour(hour: time) <= 16) {
+          afternoonSlot[index].isSelected = false;
+        } else if (backTo24Hour(hour: time) > 16 &&
+            backTo24Hour(hour: time) <= 24) {
+          eveningSlot[index].isSelected = false;
+        }
+        selectedAddList
+            .removeWhere((element) => element == backTo24Hour(hour: time));
+        log("add selected list $selectedAddList");
+      }
+    }
+    notifyListeners();
   }
 }

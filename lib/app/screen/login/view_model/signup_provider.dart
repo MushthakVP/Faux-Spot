@@ -85,6 +85,7 @@ class SignupProvider extends ChangeNotifier {
     EmailVerifyResponse? response =
         await LoginSignupService().verifyEmailOtp(otp, id!);
     if (response!.error == true) {
+        storage.write(key: "email", value: emailController.text.trim());
       storage.write(key: "refreshToken", value: response.refreshToken);
       storage.write(key: "token", value: response.token);
       storage.write(key: "login", value: "true");
