@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/screen/home/model/whishlist.dart';
+import 'package:faux_spot/app/screen/internet/view/internet_view.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
 import 'package:faux_spot/app/service/error.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,7 @@ import '../view/home_view.dart';
 
 class GetUserLocation extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
+  int count = 0;
 
   //=========================== GET NEAREST LOCATION ===============================
 
@@ -52,35 +54,46 @@ class GetUserLocation extends ChangeNotifier {
       log("======================");
       Routes.pushRemoveUntil(screen: const HomeView());
     }
+    bool network = await checking();
+    if (network) {
+      count = 0;
+      try {
+        whishlistLoading = true;
+        notifyListeners();
+        isLoading = true;
+        LocationData locationData = await location!.getLocation();
 
-    try {
-      whishlistLoading = true;
-      notifyListeners();
-      isLoading = true;
-      LocationData locationData = await location!.getLocation();
-
-      double latitude = locationData.latitude!;
-      double longitude = locationData.longitude!;
-      Response response = await Dio().get(
-          "https://api.mapbox.com/geocoding/v5/mapbox.places/$longitude,$latitude.json?types=locality%2Cdistrict&limit=1&access_token=$apiKey");
-      if (response.statusCode! >= 200 && response.statusCode! <= 299) {
-        final userData = LocationResponse.fromJson(response.data);
-        userMunicipality =
-            userData.features!.first.context!.first.text.toString();
-        userDistrict = userData.features!.first.context![1].text.toString();
-        String placeLocation =
-            userData.features!.first.placeName!.split(",").first;
-        String municipality = userData.features!.first.placeName!.split(",")[1];
-        getHomeData(userDistrict!);
-        getWishlist();
-        userLocation = "$placeLocation, $municipality";
+        double latitude = locationData.latitude!;
+        double longitude = locationData.longitude!;
+        Response response = await Dio().get(
+            "https://api.mapbox.com/geocoding/v5/mapbox.places/$longitude,$latitude.json?types=locality%2Cdistrict&limit=1&access_token=$apiKey");
+        if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+          final userData = LocationResponse.fromJson(response.data);
+          userMunicipality =
+              userData.features!.first.context!.first.text.toString();
+          userDistrict = userData.features!.first.context![1].text.toString();
+          String placeLocation =
+              userData.features!.first.placeName!.split(",").first;
+          String municipality =
+              userData.features!.first.placeName!.split(",")[1];
+          getHomeData(userDistrict!);
+          getWishlist();
+          userLocation = "$placeLocation, $municipality";
+          isLoading = false;
+          notifyListeners();
+        }
+      } catch (e) {
         isLoading = false;
         notifyListeners();
+        Messenger.pop(msg: handleError(e));
       }
-    } catch (e) {
-      isLoading = false;
-      notifyListeners();
-      Messenger.pop(msg: handleError(e));
+    } else {
+      if (count == 0) {
+        count++;
+        Routes.pushreplace(
+          screen: const NoInternet(screen: HomeView()),
+        );
+      }
     }
   }
 

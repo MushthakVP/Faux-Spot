@@ -20,7 +20,7 @@ class BookingView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: uiOverlay(navigate: whiteColor),
+        systemOverlayStyle: uiOverlay(navigate: primaryColor, status: primaryColor),
         title: Text(data.turfName!),
       ),
       body: ListView(

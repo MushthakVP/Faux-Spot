@@ -1,12 +1,12 @@
 import 'package:faux_spot/app/provider/providers.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
+import 'package:faux_spot/app/screen/splash/view/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/core/colors.dart';
-import 'app/screen/splash/view/splash_view.dart';
 
-main() {
+void main() {
   runApp(Providers.providers());
 }
 
