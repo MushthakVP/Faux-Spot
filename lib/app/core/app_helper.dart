@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 
 SystemUiOverlayStyle uiOverlay(
-    {Color? status, Color? navigate, Brightness? brightness}) {
+    {required Color status,required Color navigate, Brightness? brightness}) {
   return SystemUiOverlayStyle(
     statusBarColor: status,
     systemNavigationBarColor: navigate,

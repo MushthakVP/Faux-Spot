@@ -1,14 +1,19 @@
-import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:faux_spot/app/routes/routes.dart';
 import 'package:faux_spot/app/screen/overview/model/booking_response.dart';
 import '../../../interceptor/interceptor.dart';
 import '../../../service/endpoints.dart';
 import '../../../service/error.dart';
+import '../../home/view/home_view.dart';
+import '../../internet/view/internet_view.dart';
 
 class OverviewService {
+
   Future<BookingResponse?> getBookingList({required String id}) async {
-    log(id);
-    try {
+    bool network = await checking();
+    if(network){
+          try {
       Dio dio = await InterceptorHelper().getApiClient();
       Response response =
           await dio.get(EndPoints.bookingDetail.replaceFirst("{id}", id.trim()));
@@ -17,6 +22,9 @@ class OverviewService {
       }
     } catch (e) {
       BookingResponse(status: false, message: handleError(e));
+    }
+    }else{
+      Routes.pushreplace(screen: const NoInternet(screen: HomeView()));
     }
     return null;
   }

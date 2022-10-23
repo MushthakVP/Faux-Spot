@@ -16,6 +16,7 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: whiteColor,
         systemOverlayStyle:
             uiOverlay(navigate: whiteColor, status: whiteColor),

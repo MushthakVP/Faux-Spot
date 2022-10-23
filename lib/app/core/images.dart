@@ -5,3 +5,4 @@ String yogaImage = "asset/image/yoga.png";
 String cricketImage = "asset/image/cricket.png";
 String badmintonImage = "asset/image/badminton.png";
 String turfImage = "asset/image/turfImages.jpg";
+String noInternet = "asset/image/noInternet.json";

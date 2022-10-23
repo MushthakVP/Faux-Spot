@@ -20,6 +20,7 @@ class CustomAppBAr extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       SystemChrome.setSystemUIOverlayStyle(uiOverlay(
         status: primaryColor,
+        navigate: whiteColor,
         brightness: Brightness.light,
       ));
     });
