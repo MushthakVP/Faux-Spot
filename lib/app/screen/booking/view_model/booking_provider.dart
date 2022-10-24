@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/screen/booking/model/time_model.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
@@ -16,10 +14,7 @@ class BookingProvider extends ChangeNotifier {
       .rootScaffoldMessengerKey.currentContext!
       .read<OverViewProvider>();
 
-  void refreshSelect() {
-    notifyListeners();
-  }
-
+  DateTime bookingDAte = DateTime.now();
   DateTime date = DateTime.now();
   changeDAte({required BuildContext context, required DataList list}) async {
     date = (await showDatePicker(
@@ -40,6 +35,7 @@ class BookingProvider extends ChangeNotifier {
         )) ??
         DateTime.now();
     slotCreate(list: list);
+    bookingDAte = date;
     notifyListeners();
   }
 
@@ -99,8 +95,8 @@ class BookingProvider extends ChangeNotifier {
     String pickedDateTime = DateFormat.yMd().format(dateOn ?? date);
     Future.forEach(booking, (BookingList element) {
       if (element.bookingDate == DateFormat.yMd().format(dateOn ?? date)) {
-        for (int i = 0; i < element.turfIndex!.length; i++) {
-          dataList.add(hourConvert(hour: "${element.turfIndex![i]}:00"));
+        for (int i = 0; i < element.timeSlot!.length; i++) {
+          dataList.add(hourConvert(hour: "${element.timeSlot![i]}:00"));
         }
       }
     });
@@ -127,8 +123,6 @@ class BookingProvider extends ChangeNotifier {
       required String time,
       required bool isSelected,
       required double price}) {
-    log("time $time");
-    log("${backTo24Hour(hour: time)}");
     if (dataList.contains(time)) {
       Messenger.pop(msg: "Already Booked", color: redColor);
     } else {
@@ -144,7 +138,6 @@ class BookingProvider extends ChangeNotifier {
           eveningSlot[index].isSelected = true;
         }
         selectedAddList.add(backTo24Hour(hour: time));
-        log("add selected list $selectedAddList");
       } else {
         totalAmount -= price;
         if (backTo24Hour(hour: time) >= 1 && backTo24Hour(hour: time) <= 12) {
@@ -158,7 +151,6 @@ class BookingProvider extends ChangeNotifier {
         }
         selectedAddList
             .removeWhere((element) => element == backTo24Hour(hour: time));
-        log("add selected list $selectedAddList");
       }
     }
     notifyListeners();

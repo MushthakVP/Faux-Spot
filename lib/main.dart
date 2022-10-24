@@ -1,7 +1,7 @@
 import 'package:faux_spot/app/provider/providers.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/splash/view/splash_view.dart';
+import 'package:faux_spot/app/screen/confetti/view/confetti_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/core/colors.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: Routes.navigatorKey,
       title: 'FauxSpot',
       debugShowCheckedModeBanner: false,
-      home: const SplashView(),
+      home: const ConfettiView(),
     );
   }
 }
