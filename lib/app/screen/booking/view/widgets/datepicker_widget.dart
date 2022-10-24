@@ -32,7 +32,7 @@ class DatePickerWidget extends StatelessWidget {
                 selectedTextColor: Colors.white,
                 daysCount: 4,
                 onDateChange: (date) {
-                  provider.refreshSelect();
+                  provider.bookingDAte = date;
                   provider.slotCreate(list: list , dateOn : date);
                 },
               ),

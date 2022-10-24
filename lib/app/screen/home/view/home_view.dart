@@ -7,7 +7,6 @@ import 'package:faux_spot/app/screen/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 import '../../overview/view/overview.dart';
 import '../service/location.dart';
 import 'widget/custom_appbar.dart';
@@ -66,32 +65,7 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Selector<HomeProvider, int>(
-          selector: (context, obj) => obj.index,
-          builder: (context, index, _) {
-            return WaterDropNavBar(
-              backgroundColor: Colors.white,
-              onItemSelected: (value) {
-                provider.changeBottomIndex(index: value);
-              },
-              waterDropColor: primaryColor,
-              selectedIndex: index,
-              barItems: [
-                BarItem(
-                  filledIcon: Icons.home,
-                  outlinedIcon: Icons.home_outlined,
-                ),
-                BarItem(
-                  filledIcon: Icons.bookmark_rounded,
-                  outlinedIcon: Icons.bookmark_border_rounded,
-                ),
-                BarItem(
-                  filledIcon: Icons.settings,
-                  outlinedIcon: Icons.settings_outlined,
-                ),
-              ],
-            );
-          }),
+      
     );
   }
 

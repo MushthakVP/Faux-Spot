@@ -1,5 +1,6 @@
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:faux_spot/app/screen/booking/view_model/payment_provider.dart';
+import 'package:faux_spot/app/screen/confetti/view_model/confetti_provider.dart';
 import 'package:faux_spot/app/screen/favorite/view_model/favorite_provider.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
@@ -24,6 +25,7 @@ class Providers {
         ChangeNotifierProvider(create: (context) => FavoriteProvider()),
         ChangeNotifierProvider(create: (context) => BookingProvider()),
         ChangeNotifierProvider(create: (context) => PaymentProvider()),
+        ChangeNotifierProvider(create: (context) => ConfettiProvider()),
       ],
       child: const MyApp(),
     );
