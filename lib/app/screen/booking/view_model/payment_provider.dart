@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:faux_spot/app/screen/booking/service/booking_service.dart';
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:flutter/material.dart';
