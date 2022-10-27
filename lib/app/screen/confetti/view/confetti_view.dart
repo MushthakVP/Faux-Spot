@@ -11,14 +11,37 @@ class ConfettiView extends StatelessWidget {
   Widget build(BuildContext context) {
     ConfettiProvider provider = context.read<ConfettiProvider>();
     provider.controller.play();
-    return ColoredBox(
+    return
+        // Scaffold(
+        //   backgroundColor: primaryColor,
+        //   body: Center(
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.end,
+        //       children: [
+        //         const Text(
+        //           'Payment Processing...',
+        //           style: TextStyle(
+        //             color: whiteColor,
+        //             fontSize: 20,
+        //             fontWeight: FontWeight.bold,
+        //             letterSpacing: 1.5,
+        //           ),
+        //         ),
+        //         Lottie.asset(
+        //           loadingAnimation,
+        //           height: 130,
+        //           width: 200,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // );
+
+      ColoredBox(
       color: primaryColor,
       child: ConfettiWidget(
         strokeColor: primaryColor,
-        blastDirectionality: BlastDirectionality.explosive,
-        blastDirection: 5,
-        emissionFrequency: 0.05,
-        numberOfParticles: 20,
+        blastDirectionality: BlastDirectionality.directional,
         shouldLoop: true,
         colors: const [
           Colors.green,

@@ -6,3 +6,5 @@ String cricketImage = "asset/image/cricket.png";
 String badmintonImage = "asset/image/badminton.png";
 String turfImage = "asset/image/turfImages.jpg";
 String noInternet = "asset/image/noInternet.json";
+String loadingAnimation = "asset/image/loading.json";
+String tickAnimation = "asset/image/tick.json";
