@@ -15,6 +15,7 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     OverViewProvider provider = context.read<OverViewProvider>();
     return Selector<OverViewProvider, String>(
       selector: (context, obj) => obj.appbarImage,
@@ -23,7 +24,7 @@ class CustomAppBar extends StatelessWidget {
           imageUrl: image,
           imageBuilder: (context, imageProvider) => Container(
             width: double.infinity,
-            height: 280,
+            height: size.width / 1.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
@@ -37,13 +38,12 @@ class CustomAppBar extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    space20,
-                    space30,
+                    SizedBox(height: size.height * 0.05),
                     Row(
                       children: [
                         space10,
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Routes.back();
                           },
                           child: Container(
@@ -62,20 +62,19 @@ class CustomAppBar extends StatelessWidget {
                 Column(
                   children: [
                     appSmallImage(provider),
-                      space10,
+                    space10,
                   ],
                 ),
-              
               ],
             ),
           ),
           placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: lightGreyColor,
+            baseColor: whiteColor,
             highlightColor: greyColor,
-            child: const SizedBox(
-              height: 270,
+            child: SizedBox(
+              height: size.width / 1.5,
               width: double.infinity,
-              child: Material(),
+              child: const Material(),
             ),
           ),
           errorWidget: (context, url, error) => const Center(

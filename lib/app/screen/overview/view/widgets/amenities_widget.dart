@@ -25,20 +25,13 @@ class AmenitiesWidget extends StatelessWidget {
         margin: const EdgeInsets.only(right: 4, bottom: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: lightGreyColor),
+          border: Border.all(color: lightGreyColor.withOpacity(.4)),
           color: whiteColor,
-          boxShadow: const [
-            BoxShadow(
-              color: lightGreyColor,
-              blurRadius: 15,
-              offset: Offset(0, 10),
-            ),
-          ],
         ),
         child: Row(
           children: [
             space15,
-            Iconify(icon),
+            Iconify(icon, color: primaryColor),
             space10,
             Text(
               name,

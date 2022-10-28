@@ -1,8 +1,10 @@
+import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/screen/booking/model/time_model.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
 import 'package:faux_spot/app/screen/overview/view_model/overview_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../core/colors.dart';
@@ -10,6 +12,14 @@ import '../../overview/model/booking_response.dart';
 import '../model/time_converter.dart';
 
 class BookingProvider extends ChangeNotifier {
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      uiOverlay(status: transparentColor, navigate: primaryColor),
+    );
+    super.dispose();
+  }
+
   OverViewProvider overViewProvider = Messenger
       .rootScaffoldMessengerKey.currentContext!
       .read<OverViewProvider>();
@@ -102,11 +112,6 @@ class BookingProvider extends ChangeNotifier {
         }
       }
     });
-    // dataList.sort();
-    int length = 24 - dataList.length;
-    for (int i = 1; i <= length; i++) {
-      dataList.add("0");
-    }
 
     for (int i = 0; i <= currentTime; i++) {
       if (currentDateTime == pickedDateTime) {
@@ -125,7 +130,6 @@ class BookingProvider extends ChangeNotifier {
       required String time,
       required bool isSelected,
       required double price}) {
-
     if (dataList.contains(time)) {
       if (!infoList.contains(time)) {
         Messenger.pop(msg: "Time expired");
@@ -161,5 +165,21 @@ class BookingProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  //================================  BOOKING RESPONSIVE ======================================
+
+  double bookingResponsive({required int count}) {
+    if (count > 0 && count <= 3) {
+      return 6;
+    } else if (count > 3 && count <= 6) {
+      return 3.13;
+    } else if (count > 6 && count <= 9) {
+      return 1.4;
+    } else if (count > 9 && count <= 12) {
+      return .9;
+    } else {
+      return 1.3;
+    }
   }
 }

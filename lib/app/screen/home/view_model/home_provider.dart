@@ -85,7 +85,7 @@ class HomeProvider extends ChangeNotifier {
             turfWashroom: data.turfAmenities!.turfWashroom,
             turfWater: data.turfAmenities!.turfWater,
           ),
-          turfCategory: TurfCategory(
+          turfCategory: TurfCategory( 
             turfBadminton: data.turfCategory!.turfBadminton,
             turfCricket: data.turfCategory!.turfCricket,
             turfFootball: data.turfCategory!.turfFootball,

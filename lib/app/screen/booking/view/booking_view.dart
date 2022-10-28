@@ -20,7 +20,8 @@ class BookingView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: uiOverlay(navigate: primaryColor, status: primaryColor),
+        systemOverlayStyle:
+            uiOverlay(navigate: primaryColor, status: primaryColor),
         title: Text(data.turfName!),
       ),
       body: ListView(
@@ -30,30 +31,38 @@ class BookingView extends StatelessWidget {
           DatePickerWidget(provider: provider, list: data),
           timeWidget(
               price: data.turfPrice!.morningPrice!.toString(), time: "Morning"),
-          Consumer<BookingProvider>(builder: (context, value, _) {
-            return Wrap(
-              direction: Axis.horizontal,
-              children: List.generate(
-                provider.morningSlot.length,
-                (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      provider.multiTouch(
-                          index: index,
-                          time: provider.morningSlot[index].time!,
-                          isSelected: provider.morningSlot[index].isSelected!,
-                          price: data.turfPrice!.morningPrice!.toDouble());
-                    },
-                    child: TimeWidget(
-                      time: provider.morningSlot[index].time!,
-                      provider: provider,
-                      book: provider.morningSlot[index].isSelected,
-                    ),
-                  );
-                },
-              ),
-            );
-          }),
+          Consumer<BookingProvider>(
+            builder: (context, value, _) {
+              return AspectRatio(
+                aspectRatio:
+                    value.bookingResponsive(count: provider.morningSlot.length),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: provider.morningSlot.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        provider.multiTouch(
+                            index: index,
+                            time: provider.morningSlot[index].time!,
+                            isSelected: provider.morningSlot[index].isSelected!,
+                            price: data.turfPrice!.morningPrice!.toDouble());
+                      },
+                      child: TimeWidget(
+                        time: provider.morningSlot[index].time!,
+                        provider: provider,
+                        book: provider.morningSlot[index].isSelected,
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
           Consumer<BookingProvider>(
             builder: (context, value, _) {
               return Visibility(
@@ -66,11 +75,17 @@ class BookingView extends StatelessWidget {
           ),
           Consumer<BookingProvider>(
             builder: (context, value, _) {
-              return Wrap(
-                direction: Axis.horizontal,
-                children: List.generate(
-                  provider.afternoonSlot.length,
-                  (index) {
+              return AspectRatio(
+                aspectRatio: value.bookingResponsive(
+                    count: provider.afternoonSlot.length),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: provider.afternoonSlot.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2,
+                  ),
+                  itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         provider.multiTouch(
@@ -95,19 +110,24 @@ class BookingView extends StatelessWidget {
               price: data.turfPrice!.eveningPrice!.toString(), time: "Evening"),
           Consumer<BookingProvider>(
             builder: (context, value, _) {
-              return Wrap(
-                direction: Axis.horizontal,
-                children: List.generate(
-                  provider.eveningSlot.length,
-                  (index) {
+              return AspectRatio(
+                aspectRatio:
+                    value.bookingResponsive(count: provider.eveningSlot.length),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: provider.eveningSlot.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2,
+                  ),
+                  itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         provider.multiTouch(
-                          index: index,
-                          time: provider.eveningSlot[index].time!,
-                          isSelected: provider.eveningSlot[index].isSelected!,
-                          price: data.turfPrice!.eveningPrice!.toDouble(),
-                        );
+                            index: index,
+                            time: provider.eveningSlot[index].time!,
+                            isSelected: provider.eveningSlot[index].isSelected!,
+                            price: data.turfPrice!.eveningPrice!.toDouble());
                       },
                       child: TimeWidget(
                         time: provider.eveningSlot[index].time!,
@@ -132,33 +152,31 @@ class BookingView extends StatelessWidget {
           decoration: const BoxDecoration(
             color: primaryColor,
           ),
-          child: Consumer<BookingProvider>(
-            builder: (context , value , _) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "₹ ${value.totalAmount}",
-                    style: const TextStyle(
-                      color: whiteColor,
-                      fontSize: 16,
-                    ),
+          child: Consumer<BookingProvider>(builder: (context, value, _) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "₹ ${value.totalAmount}",
+                  style: const TextStyle(
+                    color: whiteColor,
+                    fontSize: 16,
                   ),
-                  space30,
-                  const Text(
-                    "BOOK NOW",
-                    style: TextStyle(
-                      color: whiteColor,
-                      fontSize: 18,
-                    ),
+                ),
+                space30,
+                const Text(
+                  "BOOK NOW",
+                  style: TextStyle(
+                    color: whiteColor,
+                    fontSize: 18,
                   ),
-                  space30,
-                  space5,
-                ],
-              );
-            }
-          ),
+                ),
+                space30,
+                space5,
+              ],
+            );
+          }),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/codicon.dart';
@@ -20,6 +21,7 @@ class HomeScreenItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     HomeProvider provider = context.read<HomeProvider>();
     GetUserLocation location = context.read<GetUserLocation>();
     return Container(
@@ -36,18 +38,19 @@ class HomeScreenItems extends StatelessWidget {
           ),
         ],
       ),
-      height: 200,
-      width: 200,
+      height: size.width * 0.5,
+      width: size.width * 0.5,
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CachedNetworkImage(
                 imageUrl: data.turfImages!.turfImages1!,
                 imageBuilder: (context, imageProvider) {
                   return Container(
-                    height: 120,
+                    height: size.width * 0.3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
@@ -57,7 +60,14 @@ class HomeScreenItems extends StatelessWidget {
                     ),
                   );
                 },
-              ),
+                placeholder: (context, url) => SizedBox(
+                  height: size.width * 0.3,
+                  child: const Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+                ),
+           
               space5,
               turfCategory(provider),
               Expanded(

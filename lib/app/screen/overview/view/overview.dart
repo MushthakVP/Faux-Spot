@@ -1,4 +1,3 @@
-
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
 import 'package:faux_spot/app/routes/routes.dart';
@@ -45,15 +44,28 @@ class OverView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            space5,
-            const Text(
-              "Amenities",
-              style: TextStyle(
+            space10,
+            Text(
+              data.turfName.toString(),
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            space10,
+            space5,
+            Row(
+              children: const [
+                Text(
+                  "Amenities",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
+            ),
+            space5,
             amenities(provider)
           ],
         ),
@@ -62,20 +74,20 @@ class OverView extends StatelessWidget {
     );
   }
 
-  GestureDetector bottomSheet(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.read<BookingProvider>().date = DateTime.now();
-        Routes.push(screen: BookingView(data: data));
-      },
-      child: SizedBox(
-        height: 60,
-        child: ColoredBox(
-          color: primaryColor,
-          child: Selector<OverViewProvider, bool>(
-              selector: (context, obj) => obj.isLoading,
-              builder: (context, loading, _) {
-                return Row(
+  Selector bottomSheet(BuildContext context) {
+    return Selector<OverViewProvider, bool>(
+        selector: (context, obj) => obj.isLoading,
+        builder: (context, loading, _) {
+          return GestureDetector(
+            onTap: () {
+              context.read<BookingProvider>().date = DateTime.now();
+              loading ? null : Routes.push(screen: BookingView(data: data));
+            },
+            child: SizedBox(
+              height: 60,
+              child: ColoredBox(
+                color: primaryColor,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     loading
@@ -91,11 +103,11 @@ class OverView extends StatelessWidget {
                             ),
                           ),
                   ],
-                );
-              }),
-        ),
-      ),
-    );
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   LimitedBox amenities(OverViewProvider provider) {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
-import 'package:iconify_flutter/icons/eva.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/app_helper.dart';
@@ -24,13 +23,14 @@ class CustomAppBAr extends StatelessWidget {
         brightness: Brightness.light,
       ));
     });
+    Size size = MediaQuery.of(context).size;
     HomeProvider provider = context.read<HomeProvider>();
     return Container(
       color: primaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 50),
+          SizedBox(height: size.height * 0.05),
           Consumer<GetUserLocation>(
             builder: (context, value, _) {
               return Row(
@@ -50,7 +50,7 @@ class CustomAppBAr extends StatelessWidget {
                           baseColor: primaryColor,
                           highlightColor: lightGreyColor.withOpacity(.2),
                           child: SizedBox(
-                            width: 130,
+                            width: size.width * 0.5,
                             height: 22,
                             child: Material(
                               borderRadius: BorderRadius.circular(4),
@@ -58,7 +58,7 @@ class CustomAppBAr extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          value.userLocation.toString().isEmpty
+                          value.userLocation == null
                               ? 'Location'
                               : value.userLocation.toString(),
                           style: const TextStyle(
@@ -66,14 +66,6 @@ class CustomAppBAr extends StatelessWidget {
                             color: whiteColor,
                           ),
                         ),
-                  Visibility(
-                    visible: !value.isLoading,
-                    child: const Iconify(
-                      Eva.arrow_down_outline,
-                      color: lightGreyColor,
-                      size: 20,
-                    ),
-                  ),
                   const Spacer(),
                 ],
               );
@@ -92,7 +84,7 @@ class CustomAppBAr extends StatelessWidget {
                     bottom: 8,
                     left: 8,
                   ),
-                  height: 50,
+                  height: size.height * 0.07,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
@@ -129,9 +121,12 @@ class CustomAppBAr extends StatelessWidget {
                                   provider.suffixButton(
                                       suffixIcon: !icon, context: context);
                                 },
-                                icon: const Icon(
-                                  Icons.close_sharp,
-                                  color: whiteColor,
+                                icon: const Center(
+                                  child: Icon(
+                                    Icons.close_sharp,
+                                    color: whiteColor,
+                                    textDirection: TextDirection.ltr,
+                                  ),
                                 ),
                               ),
                             );
@@ -140,7 +135,7 @@ class CustomAppBAr extends StatelessWidget {
                         border: InputBorder.none,
                         hintText: 'Search',
                         hintStyle: const TextStyle(
-                          height: .9,
+                          height: .8,
                           color: lightGreyColor,
                           fontSize: 18,
                         ),

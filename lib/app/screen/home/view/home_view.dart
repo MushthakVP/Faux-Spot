@@ -60,7 +60,7 @@ class HomeView extends StatelessWidget {
                         },
                       ),
                     )
-                  : items(location);
+                  : items(location, size);
             },
           ),
         ],
@@ -68,7 +68,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Expanded items(GetUserLocation locationProvider) {
+  Expanded items(GetUserLocation locationProvider, Size size) {
     return Expanded(
       child: Selector<GetUserLocation, bool>(
         selector: (context, obj) => obj.turfListLoading,
@@ -83,36 +83,35 @@ class HomeView extends StatelessWidget {
                   ),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
                     childAspectRatio: .95,
                   ),
                   itemBuilder: (context, index) {
                     return Shimer.itemShimmer(he: 200, wi: 200);
                   },
                 )
-              : locationProvider.turfList.isEmpty
-                  ? const Center(child: Text("No Nearest Turf"))
-                  : GridView.builder(
-                      itemCount: locationProvider.turfList.length,
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 0,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: .95,
-                      ),
-                      itemBuilder: (context, index) {
-                        final data = locationProvider.turfList[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Routes.push(screen: OverView(data: data));
-                          },
-                          child: HomeScreenItems(data: data, index: index),
-                        );
+              : GridView.builder(
+                  itemCount: locationProvider.turfList.length,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 0,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: .94,
+                  ),
+                  itemBuilder: (context, index) {
+                    final data = locationProvider.turfList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Routes.push(screen: OverView(data: data));
                       },
+                      child: HomeScreenItems(data: data, index: index),
                     );
+                  },
+                );
         },
       ),
     );
