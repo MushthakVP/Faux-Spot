@@ -7,7 +7,7 @@ class Shimer {
   static Widget itemShimmer({required double he, required double wi}) {
     return Shimmer.fromColors(
       baseColor: lightGreyColor,
-      highlightColor: blackColor.withOpacity(.4),
+      highlightColor: greyColor.withOpacity(.4),
       child: Container(
         margin: const EdgeInsets.all(4),
         height: he,

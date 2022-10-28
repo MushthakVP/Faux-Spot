@@ -48,7 +48,7 @@ class CustomAppBAr extends StatelessWidget {
                   value.isLoading
                       ? Shimmer.fromColors(
                           baseColor: primaryColor,
-                          highlightColor: lightGreyColor,
+                          highlightColor: lightGreyColor.withOpacity(.2),
                           child: SizedBox(
                             width: 130,
                             height: 22,
@@ -58,7 +58,9 @@ class CustomAppBAr extends StatelessWidget {
                           ),
                         )
                       : Text(
-                          value.userLocation.toString(),
+                          value.userLocation.toString().isEmpty
+                              ? 'Location'
+                              : value.userLocation.toString(),
                           style: const TextStyle(
                             fontSize: 14,
                             color: whiteColor,

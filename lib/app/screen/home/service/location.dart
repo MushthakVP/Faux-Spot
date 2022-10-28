@@ -90,9 +90,7 @@ class GetUserLocation extends ChangeNotifier {
     } else {
       if (count == 0) {
         count++;
-        Routes.pushreplace(
-          screen: const NoInternet(screen: HomeView()),
-        );
+        Routes.pushreplace(screen: const NoInternet(screen: HomeView()));
       }
     }
   }
@@ -111,6 +109,7 @@ class GetUserLocation extends ChangeNotifier {
       Response response = await dio.get(
           EndPoints.nearestTurf.replaceFirst('{spot}', municipality.trim()));
       if (response.statusCode! >= 200 && response.statusCode! <= 299) {
+        log(response.data.toString());
         HomeResponse data = HomeResponse.fromJson(response.data);
         turfList.addAll(data.data!);
         turfListLoading = false;

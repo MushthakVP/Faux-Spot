@@ -65,7 +65,6 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      
     );
   }
 
@@ -91,7 +90,7 @@ class HomeView extends StatelessWidget {
                   },
                 )
               : locationProvider.turfList.isEmpty
-                  ? const Text("No Nearest Turf")
+                  ? const Center(child: Text("No Nearest Turf"))
                   : GridView.builder(
                       itemCount: locationProvider.turfList.length,
                       physics: const BouncingScrollPhysics(),

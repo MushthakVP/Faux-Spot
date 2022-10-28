@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 import '../../model/home_model.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class HomeScreenItems extends StatelessWidget {
   final DataList data;
@@ -44,17 +43,20 @@ class HomeScreenItems extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageSlideshow(
-                indicatorColor: transparentColor,
-                indicatorBackgroundColor: transparentColor,
-                height: 120,
-                autoPlayInterval: int.tryParse("4${index}00"),
-                isLoop: true,
-                children: [
-                  sliderWidget(image: data.turfImages!.turfImages1.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages2.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages3.toString()),
-                ],
+              CachedNetworkImage(
+                imageUrl: data.turfImages!.turfImages1!,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
               space5,
               turfCategory(provider),
@@ -80,7 +82,7 @@ class HomeScreenItems extends StatelessWidget {
                 location.getWishlist();
               },
               child: CircleAvatar(
-                backgroundColor: lightGreyColor.withOpacity(.5),
+                backgroundColor: lightGreyColor.withOpacity(.7),
                 radius: 14,
                 child: const Iconify(
                   Codicon.bookmark,
@@ -128,24 +130,6 @@ class HomeScreenItems extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  CachedNetworkImage sliderWidget({required String image}) {
-    return CachedNetworkImage(
-      imageUrl: image,
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          height: 140,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        );
-      },
     );
   }
 }
