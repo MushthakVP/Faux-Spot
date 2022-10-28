@@ -47,6 +47,7 @@ class BookingProvider extends ChangeNotifier {
   List<BookingList> booking = [];
   List<String> dataList = [];
   double totalAmount = 0.00;
+  List<String> infoList = [];
 
   void slotCreate({required DataList list, DateTime? dateOn}) async {
     dataList.clear();
@@ -96,6 +97,7 @@ class BookingProvider extends ChangeNotifier {
     Future.forEach(booking, (BookingList element) {
       if (element.bookingDate == DateFormat.yMd().format(dateOn ?? date)) {
         for (int i = 0; i < element.timeSlot!.length; i++) {
+          infoList.add(hourConvert(hour: "${element.timeSlot![i]}:00"));
           dataList.add(hourConvert(hour: "${element.timeSlot![i]}:00"));
         }
       }
@@ -123,8 +125,13 @@ class BookingProvider extends ChangeNotifier {
       required String time,
       required bool isSelected,
       required double price}) {
+
     if (dataList.contains(time)) {
-      Messenger.pop(msg: "Already Booked", color: redColor);
+      if (!infoList.contains(time)) {
+        Messenger.pop(msg: "Time expired");
+      } else {
+        Messenger.pop(msg: "Already Booked", color: redColor);
+      }
     } else {
       if (!isSelected) {
         totalAmount += price;

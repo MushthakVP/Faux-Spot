@@ -25,9 +25,7 @@ class HomeService {
       }
     } else {
       Routes.pushreplace(
-        screen: const NoInternet(
-          screen: HomeView(),
-        ),
+        screen: const NoInternet(screen: HomeView()),
       );
     }
   }
