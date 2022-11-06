@@ -1,5 +1,6 @@
 import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/core/colors.dart';
+import 'package:faux_spot/app/screen/booking/view/widgets/datepicker_widget.dart';
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:faux_spot/app/screen/booking/view_model/payment_provider.dart';
 import 'package:faux_spot/app/screen/home/model/home_model.dart';
@@ -27,7 +28,7 @@ class BookingView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         children: [
           space20,
-       //   DatePickerWidget(provider: provider, list: data),
+          DatePickerWidget(provider: provider, list: data),
           timeWidget(
               price: data.turfPrice!.morningPrice!.toString(), time: "Morning"),
           Consumer<BookingProvider>(
