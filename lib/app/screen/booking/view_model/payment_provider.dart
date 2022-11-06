@@ -9,6 +9,7 @@ import '../../../routes/messenger.dart';
 import '../../../routes/routes.dart';
 import '../../confetti/view/confetti_view.dart';
 import '../../home/model/home_model.dart';
+import '../service/booking_service.dart';
 
 class PaymentProvider extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
@@ -39,8 +40,8 @@ class PaymentProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     Routes.pushRemoveUntil(screen: const ConfettiView());
-   // List? dioResponse = await BookingService().bookingMethod(data: data);
-  //  isPaymentSuccess = dioResponse![0];
+    List? dioResponse = await BookingService().bookingMethod(data: data);
+    isPaymentSuccess = dioResponse![0];
     isLoading = false;
     notifyListeners();
   }
