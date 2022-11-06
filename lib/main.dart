@@ -1,3 +1,4 @@
+import 'package:faux_spot/app/core/app_helper.dart';
 import 'package:faux_spot/app/provider/providers.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/routes/routes.dart';
@@ -6,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/core/colors.dart';
 
-void main() {
-  runApp(Providers.providers());
-}
+void main() => runApp(Providers.providers());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,9 +19,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: greenColor,
         scaffoldBackgroundColor: whiteColor,
         fontFamily: GoogleFonts.hind().fontFamily,
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           backgroundColor: primaryColor,
           foregroundColor: whiteColor,
+          systemOverlayStyle: uiOverlay(
+            status: transparentColor,
+            navigate: transparentColor,
+          ),
         ),
       ),
       scaffoldMessengerKey: Messenger.rootScaffoldMessengerKey,

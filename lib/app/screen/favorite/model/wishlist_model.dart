@@ -21,7 +21,7 @@ class FavoriteModel {
 
 class FavoriteData {
     FavoriteData({
-        this.turfCatogery,
+        this.turfCategory,
         this.turfType,
         this.turfInfo,
         this.turfAmenities,
@@ -36,7 +36,7 @@ class FavoriteData {
         this.turfDistrict,
     });
 
-    TurfCatogery? turfCatogery;
+    TurfCatogery? turfCategory;
     TurfType? turfType;
     TurfInfo? turfInfo;
     TurfAmenities? turfAmenities;
@@ -51,7 +51,7 @@ class FavoriteData {
     String? turfDistrict;
 
     factory FavoriteData.fromJson(Map<String, dynamic> json) => FavoriteData(
-        turfCatogery: TurfCatogery.fromJson(json["turf_catogery"]),
+        turfCategory: TurfCatogery.fromJson(json["turf_catogery"]),
         turfType: TurfType.fromJson(json["turf_type"]),
         turfInfo: TurfInfo.fromJson(json["turf_info"]),
         turfAmenities: TurfAmenities.fromJson(json["turf_amenities"]),
@@ -67,7 +67,7 @@ class FavoriteData {
     );
 
     Map<String, dynamic> toJson() => {
-        "turf_catogery": turfCatogery?.toJson(),
+        "turf_catogery": turfCategory?.toJson(),
         "turf_type": turfType?.toJson(),
         "turf_info": turfInfo?.toJson(),
         "turf_amenities": turfAmenities?.toJson(),

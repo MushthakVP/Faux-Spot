@@ -14,18 +14,18 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: whiteColor,
-        systemOverlayStyle:
-            uiOverlay(navigate: whiteColor, status: whiteColor),
+        systemOverlayStyle: uiOverlay(navigate: whiteColor, status: whiteColor),
         elevation: 0,
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          imageMethod(),
+          imageMethod(size),
           space30,
           Selector<SignupProvider, bool>(
             selector: (context, value) => value.loginOrSignup,
@@ -68,29 +68,29 @@ class LoginView extends StatelessWidget {
                   fontSize: 22,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  context.read<SignupProvider>().changePage();
-                },
-                child: RichText(
-                  text: const TextSpan(
+              Row(
+                children: [
+                  const Text(
+                    "New User?",
                     style: TextStyle(
-                      color: blackColor,
-                      fontSize: 10,
+                      fontSize: 16,
+                      color: greyColor,
                     ),
-                    text: "Don't have an account? ",
-                    children: [
-                      TextSpan(
-                        text: "Register",
-                        style: TextStyle(
-                          color: blackColor,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
                   ),
-                ),
+                  space5,
+                  InkWell(
+                    onTap: () {
+                      context.read<SignupProvider>().changePage();
+                    },
+                    child: const Text(
+                      "SignUp",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -105,9 +105,9 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Container imageMethod() {
+  Container imageMethod(Size size) {
     return Container(
-      height: 200,
+      height: size.height * 0.2,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(loginImage),

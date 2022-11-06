@@ -13,6 +13,7 @@ class LocationPick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: locationBackground,
       appBar: AppBar(
@@ -24,83 +25,83 @@ class LocationPick extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            SizedBox(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: size.height * 0.3,
+            child: Image.asset(locationImage),
+          ),
+          space30,
+          const Text(
+            "Where do you want to play?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+              color: primaryColor,
+            ),
+          ),
+          space10,
+          const Text(
+            "To enjoy all that FauxSpot has offer you  we need to know where to look for them",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: primaryColor,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(height: size.height * 0.08),
+          GestureDetector(
+            onTap: () {
+              GetUserLocation().getUserLocation(checkScreen: true);
+            },
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
-              height: 300,
-              child: Image.asset(locationImage),
-            ),
-            space30,
-            const Text(
-              "Where do you want to play?",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 27,
+              height: 54,
+              decoration: BoxDecoration(
                 color: primaryColor,
+                borderRadius: BorderRadius.circular(4),
               ),
-            ),
-            space10,
-            const Text(
-              "To enjoy all that FauxSpot has offer you  we need to know where to look for them",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: primaryColor,
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 60),
-            GestureDetector(
-              onTap: () {
-                GetUserLocation().getUserLocation(checkScreen: true);
-              },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                width: double.infinity,
-                height: 54,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Selector<GetUserLocation, bool>(
-                  selector: (context, obj) => obj.isLoading,
-                  builder: (context, loading, _) {
-                    return loading
-                        ? const Center(
-                            child: CupertinoActivityIndicator(
-                              color: whiteColor,
-                            ),
-                          )
-                        : Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Iconify(
-                                  Fa6Solid.location_arrow,
+              child: Selector<GetUserLocation, bool>(
+                selector: (context, obj) => obj.isLoading,
+                builder: (context, loading, _) {
+                  return loading
+                      ? const Center(
+                          child: CupertinoActivityIndicator(
+                            color: whiteColor,
+                          ),
+                        )
+                      : Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Iconify(
+                                Fa6Solid.location_arrow,
+                                color: whiteColor,
+                                size: 25,
+                              ),
+                              space30,
+                              Text(
+                                "Around me",
+                                style: TextStyle(
                                   color: whiteColor,
-                                  size: 25,
+                                  fontSize: 18,
                                 ),
-                                space30,
-                                Text(
-                                  "Around me",
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                                space30,
-                              ],
-                            ),
-                          );
-                  },
-                ),
+                              ),
+                              space30,
+                            ],
+                          ),
+                        );
+                },
               ),
             ),
-            space30,
-            const Text(
+          ),
+          space30,
+          const Center(
+            child: Text(
               "Set location manually",
               style: TextStyle(
                 color: primaryColor,
@@ -109,8 +110,8 @@ class LocationPick extends StatelessWidget {
                 decoration: TextDecoration.underline,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

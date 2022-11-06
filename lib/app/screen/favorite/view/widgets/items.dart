@@ -6,7 +6,6 @@ import 'package:iconify_flutter/icons/ant_design.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import '../../model/wishlist_model.dart';
 
 class FavoriteItems extends StatelessWidget {
@@ -40,17 +39,20 @@ class FavoriteItems extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageSlideshow(
-                indicatorColor: transparentColor,
-                indicatorBackgroundColor: transparentColor,
-                height: 120,
-                autoPlayInterval: 4000,
-                isLoop: true,
-                children: [
-                  sliderWidget(image: data.turfImages!.turfImages1.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages2.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages3.toString()),
-                ],
+              CachedNetworkImage(
+                imageUrl: data.turfImages!.turfImages1!,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    height: 140,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
               ),
               space5,
               turfCategory(provider),
@@ -71,8 +73,7 @@ class FavoriteItems extends StatelessWidget {
             right: 6,
             top: 6,
             child: GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: CircleAvatar(
                 backgroundColor: lightGreyColor.withOpacity(.5),
                 radius: 14,
@@ -95,28 +96,28 @@ class FavoriteItems extends StatelessWidget {
       spacing: 3,
       children: [
         Visibility(
-          visible: data.turfCatogery!.turfFootball!,
+          visible: data.turfCategory!.turfFootball!,
           child: Iconify(
             provider.categoryList[0].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCatogery!.turfYoga!,
+          visible: data.turfCategory!.turfYoga!,
           child: Iconify(
             provider.categoryList[1].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCatogery!.turfCricket!,
+          visible: data.turfCategory!.turfCricket!,
           child: Iconify(
             provider.categoryList[2].icon,
             size: 16,
           ),
         ),
         Visibility(
-          visible: data.turfCatogery!.turfBadminton!,
+          visible: data.turfCategory!.turfBadminton!,
           child: Iconify(
             provider.categoryList[3].icon,
             size: 16,

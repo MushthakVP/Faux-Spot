@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class AppBarSmallImage extends StatelessWidget {
   final String image;
@@ -24,6 +24,13 @@ class AppBarSmallImage extends StatelessWidget {
             ),
           );
         },
+        placeholder: (context, url) => const SizedBox(
+          height: 70,
+          width: 70,
+          child: Center(
+            child: CupertinoActivityIndicator(),
+          ),
+        ),
       ),
     );
   }

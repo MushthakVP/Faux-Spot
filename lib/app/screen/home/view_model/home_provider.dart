@@ -25,26 +25,40 @@ class HomeProvider extends ChangeNotifier {
   }
 
   //============================= SEARCH =================================
+  double appBarHeight = 60;
+
+  FocusNode focus = FocusNode();
 
   TextEditingController searchController = TextEditingController();
 
-  bool suffixIcon = false;
-  void suffixButton({required bool suffixIcon, required BuildContext context}) {
-    if (!suffixIcon) {
-      searchList.clear();
+  bool search = false;
+  String searchValue = "";
+
+  void getSearchKeyword({required String value}) {
+    searchValue = value;
+    log(value);
+    notifyListeners();
+  }
+
+  void searchValueChange(bool search) {
+    if (searchValue.trim().isEmpty) {
+      search ? appBarHeight = 60 : appBarHeight = 70;
+      this.search = search;
+      focus.requestFocus();
+    } else {
+      searchValue = "";
       searchController.clear();
-      FocusScope.of(context).unfocus();
+      initSearching = true;
     }
-    this.suffixIcon = suffixIcon;
     notifyListeners();
   }
 
   List<DataList> searchList = [];
-  bool initSearching = false;
+  bool initSearching = true;
 
   void searchFilter(
       {required BuildContext context, required String query}) async {
-    initSearching = true;
+    initSearching = false;
     notifyListeners();
     List<DataList> list = context.read<GetUserLocation>().turfList;
 

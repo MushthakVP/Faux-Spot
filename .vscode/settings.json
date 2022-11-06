@@ -4,12 +4,21 @@
         "cateory",
         "codicon",
         "cupertino",
+        "emai",
         "emojione",
         "GTHJ",
+<<<<<<< HEAD
+        "iconify",
+=======
         "Iconify",
+>>>>>>> feature
+        "imageappbar",
+        "loginmail",
+        "loginmobile",
         "paytm",
         "Razorpay",
         "Shimer",
+        "Signup",
         "unfocus",
         "whishlist"
     ]
