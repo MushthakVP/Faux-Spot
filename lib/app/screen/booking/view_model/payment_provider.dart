@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import 'dart:developer';
-import 'package:faux_spot/app/screen/booking/service/booking_service.dart';
-=======
->>>>>>> feature
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
