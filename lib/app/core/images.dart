@@ -8,4 +8,4 @@ String turfImage = "asset/image/turfImages.jpg";
 String noInternet = "asset/image/noInternet.json";
 String loadingAnimation = "asset/image/loading.json";
 String tickAnimation = "asset/image/tick.json";
-String mapImage = "asset/image/map.jpg";
+String mapImage = "asset/image/map.png";

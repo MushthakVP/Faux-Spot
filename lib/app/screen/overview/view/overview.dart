@@ -116,25 +116,7 @@ class OverView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          provider.openMap(data.turfInfo!.turfMap!);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 6),
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: primaryColor),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Center(
-                            child: Text("LOCATION"),
-                          ),
-                        ),
-                      ),
-                    ),
+                    )
                   ],
                 ),
                 space10,
@@ -177,14 +159,19 @@ class OverView extends StatelessWidget {
                 space5,
                 amenities(provider),
                 space10,
-                Container(
-                  height: 180,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    image: DecorationImage(
-                      image: AssetImage(mapImage),
-                      fit: BoxFit.cover,
+                InkWell(
+                  onTap: () {
+                    provider.openMap(data.turfInfo!.turfMap!);
+                  },
+                  child: Container(
+                    height: 180,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      image: DecorationImage(
+                        image: AssetImage(mapImage),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
