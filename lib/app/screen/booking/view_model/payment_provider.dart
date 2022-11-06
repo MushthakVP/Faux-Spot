@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import 'dart:developer';
 import 'package:faux_spot/app/screen/booking/service/booking_service.dart';
+=======
+>>>>>>> feature
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,7 +11,10 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/colors.dart';
 import '../../../routes/messenger.dart';
+import '../../../routes/routes.dart';
+import '../../confetti/view/confetti_view.dart';
 import '../../home/model/home_model.dart';
+import '../service/booking_service.dart';
 
 class PaymentProvider extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
@@ -27,22 +33,30 @@ class PaymentProvider extends ChangeNotifier {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
+  bool isLoading = false;
+  bool isPaymentSuccess = false;
+
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     Map<String, dynamic> data = {
       "booking_date": DateFormat.yMd().format(bookingProvider.bookingDAte),
       "turf_id": list!.id,
       "time_slot": bookingProvider.selectedAddList,
     };
-
-    BookingService().bookingMethod(data: data);
+    isLoading = true;
+    notifyListeners();
+    Routes.pushRemoveUntil(screen: const ConfettiView());
+    List? dioResponse = await BookingService().bookingMethod(data: data);
+    isPaymentSuccess = dioResponse![0];
+    isLoading = false;
+    notifyListeners();
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    log('Payment error');
+    Messenger.pop(msg: "Payment Failed", color: redColor);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    log('External Wallet');
+    Messenger.pop(msg: "External Wallet error", color: redColor);
   }
 
   @override
@@ -53,15 +67,19 @@ class PaymentProvider extends ChangeNotifier {
 
   void bookSlot({required DataList list}) async {
     this.list = list;
+    int? number =
+        int.tryParse(await storage.read(key: "mobileNumber") ?? "".trim());
+    String? email = await storage.read(key: "email");
     if (bookingProvider.totalAmount >= 1) {
       var options = {
         'key': "rzp_test_GTHJIvzIb2IAo4",
         'amount': bookingProvider.totalAmount * 100,
         'name': 'FauxSpot',
         'description': list.turfName,
-        'prefill': {
-          'contact': 9061213930,
+        'retry': {
+          'enabled': false,
         },
+        'prefill': {'contact': number, 'email': email},
         'timeout': 300,
         'modal': {
           'confirm_close': true,

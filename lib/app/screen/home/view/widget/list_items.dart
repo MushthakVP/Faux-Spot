@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faux_spot/app/screen/home/service/location.dart';
 import 'package:faux_spot/app/screen/home/view_model/home_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/codicon.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../../../core/app_helper.dart';
 import '../../../../core/colors.dart';
 import '../../model/home_model.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class HomeScreenItems extends StatelessWidget {
   final DataList data;
@@ -21,6 +21,7 @@ class HomeScreenItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     HomeProvider provider = context.read<HomeProvider>();
     GetUserLocation location = context.read<GetUserLocation>();
     return Container(
@@ -37,25 +38,36 @@ class HomeScreenItems extends StatelessWidget {
           ),
         ],
       ),
-      height: 200,
-      width: 200,
+      height: size.width * 0.5,
+      width: size.width * 0.5,
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ImageSlideshow(
-                indicatorColor: transparentColor,
-                indicatorBackgroundColor: transparentColor,
-                height: 120,
-                autoPlayInterval: int.tryParse("4${index}00"),
-                isLoop: true,
-                children: [
-                  sliderWidget(image: data.turfImages!.turfImages1.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages2.toString()),
-                  sliderWidget(image: data.turfImages!.turfImages3.toString()),
-                ],
-              ),
+              CachedNetworkImage(
+                imageUrl: data.turfImages!.turfImages1!,
+                imageBuilder: (context, imageProvider) {
+                  return Container(
+                    height: size.width * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+                placeholder: (context, url) => SizedBox(
+                  height: size.width * 0.3,
+                  child: const Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+                ),
+           
               space5,
               turfCategory(provider),
               Expanded(
@@ -80,7 +92,7 @@ class HomeScreenItems extends StatelessWidget {
                 location.getWishlist();
               },
               child: CircleAvatar(
-                backgroundColor: lightGreyColor.withOpacity(.5),
+                backgroundColor: lightGreyColor.withOpacity(.7),
                 radius: 14,
                 child: const Iconify(
                   Codicon.bookmark,
@@ -128,24 +140,6 @@ class HomeScreenItems extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  CachedNetworkImage sliderWidget({required String image}) {
-    return CachedNetworkImage(
-      imageUrl: image,
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          height: 140,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-        );
-      },
     );
   }
 }

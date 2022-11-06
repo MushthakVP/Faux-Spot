@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:faux_spot/app/routes/messenger.dart';
 import 'package:faux_spot/app/service/endpoints.dart';
@@ -22,7 +21,6 @@ class InterceptorHelper {
         onError: (e, handler) async {
           if (e.response?.statusCode == 403) {
             final refreshToken = await getRefreshToken();
-            log("Refresh Token $refreshToken");
             try {
               await dio.post('/account/refresh-token',
                   data: {'refreshToken': refreshToken}).then(
