@@ -13,11 +13,13 @@ class ConfettiProvider extends ChangeNotifier {
 
   ConfettiController controller = ConfettiController();
   bool isPlaying = false;
+  bool showConfetti = false;
 
   void play() async {
     controller.play();
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
+    controller.stop();
     Routes.pushRemoveUntil(screen: const HomeView());
   }
 

@@ -7,6 +7,8 @@ import 'package:iconify_flutter/icons/ant_design.dart';
 import 'package:iconify_flutter/icons/ic.dart';
 import 'package:iconify_flutter/icons/map.dart';
 import 'package:iconify_flutter/icons/ri.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../model/amenities_model.dart';
 import '../model/booking_response.dart';
 
@@ -24,24 +26,42 @@ class OverViewProvider extends ChangeNotifier {
 
   List<BookingList> bookingList = [];
   bool isLoading = false;
+  int bookingCount = 0;
+
+  int getRecentBooking() {
+    bookingCount = 0;
+    for (var element in bookingList) {
+      if (element.bookingDate == DateFormat.yMd().format(DateTime.now())) {
+        bookingCount = element.timeSlot!.length;
+      }
+    }
+    return bookingCount;
+  }
 
   void getBookingData({required DataList list}) async {
     bookingList.clear();
     isLoading = true;
     notifyListeners();
-    BookingResponse? response = await OverviewService().getBookingList(id: list.id!);
-    if(response != null){
-      if(response.status!){
+    BookingResponse? response =
+        await OverviewService().getBookingList(id: list.id!);
+    if (response != null) {
+      if (response.status!) {
         bookingList.addAll(response.data!);
-        log("success brooking ");
         log(bookingList.length.toString());
-      }else{
+      } else {
         Messenger.pop(msg: response.message!);
       }
-    }else{
+    } else {
       Messenger.pop(msg: response!.message!);
     }
     isLoading = false;
+    notifyListeners();
+  }
+
+  bool priceOnTap = false;
+
+  void changePriceOnTap() {
+    priceOnTap = !priceOnTap;
     notifyListeners();
   }
 
@@ -55,4 +75,14 @@ class OverViewProvider extends ChangeNotifier {
     Amenities(name: "Washroom", icon: Map.toilet),
     Amenities(name: "Cafeteria", icon: Ic.baseline_local_cafe),
   ];
+
+  void openMap(String link) async {
+    Uri url = Uri.parse(link);
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      Messenger.pop(msg: "Could not launch");
+    }
+  }
 }

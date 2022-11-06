@@ -1,7 +1,4 @@
-import 'package:faux_spot/app/routes/routes.dart';
-import 'package:faux_spot/app/screen/booking/service/booking_service.dart';
 import 'package:faux_spot/app/screen/booking/view_model/booking_provider.dart';
-import 'package:faux_spot/app/screen/confetti/view/confetti_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../../core/colors.dart';
 import '../../../routes/messenger.dart';
+import '../../../routes/routes.dart';
+import '../../confetti/view/confetti_view.dart';
 import '../../home/model/home_model.dart';
+import '../service/booking_service.dart';
 
 class PaymentProvider extends ChangeNotifier {
   final storage = const FlutterSecureStorage();
@@ -62,15 +62,19 @@ class PaymentProvider extends ChangeNotifier {
 
   void bookSlot({required DataList list}) async {
     this.list = list;
+    int? number =
+        int.tryParse(await storage.read(key: "mobileNumber") ?? "".trim());
+    String? email = await storage.read(key: "email");
     if (bookingProvider.totalAmount >= 1) {
       var options = {
         'key': "rzp_test_GTHJIvzIb2IAo4",
         'amount': bookingProvider.totalAmount * 100,
         'name': 'FauxSpot',
         'description': list.turfName,
-        'prefill': {
-          'contact': 9061213930,
+        'retry': {
+          'enabled': false,
         },
+        'prefill': {'contact': number, 'email': email},
         'timeout': 300,
         'modal': {
           'confirm_close': true,
